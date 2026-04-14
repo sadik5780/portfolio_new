@@ -68,6 +68,8 @@ export function buildMetadata({
     metadataBase: new URL(siteConfig.url),
     alternates: { canonical: url },
     verification: {
+      // Google Search Console verification (typed field → google-site-verification meta)
+      google: 'zdJkkaQ-6FQMCiZxo26dNrUrZELDvvas1o0ySlm2F3E',
       other: {
         // Bing Webmaster Tools site verification
         'msvalidate.01': '895133D1B0D1CB306691473722082FDA',
