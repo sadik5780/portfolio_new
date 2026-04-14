@@ -28,8 +28,14 @@ body {
 
 /* ── Typography ────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.2;
+  font-family: $font-display;
+  line-height: 1.15;
   font-weight: $fw-bold;
+  letter-spacing: -0.025em;
+}
+
+code, pre, kbd, samp {
+  font-family: $font-mono;
 }
 
 a {

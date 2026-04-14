@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const siteConfig = {
-  name: 'Sadik',
+  name: 'Sadik Studio',
   fullName: 'Sadik Shaikh',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sadik.dev',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sadikstudio.in',
   title:
-    'Sadik — React Developer India | Shopify Developer USA | SaaS Developer Australia',
+    'Sadik Studio — React Developer India | Shopify Developer USA | SaaS Developer Australia',
   description:
-    'Hire Sadik — a senior React, Next.js, Shopify, and SaaS developer. Full-stack freelance services for teams in India, USA, and Australia. Shopify stores from ₹50,000 / $2,000. Custom web apps from ₹1,00,000 / $10,000.',
+    'Sadik Studio — senior React, Next.js, Shopify, and SaaS development. Full-stack freelance services for teams in India, USA, and Australia. Shopify stores from ₹50,000 / $2,000. Custom web apps from ₹1,00,000 / $10,000.',
   keywords: [
     'react developer india',
     'shopify developer india',

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Logo from '@/components/Logo/Logo';
 import styles from './AdminSidebar.module.scss';
 
 const NAV = [
@@ -103,9 +104,9 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
     <>
       {/* Mobile header */}
       <div className={styles.mobileBar}>
-        <Link href="/admin" className={styles.brand}>
-          <span className={styles.logo}>S</span>
-          <span className={styles.brandText}>Admin</span>
+        <Link href="/admin" className={styles.brand} aria-label="Sadik Studio admin">
+          <Logo variant="short" size="sm" href={false} noAnimation />
+          <span className={styles.adminTag}>Admin</span>
         </Link>
         <button
           className={styles.mobileToggle}
@@ -131,10 +132,10 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
       </div>
 
       <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <Link href="/admin" className={styles.brand}>
-          <span className={styles.logo}>S</span>
-          <div>
-            <span className={styles.brandText}>Sadik CMS</span>
+        <Link href="/admin" className={styles.brand} aria-label="Sadik Studio admin">
+          <Logo variant="icon" size="md" href={false} noAnimation />
+          <div className={styles.brandStack}>
+            <span className={styles.brandText}>Sadik Studio</span>
             <span className={styles.brandSub}>Admin panel</span>
           </div>
         </Link>

@@ -108,18 +108,42 @@ $sidebar-width: 260px;
   flex-shrink: 0;
 }
 
+.brandStack {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.1;
+}
+
 .brandText {
   display: block;
   font-size: $fs-base;
   font-weight: $fw-semibold;
   color: $text-primary;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  font-family: $font-display;
 }
 
 .brandSub {
   display: block;
-  font-size: $fs-xs;
+  font-size: 11px;
   color: $text-tertiary;
+  font-family: $font-mono;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.adminTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba($accent-primary, 0.12);
+  color: $accent-primary;
+  font-size: 10px;
+  font-weight: $fw-semibold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: $radius-sm;
   font-family: $font-mono;
 }
 

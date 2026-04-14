@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from '@/components/Logo/Logo';
 import styles from './Navbar.module.scss';
 
 interface NavLink {
@@ -78,10 +79,7 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const }}
     >
       <nav className={styles.inner} aria-label="Primary">
-        <Link href="/" className={styles.logo} aria-label="Sadik home">
-          <span className={styles.logoIcon}>S</span>
-          <span className={styles.logoText}>sadik.dev</span>
-        </Link>
+        <Logo variant="full" size="md" />
 
         <ul className={styles.links}>
           {navLinks.map((link) => (

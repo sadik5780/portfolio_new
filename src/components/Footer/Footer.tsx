@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Logo from '@/components/Logo/Logo';
 import styles from './Footer.module.scss';
 
 const socialLinks = [
@@ -24,10 +25,7 @@ export default function Footer() {
       <div className={styles.container}>
         {/* ── Main row ─────────────────────────────── */}
         <div className={styles.inner}>
-          <div className={styles.brand}>
-            <span className={styles.logoIcon}>S</span>
-            <span className={styles.logoText}>sadik.dev</span>
-          </div>
+          <Logo variant="full" size="md" />
 
           <nav className={styles.nav} aria-label="Footer">
             <Link href="/services" className={styles.navLink}>Services</Link>

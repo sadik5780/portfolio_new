@@ -1,0 +1,191 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+// ─────────────────────────────────────────────────
+// Sadik Studio brand mark (v2)
+// Outlined gradient frame + gradient-text "S".
+// Lighter, more designed than a filled gradient block.
+// ─────────────────────────────────────────────────
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  cursor: pointer;
+  @include focus-ring;
+}
+
+.animated {
+  animation: logoEntry 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
+@keyframes logoEntry {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+    filter: blur(1px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+// ─── Icon — gradient frame with inner well + gradient "S" ───
+.iconFrame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  background-size: 220% 220%;
+  background-position: 0% 0%;
+  // The padding here IS the visible gradient stroke width
+  padding: 1.5px;
+  border-radius: 9px;
+  transition:
+    background-position 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.iconInner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  // Slightly darker than $bg-primary so the frame reads on every surface
+  background: #050507;
+  border-radius: 7px;
+  // Soft inner glow for depth — feels like the gradient is bleeding inward
+  box-shadow: inset 0 0 12px rgba(99, 102, 241, 0.18);
+}
+
+.iconLetter {
+  font-family: $font-display;
+  font-weight: $fw-bold;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  // Optical centering nudge — 'S' looks centered slightly above geometric center
+  transform: translateY(-2%);
+  background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f0abfc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.root:hover .iconFrame {
+  background-position: 100% 100%;
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.15),
+    0 6px 28px rgba(139, 92, 246, 0.32);
+  transform: translateY(-1px);
+}
+
+// ─── Wordmark — clean two-tone, no accent dot ───
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.32em;
+  font-family: $font-display;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.brand {
+  font-weight: $fw-bold;
+  color: $text-primary;
+}
+
+.suffix {
+  font-weight: $fw-medium;
+  // Subtle gradient on "Studio" — gives the wordmark a quiet brand cue
+  background: linear-gradient(135deg, #a5b4fc 0%, #d8b4fe 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: -0.015em;
+  opacity: 0.92;
+}
+
+// ─────────────────────────────────────────────────
+// Sizes — frame, letter, and wordmark scale together
+// ─────────────────────────────────────────────────
+.size_sm {
+  gap: 8px;
+
+  .iconFrame {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    padding: 1.25px;
+  }
+  .iconInner {
+    border-radius: 5.5px;
+  }
+  .iconLetter {
+    font-size: 13px;
+  }
+  .wordmark {
+    font-size: 14px;
+  }
+}
+
+.size_md {
+  gap: 10px;
+
+  .iconFrame {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    padding: 1.5px;
+  }
+  .iconInner {
+    border-radius: 7px;
+  }
+  .iconLetter {
+    font-size: 17px;
+  }
+  .wordmark {
+    font-size: 16px;
+  }
+}
+
+.size_lg {
+  gap: 14px;
+
+  .iconFrame {
+    width: 52px;
+    height: 52px;
+    border-radius: 13px;
+    padding: 2px;
+  }
+  .iconInner {
+    border-radius: 11px;
+  }
+  .iconLetter {
+    font-size: 26px;
+  }
+  .wordmark {
+    font-size: 22px;
+  }
+}
+
+// Reduced motion — no entry animation, no transitions
+@media (prefers-reduced-motion: reduce) {
+  .animated {
+    animation: none;
+  }
+  .iconFrame {
+    transition: none;
+  }
+}
