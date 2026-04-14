@@ -7,7 +7,7 @@ export const siteConfig = {
   title:
     'Sadik Studio — React Developer India | Shopify Developer USA | SaaS Developer Australia',
   description:
-    'Sadik Studio — senior React, Next.js, Shopify, and SaaS development. Full-stack freelance services for teams in India, USA, and Australia. Shopify stores from ₹50,000 / $2,000. Custom web apps from ₹1,00,000 / $10,000.',
+    'Sadik Studio — senior React, Next.js, Shopify, and SaaS development. Full-stack freelance services for teams in India, USA, and Australia. Shopify stores from $2,000. Custom web apps from $10,000.',
   keywords: [
     'react developer india',
     'shopify developer india',

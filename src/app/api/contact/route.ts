@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 import { insertLead } from '@/lib/content/leads';
+import { rateLimit, rateLimitHeaders } from '@/lib/security/rate-limit';
+import { isAllowedOrigin } from '@/lib/security/origin';
+import { getClientIp } from '@/lib/security/ip';
+import { logSecurityEvent } from '@/lib/security/log';
 
 export const runtime = 'nodejs';
 
@@ -93,11 +97,39 @@ async function deliverEmail(payload: Required<ContactPayload>): Promise<void> {
 }
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+
+  // ── CSRF / same-origin defense ─────────────────────
+  if (!isAllowedOrigin(request)) {
+    logSecurityEvent('contact.origin_rejected', { ip, path: '/api/contact' });
+    return NextResponse.json({ error: 'Bad origin' }, { status: 403 });
+  }
+
+  // ── Per-IP rate limit: 5 submissions / hour ───────
+  const limit = rateLimit({
+    key: `contact:ip:${ip}`,
+    limit: 5,
+    windowSeconds: 60 * 60,
+  });
+  if (!limit.ok) {
+    logSecurityEvent('contact.rate_limited', { ip });
+    return NextResponse.json(
+      { error: 'Too many messages from this address. Please try again later.' },
+      { status: 429, headers: rateLimitHeaders(limit) },
+    );
+  }
+
   let payload: ContactPayload;
   try {
     payload = (await request.json()) as ContactPayload;
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+  }
+
+  // Guard request body size (Next.js default 1MB, but be explicit for clarity).
+  const approxSize = JSON.stringify(payload).length;
+  if (approxSize > 10_000) {
+    return NextResponse.json({ error: 'Payload too large.' }, { status: 413 });
   }
 
   const error = validate(payload);

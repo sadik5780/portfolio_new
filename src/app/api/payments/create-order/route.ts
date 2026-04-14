@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'node:crypto';
 import { getRazorpayClient, hasRazorpayEnv } from '@/lib/payments/razorpay';
 import { resolveServerPrice } from '@/lib/payments/pricing';
 import { createPendingPayment } from '@/lib/payments/store';
 import { hasServiceRoleEnv } from '@/lib/supabase/server';
+import { rateLimit, rateLimitHeaders } from '@/lib/security/rate-limit';
+import { isAllowedOrigin } from '@/lib/security/origin';
+import { getClientIp } from '@/lib/security/ip';
+import { logSecurityEvent } from '@/lib/security/log';
 import type {
   CustomerInput,
   PaymentCurrency,
@@ -66,6 +71,31 @@ function parseFeatures(raw: unknown): string[] {
 }
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+
+  // ── CSRF / same-origin defense ─────────────────────
+  if (!isAllowedOrigin(request)) {
+    logSecurityEvent('payment.origin_rejected', {
+      ip,
+      path: '/api/payments/create-order',
+    });
+    return NextResponse.json({ error: 'Bad origin' }, { status: 403 });
+  }
+
+  // ── Per-IP rate limit: 10 orders / 10 min ─────────
+  const limit = rateLimit({
+    key: `payments:create:ip:${ip}`,
+    limit: 10,
+    windowSeconds: 60 * 10,
+  });
+  if (!limit.ok) {
+    logSecurityEvent('payment.rate_limited', { ip, scope: 'create-order' });
+    return NextResponse.json(
+      { error: 'Too many orders being created. Please try again shortly.' },
+      { status: 429, headers: rateLimitHeaders(limit) },
+    );
+  }
+
   if (!hasRazorpayEnv()) {
     return NextResponse.json(
       { error: 'Razorpay is not configured on the server.' },
@@ -127,10 +157,12 @@ export async function POST(request: Request) {
   // ── Create Razorpay order ───────────────────────
   let order;
   try {
+    // randomUUID() prevents receipt-ID collisions under burst load and stops
+    // an attacker from being able to predict / enumerate receipts.
     order = await getRazorpayClient().orders.create({
       amount: price.amountMinor,
       currency: price.currency,
-      receipt: `rcpt_${Date.now().toString(36)}`,
+      receipt: `rcpt_${randomUUID().slice(0, 20)}`,
       notes: {
         service,
         service_label: price.serviceLabel,

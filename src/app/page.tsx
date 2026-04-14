@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar/Navbar';
 import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
+import TechArsenal from '@/components/TechArsenal/TechArsenal';
 import Services from '@/components/Services/Services';
 import Projects from '@/components/Projects/Projects';
 import Testimonials from '@/components/Testimonials/Testimonials';
@@ -24,6 +25,7 @@ export default async function Home() {
       <main>
         <Hero content={settings.hero} stats={settings.stats} />
         <About content={settings.about} skills={settings.skills} />
+        <TechArsenal />
         <Services content={settings.services} />
         <Projects featured={featured} />
         <Testimonials />

@@ -17,12 +17,12 @@ export const faqs: FAQ[] = [
   {
     question: 'What is your pricing for a Shopify store?',
     answer:
-      'A standard custom Shopify theme build starts at ₹50,000 (India) or $2,000 (International). This includes a responsive custom theme, collection and product page customization, speed optimization, and basic SEO. Complex builds (headless, subscriptions, multi-currency) are quoted separately.',
+      'A standard custom Shopify theme build starts at $2,000. Includes a responsive custom theme, collection and product page customization, speed optimization, and basic SEO. Complex builds (headless Hydrogen, subscriptions, multi-currency) are quoted separately.',
   },
   {
     question: 'How much does a custom SaaS or web app cost?',
     answer:
-      'Custom web apps start at ₹1,00,000 / $10,000 for a focused MVP and scale with the feature set you choose on the pricing calculator. Each additional feature (auth, payments, admin dashboard, real-time, etc.) adds ₹5,000 / $100. You get a full fixed quote before any work begins.',
+      'Custom web apps start at $10,000 for a focused MVP and scale with the feature set you choose on the quote estimator. Each additional feature (auth, payments, admin dashboard, real-time, etc.) adds $100. You get a full fixed quote before any work begins.',
   },
   {
     question: 'Do you offer freelance React developer services in the USA?',
@@ -37,11 +37,11 @@ export const faqs: FAQ[] = [
   {
     question: 'What payment methods do you accept?',
     answer:
-      'Indian clients: Razorpay (UPI, net banking, cards, wallets) or direct bank transfer. International clients: Stripe (cards), wire transfer, or Wise. A 30% deposit is required to start, with the balance milestoned across the project.',
+      'Quotes are issued in USD by default. Pay via Stripe (cards), Wise, or international wire. Indian clients can settle in INR via Razorpay (UPI, net banking, cards) on request, with GST-compliant invoicing. A 30% deposit is required to start, with the balance milestoned across the project.',
   },
   {
     question: 'Do you provide ongoing maintenance after launch?',
     answer:
-      'Yes. I offer maintenance retainers covering bug fixes, dependency updates, performance monitoring, and small feature work. Retainers start at ₹20,000 / $300 per month and scale with scope.',
+      'Yes. I offer maintenance retainers covering bug fixes, dependency updates, performance monitoring, and small feature work. Retainers start at $300 per month and scale with scope.',
   },
 ];

@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 export const size = { width: 180, height: 180 };
 export const contentType = 'image/png';
 
@@ -25,8 +26,8 @@ export default function AppleIcon() {
           fontWeight: 800,
           letterSpacing: '-0.06em',
           borderRadius: 36,
-          fontFamily:
-            'system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif',
+          // No fontFamily — Satori's bundled default avoids render failures
+          // from unresolvable font names.
         }}
       >
         S

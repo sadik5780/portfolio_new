@@ -1,7 +1,22 @@
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 
-export const SESSION_COOKIE = 'sadik_admin_session';
-export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
+// In production we use the __Host- prefix which forces Secure + Path=/ + no
+// Domain, protecting the cookie from subdomain hijacks. Dev uses plain name
+// because __Host- requires HTTPS.
+export const SESSION_COOKIE =
+  process.env.NODE_ENV === 'production'
+    ? '__Host-sadik_admin_session'
+    : 'sadik_admin_session';
+
+// Reduced from 7 days → 2 hours. Shorter-lived sessions limit the blast
+// radius of a stolen token. Override with SESSION_MAX_AGE_SECONDS if you
+// need longer-running admin work (e.g. data migrations).
+const DEFAULT_MAX_AGE = 60 * 60 * 2; // 2 hours
+const envMaxAge = Number(process.env.SESSION_MAX_AGE_SECONDS);
+export const SESSION_MAX_AGE_SECONDS =
+  Number.isFinite(envMaxAge) && envMaxAge >= 60 && envMaxAge <= 60 * 60 * 24
+    ? envMaxAge
+    : DEFAULT_MAX_AGE;
 
 export interface SessionPayload extends JWTPayload {
   sub: string; // admin username

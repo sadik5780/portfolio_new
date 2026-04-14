@@ -1,0 +1,132 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  @include section-padding;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  @include container;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-lg;
+  margin-top: $spacing-2xl;
+
+  @include sm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include lg {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+// ── Cards ──────────────────────────────────────────
+.card {
+  position: relative;
+  padding: $spacing-xl;
+  border-radius: $radius-xl;
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform $transition-base,
+    border-color $transition-base,
+    box-shadow $transition-base,
+    background-color $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    background: $bg-card-hover;
+
+    .iconWrap {
+      transform: rotate(8deg) scale(1.08);
+    }
+
+    .glow {
+      opacity: 1;
+    }
+  }
+}
+
+.card_primary {
+  &:hover {
+    border-color: rgba($accent-primary, 0.4);
+    box-shadow: 0 0 40px rgba($accent-primary, 0.18);
+  }
+
+  .iconWrap {
+    color: $accent-primary;
+    background: rgba($accent-primary, 0.1);
+  }
+
+  .glow {
+    background: radial-gradient(circle at 50% 0%, rgba($accent-primary, 0.16), transparent 60%);
+  }
+}
+
+.card_secondary {
+  &:hover {
+    border-color: rgba($accent-secondary, 0.4);
+    box-shadow: 0 0 40px rgba($accent-secondary, 0.18);
+  }
+
+  .iconWrap {
+    color: $accent-secondary;
+    background: rgba($accent-secondary, 0.1);
+  }
+
+  .glow {
+    background: radial-gradient(circle at 50% 0%, rgba($accent-secondary, 0.16), transparent 60%);
+  }
+}
+
+// ── Icon ───────────────────────────────────────────
+.iconWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: $radius-md;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $spacing-md;
+  // Springy LUMINAL-feel transition
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+// ── Text ───────────────────────────────────────────
+.cardTitle {
+  font-family: $font-display;
+  font-size: $fs-xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.cardDesc {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin: 0;
+}
+
+// ── Hover glow (sits behind content via z-index) ──
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity $transition-base;
+  pointer-events: none;
+}

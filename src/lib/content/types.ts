@@ -72,6 +72,11 @@ export interface PricingContent {
     feature_price: { inr: number; usd: number };
     features: Array<{ id: string; name: string; description: string }>;
   };
+  mobile: {
+    base: { inr: number; usd: number };
+    feature_price: { inr: number; usd: number };
+    features: Array<{ id: string; name: string; description: string }>;
+  };
 }
 
 export interface Lead {

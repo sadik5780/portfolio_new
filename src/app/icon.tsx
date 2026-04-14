@@ -1,6 +1,13 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+// Node runtime — avoids edge bundler 500s in `next dev` and Netlify Functions.
+// No `revalidate` export — Next.js' prerender + ImageResponse on nodejs
+// rejects with `Invalid URL`. The route is dynamic, generated on first hit,
+// then cached by the CDN via Next.js' default cache-control headers.
+export const runtime = 'nodejs';
+// Skip build-time prerender — ImageResponse on nodejs needs a real request
+// context which build-time prerendering can't provide.
+export const dynamic = 'force-dynamic';
 export const size = { width: 32, height: 32 };
 export const contentType = 'image/png';
 
@@ -26,8 +33,9 @@ export default function Icon() {
           fontWeight: 800,
           letterSpacing: '-0.06em',
           borderRadius: 6,
-          fontFamily:
-            'system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif',
+          // No fontFamily — let Satori use its bundled default (Vera Sans).
+          // Specifying system fonts here can cause render failures because
+          // Satori needs the font binary, not just a CSS family name.
         }}
       >
         S

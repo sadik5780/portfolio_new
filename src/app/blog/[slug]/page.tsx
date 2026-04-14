@@ -95,6 +95,19 @@ export default async function BlogPostPage({ params }: PageProps) {
     ],
   };
 
+  // FAQPage schema — emitted only when the post defines an FAQ block
+  const faqJsonLd = post.faqs && post.faqs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: post.faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.question,
+          acceptedAnswer: { '@type': 'Answer', text: f.answer },
+        })),
+      }
+    : null;
+
   return (
     <>
       <script
@@ -105,6 +118,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <Navbar />
       <main className={styles.page}>
@@ -141,6 +160,22 @@ export default async function BlogPostPage({ params }: PageProps) {
 
           <div className={styles.container}>
             <BlogContent blocks={post.content} />
+
+            {post.faqs && post.faqs.length > 0 && (
+              <section className={styles.faqSection} aria-labelledby="post-faq-heading">
+                <h2 id="post-faq-heading" className={styles.faqHeading}>
+                  Frequently asked questions
+                </h2>
+                <div className={styles.faqList}>
+                  {post.faqs.map((f, i) => (
+                    <details key={i} className={styles.faqItem}>
+                      <summary>{f.question}</summary>
+                      <p>{f.answer}</p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <footer className={styles.articleFooter}>
               <div className={styles.tagList}>

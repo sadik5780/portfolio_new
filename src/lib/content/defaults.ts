@@ -155,6 +155,24 @@ export const DEFAULT_PRICING: PricingContent = {
       { id: 'animations', name: 'Custom UI Animations', description: 'Framer Motion micro-interactions and page transitions.' },
     ],
   },
+  mobile: {
+    base: { inr: 150000, usd: 12000 },
+    feature_price: { inr: 8000, usd: 150 },
+    features: [
+      { id: 'auth', name: 'Authentication (Email + Social)', description: 'Email/password, Google, Apple sign-in with secure token storage.' },
+      { id: 'push', name: 'Push Notifications', description: 'Expo Notifications or OneSignal with topic targeting.' },
+      { id: 'offline', name: 'Offline-First Sync', description: 'Local DB (SQLite) with conflict-free sync to your backend.' },
+      { id: 'iap', name: 'In-App Purchases / Subscriptions', description: 'RevenueCat-managed subscriptions across iOS + Android.' },
+      { id: 'maps', name: 'Maps + Geolocation', description: 'Mapbox / Google Maps with custom markers and routes.' },
+      { id: 'camera', name: 'Camera + Image Upload', description: 'Camera capture, image picker, S3 upload pipeline.' },
+      { id: 'realtime', name: 'Real-time Chat / Updates', description: 'WebSocket-powered chat or live data feeds.' },
+      { id: 'analytics', name: 'Analytics + Crash Reporting', description: 'Sentry crash reporting + Mixpanel / PostHog events.' },
+      { id: 'i18n', name: 'Multi-language Support', description: 'i18n with RTL support for Arabic / Hebrew where needed.' },
+      { id: 'biometric', name: 'Biometric Auth (Face ID / Touch ID)', description: 'Native biometric prompts for sensitive actions.' },
+      { id: 'deeplinks', name: 'Universal Links + Deep Linking', description: 'iOS Universal Links + Android App Links for share flows.' },
+      { id: 'ota', name: 'OTA Updates via Expo', description: 'Push code updates without resubmitting to the stores.' },
+    ],
+  },
 };
 
 // Default projects (used when Supabase is unavailable)

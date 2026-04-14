@@ -29,6 +29,7 @@ export default function Footer() {
 
           <nav className={styles.nav} aria-label="Footer">
             <Link href="/services" className={styles.navLink}>Services</Link>
+            <Link href="/pricing" className={styles.navLink}>Pricing</Link>
             <Link href="/projects" className={styles.navLink}>Projects</Link>
             <Link href="/blog" className={styles.navLink}>Blog</Link>
             <Link href="/contact" className={styles.navLink}>Contact</Link>

@@ -1,0 +1,397 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  padding-block: $spacing-2xl $spacing-4xl;
+}
+
+.container {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4xl;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  scroll-margin-top: calc($navbar-height + $spacing-lg);
+}
+
+.blockHead {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+  align-items: center;
+}
+
+.blockLabel {
+  font-family: $font-mono;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  @include gradient-text;
+}
+
+.blockTitle {
+  font-size: $fs-2xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.025em;
+
+  @include md {
+    font-size: $fs-3xl;
+  }
+}
+
+.blockSub {
+  font-size: $fs-base;
+  color: $text-secondary;
+  line-height: 1.6;
+  max-width: 560px;
+}
+
+// ── Static website tier grid ───────────────────
+.tiersGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-lg;
+
+  @include md {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.tier {
+  position: relative;
+  @include card;
+  padding: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  min-width: 0;
+}
+
+.tierHighlight {
+  border-color: rgba($accent-primary, 0.4);
+  background: linear-gradient(180deg, rgba($accent-primary, 0.06), $bg-card);
+  box-shadow: 0 0 40px rgba($accent-primary, 0.1);
+
+  &:hover {
+    border-color: rgba($accent-primary, 0.5);
+  }
+}
+
+.tierBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 12px;
+  background: $accent-gradient;
+  color: white;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  border-radius: $radius-full;
+  letter-spacing: 0.04em;
+  font-family: $font-mono;
+}
+
+.tierName {
+  font-size: $fs-xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+.tierDesc {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.55;
+}
+
+.tierPrice {
+  font-size: $fs-3xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.025em;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid $border-subtle;
+  font-family: $font-display;
+}
+
+.tierIncludes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  flex: 1;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    font-size: $fs-sm;
+    color: $text-secondary;
+    line-height: 1.5;
+
+    svg {
+      color: $accent-primary;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+  }
+}
+
+.tierCta {
+  @include button-base;
+  padding: 12px 18px;
+  background: transparent;
+  color: $text-primary;
+  border: 1px solid $border-hover;
+  width: 100%;
+
+  &:hover {
+    background: $accent-gradient;
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.3);
+  }
+
+  .tierHighlight & {
+    background: $accent-gradient;
+    color: white;
+    border-color: transparent;
+
+    &:hover {
+      opacity: 0.92;
+      box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+    }
+  }
+}
+
+// ── Single price card (Shopify) ────────────────
+.singlePriceCard {
+  @include card;
+  padding: $spacing-xl;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-xl;
+
+  @include md {
+    grid-template-columns: 1.4fr 1fr;
+    padding: $spacing-2xl;
+  }
+}
+
+.singleLeft {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.singleTitle {
+  font-size: $fs-xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+.singleDesc {
+  font-size: $fs-base;
+  color: $text-secondary;
+  line-height: 1.65;
+}
+
+.singleList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  li {
+    position: relative;
+    padding-left: $spacing-md;
+    font-size: $fs-sm;
+    color: $text-secondary;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 5px;
+      height: 5px;
+      background: $accent-primary;
+      border-radius: 50%;
+    }
+  }
+}
+
+.singleRight {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-lg;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+}
+
+.singlePriceLabel {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  font-family: $font-mono;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.singlePrice {
+  font-size: $fs-4xl;
+  font-weight: $fw-bold;
+  letter-spacing: -0.03em;
+  font-family: $font-display;
+  @include gradient-text;
+  line-height: 1;
+}
+
+.singlePriceNote {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  line-height: 1.55;
+}
+
+.singleCta {
+  @include button-base;
+  padding: 12px 18px;
+  background: $accent-gradient;
+  color: white;
+  margin-top: $spacing-sm;
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+  }
+}
+
+// ── Builder summary card (App + Mobile) ────────
+.builderCard {
+  @include card;
+  padding: $spacing-xl;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-xl;
+
+  @include md {
+    grid-template-columns: 1fr 1fr;
+    padding: $spacing-2xl;
+  }
+}
+
+.builderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.builderTitle {
+  font-size: $fs-lg;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.015em;
+}
+
+.builderDesc {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.65;
+}
+
+.builderRows {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid $border-subtle;
+    border-radius: $radius-md;
+    font-size: $fs-sm;
+    color: $text-secondary;
+  }
+
+  strong {
+    font-family: $font-display;
+    font-weight: $fw-semibold;
+    color: $text-primary;
+    letter-spacing: -0.01em;
+  }
+}
+
+.builderRight {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.builderLabel {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  font-family: $font-mono;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.builderFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+.builderFeature {
+  padding: 5px 10px;
+  background: rgba($accent-primary, 0.08);
+  color: $accent-primary;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  border-radius: $radius-full;
+}
+
+.builderFeatureMore {
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: $text-tertiary;
+  font-size: $fs-xs;
+  font-style: italic;
+  border-radius: $radius-full;
+}
+
+.builderCta {
+  @include button-base;
+  padding: 12px 20px;
+  background: $accent-gradient;
+  color: white;
+  align-self: flex-start;
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+  }
+}

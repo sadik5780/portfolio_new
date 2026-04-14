@@ -126,6 +126,49 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
       },
     });
 
+  // ── Mobile builder handlers (mirror app handlers) ─────
+  const setMobileBase = (currency: 'inr' | 'usd', amount: number) =>
+    setValue({
+      ...value,
+      mobile: { ...value.mobile, base: { ...value.mobile.base, [currency]: amount } },
+    });
+  const setMobileFeaturePrice = (currency: 'inr' | 'usd', amount: number) =>
+    setValue({
+      ...value,
+      mobile: {
+        ...value.mobile,
+        feature_price: { ...value.mobile.feature_price, [currency]: amount },
+      },
+    });
+  const updateMobileFeature = (
+    i: number,
+    field: 'id' | 'name' | 'description',
+    v: string,
+  ) => {
+    const features = [...value.mobile.features];
+    features[i] = { ...features[i], [field]: v };
+    setValue({ ...value, mobile: { ...value.mobile, features } });
+  };
+  const addMobileFeature = () =>
+    setValue({
+      ...value,
+      mobile: {
+        ...value.mobile,
+        features: [
+          ...value.mobile.features,
+          { id: `mfeat-${Date.now()}`, name: '', description: '' },
+        ],
+      },
+    });
+  const removeMobileFeature = (i: number) =>
+    setValue({
+      ...value,
+      mobile: {
+        ...value.mobile,
+        features: value.mobile.features.filter((_, idx) => idx !== i),
+      },
+    });
+
   return (
     <>
       {/* ── Shopify ──────────────────────────── */}
@@ -342,6 +385,118 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
           ))}
           <button type="button" className={styles.arrayAdd} onClick={addFeature}>
             + Add feature
+          </button>
+        </div>
+      </div>
+
+      {/* ── Mobile app builder ──────────────────── */}
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Mobile app</h3>
+        <div className={styles.sectionDesc}>
+          React Native + Expo cross-platform builds. Same builder model as the
+          web app — base price plus per-feature add-ons.
+        </div>
+
+        <div className={styles.formRow}>
+          <div className={styles.field}>
+            <label className={styles.label}>Base price (INR)</label>
+            <input
+              type="number"
+              className={styles.input}
+              value={value.mobile.base.inr}
+              onChange={(e) => setMobileBase('inr', Number(e.target.value))}
+            />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Base price (USD)</label>
+            <input
+              type="number"
+              className={styles.input}
+              value={value.mobile.base.usd}
+              onChange={(e) => setMobileBase('usd', Number(e.target.value))}
+            />
+          </div>
+        </div>
+
+        <div className={styles.formRow}>
+          <div className={styles.field}>
+            <label className={styles.label}>Per-feature (INR)</label>
+            <input
+              type="number"
+              className={styles.input}
+              value={value.mobile.feature_price.inr}
+              onChange={(e) => setMobileFeaturePrice('inr', Number(e.target.value))}
+            />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Per-feature (USD)</label>
+            <input
+              type="number"
+              className={styles.input}
+              value={value.mobile.feature_price.usd}
+              onChange={(e) => setMobileFeaturePrice('usd', Number(e.target.value))}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>
+          Mobile features ({value.mobile.features.length})
+        </h3>
+        <div className={styles.sectionDesc}>
+          Each mobile feature adds the per-feature price above to the
+          customer&apos;s quote.
+        </div>
+
+        <div className={styles.arrayField}>
+          {value.mobile.features.map((feat, i) => (
+            <div key={`${feat.id}-${i}`} className={styles.arrayItem}>
+              <div className={styles.arrayItemBody}>
+                <div className={styles.formRow}>
+                  <div className={styles.field}>
+                    <label className={styles.label}>ID</label>
+                    <input
+                      className={styles.input}
+                      value={feat.id}
+                      onChange={(e) => updateMobileFeature(i, 'id', e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label className={styles.label}>Name</label>
+                    <input
+                      className={styles.input}
+                      value={feat.name}
+                      onChange={(e) => updateMobileFeature(i, 'name', e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className={styles.field}>
+                  <label className={styles.label}>Description</label>
+                  <input
+                    className={styles.input}
+                    value={feat.description}
+                    onChange={(e) =>
+                      updateMobileFeature(i, 'description', e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+              <button
+                type="button"
+                className={styles.arrayRemove}
+                onClick={() => removeMobileFeature(i)}
+                aria-label="Remove feature"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+          ))}
+          <button type="button" className={styles.arrayAdd} onClick={addMobileFeature}>
+            + Add mobile feature
           </button>
         </div>
       </div>

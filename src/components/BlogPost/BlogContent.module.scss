@@ -133,3 +133,149 @@
     box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
   }
 }
+
+// ── Comparison tables ─────────────────────────
+.tableWrap {
+  margin: $spacing-xl 0;
+  overflow-x: auto;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $fs-sm;
+  line-height: 1.55;
+
+  thead {
+    background: rgba($accent-primary, 0.08);
+  }
+
+  th {
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: $fw-semibold;
+    color: $text-primary;
+    font-family: $font-mono;
+    font-size: $fs-xs;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1px solid $border-subtle;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 14px;
+    color: $text-secondary;
+    border-bottom: 1px solid $border-subtle;
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  code {
+    font-family: $font-mono;
+    font-size: 0.9em;
+    color: $accent-primary;
+    background: rgba($accent-primary, 0.08);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  strong {
+    color: $text-primary;
+    font-weight: $fw-semibold;
+  }
+}
+
+.tableCaption {
+  padding: 10px 14px;
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  border-top: 1px solid $border-subtle;
+  font-style: italic;
+}
+
+// ── Inline formatting inside paragraphs / lists ──
+.body {
+  a {
+    color: $accent-primary;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $accent-secondary;
+    }
+  }
+
+  strong {
+    color: $text-primary;
+    font-weight: $fw-semibold;
+  }
+
+  code {
+    font-family: $font-mono;
+    font-size: 0.9em;
+    color: $accent-primary;
+    background: rgba($accent-primary, 0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+}
+
+// ── Callouts (pro tips, warnings, info) ───────
+.callout {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: $spacing-lg 0;
+  padding: $spacing-md $spacing-lg;
+  border-left: 3px solid $accent-primary;
+  border-radius: 0 $radius-md $radius-md 0;
+  background: rgba($accent-primary, 0.06);
+}
+
+.callout_tip {
+  border-left-color: $accent-primary;
+  background: rgba($accent-primary, 0.06);
+}
+
+.callout_warning {
+  border-left-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.callout_info {
+  border-left-color: $accent-secondary;
+  background: rgba($accent-secondary, 0.06);
+}
+
+.calloutTitle {
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $text-primary;
+  font-family: $font-mono;
+  margin: 0;
+}
+
+.calloutText {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.65;
+  margin: 0;
+
+  @include md {
+    font-size: $fs-base;
+  }
+}

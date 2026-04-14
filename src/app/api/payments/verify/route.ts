@@ -6,6 +6,10 @@ import {
   markPaymentPaid,
 } from '@/lib/payments/store';
 import { hasServiceRoleEnv } from '@/lib/supabase/server';
+import { rateLimit, rateLimitHeaders } from '@/lib/security/rate-limit';
+import { isAllowedOrigin } from '@/lib/security/origin';
+import { getClientIp } from '@/lib/security/ip';
+import { logSecurityEvent } from '@/lib/security/log';
 
 export const runtime = 'nodejs';
 
@@ -17,6 +21,31 @@ interface VerifyBody {
 }
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+
+  if (!isAllowedOrigin(request)) {
+    logSecurityEvent('payment.origin_rejected', {
+      ip,
+      path: '/api/payments/verify',
+    });
+    return NextResponse.json({ error: 'Bad origin' }, { status: 403 });
+  }
+
+  // Verify is called once per legitimate checkout — so generous limit, but
+  // present to stop signature-grinding attacks against a known orderId.
+  const limit = rateLimit({
+    key: `payments:verify:ip:${ip}`,
+    limit: 30,
+    windowSeconds: 60 * 10,
+  });
+  if (!limit.ok) {
+    logSecurityEvent('payment.rate_limited', { ip, scope: 'verify' });
+    return NextResponse.json(
+      { error: 'Too many verification attempts.' },
+      { status: 429, headers: rateLimitHeaders(limit) },
+    );
+  }
+
   if (!hasRazorpayEnv() || !hasServiceRoleEnv()) {
     return NextResponse.json(
       { error: 'Payments are not fully configured on the server.' },
@@ -80,6 +109,11 @@ export async function POST(request: Request) {
   });
 
   if (!valid) {
+    logSecurityEvent('payment.signature_invalid', {
+      ip,
+      paymentId,
+      orderId,
+    });
     await markPaymentFailed({
       id: paymentId,
       reason: 'Invalid signature (tampered client payload)',

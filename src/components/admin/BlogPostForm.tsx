@@ -45,6 +45,8 @@ function newBlock(type: BlogBlock['type']): BlogBlock {
     case 'ol': return { type: 'ol', items: [''] };
     case 'quote': return { type: 'quote', text: '' };
     case 'cta': return { type: 'cta', title: '', text: '', href: '/contact', label: 'Start a project' };
+    case 'table': return { type: 'table', headers: ['', ''], rows: [['', '']] };
+    case 'callout': return { type: 'callout', variant: 'tip', title: '', text: '' };
   }
 }
 

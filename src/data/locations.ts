@@ -21,19 +21,21 @@ export const locations: LocationMeta[] = [
     name: 'India',
     country: 'India',
     countryCode: 'IN',
-    currency: 'inr',
-    symbol: '₹',
+    // All quotes are denominated in USD across the site; INR equivalents are
+    // available on request at invoice time.
+    currency: 'usd',
+    symbol: '$',
     timezone: 'Asia/Kolkata',
     timezoneOffsetLabel: 'IST (UTC+5:30)',
     marketNote:
-      'Indian startups and agencies get best-in-class engineering at rupee-denominated pricing, with full IST overlap and GST-compliant invoicing.',
+      'Indian startups and agencies get best-in-class engineering with full IST overlap, transparent USD pricing, and tight daily collaboration.',
     workingNote:
-      'Full IST overlap. GST-compliant invoicing via Razorpay. INR pricing throughout. Daily standups and WhatsApp availability for tight feedback loops.',
+      'Full IST overlap. Quotes in USD; INR settlement available on request. Daily standups and WhatsApp availability for tight feedback loops.',
     faqs: [
       {
-        question: 'Do you accept payments via Razorpay / UPI?',
+        question: 'How are payments handled for Indian clients?',
         answer:
-          'Yes. Indian clients pay via Razorpay — UPI, net banking, and cards all supported. GST-compliant invoices issued for every milestone.',
+          'Quotes and invoices are issued in USD by default. Indian clients can settle via international wire, Stripe, or Wise. INR settlement via Razorpay (UPI, net banking, cards) is available on request with GST-compliant invoicing.',
       },
       {
         question: 'What is the typical timeline for Indian clients?',
@@ -43,7 +45,7 @@ export const locations: LocationMeta[] = [
       {
         question: 'Do you work with Tier-2 and Tier-3 city founders?',
         answer:
-          'Yes — most engagements are async-first, so location within India does not matter. Payments are in INR, communication is over Slack/WhatsApp/email, and reviews happen over video as needed.',
+          'Yes — most engagements are async-first, so location within India does not matter. Communication is over Slack/WhatsApp/email, and reviews happen over video as needed.',
       },
     ],
   },

@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from 'framer-motion';
 import type { HeroContent, StatsContent } from '@/lib/content/types';
+import { useMagnetic } from '@/lib/hooks/useMagnetic';
 import styles from './Hero.module.scss';
 
 const container: Variants = {
@@ -29,6 +30,10 @@ interface HeroProps {
 }
 
 export default function Hero({ content, stats }: HeroProps) {
+  // LUMINAL-style magnetic hover on both hero CTAs.
+  const primaryRef = useMagnetic<HTMLAnchorElement>(0.2);
+  const secondaryRef = useMagnetic<HTMLAnchorElement>(0.15);
+
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const el = document.querySelector(href);
@@ -70,6 +75,7 @@ export default function Hero({ content, stats }: HeroProps) {
 
         <motion.div className={styles.actions} variants={fadeUp}>
           <a
+            ref={primaryRef}
             href="#projects"
             className={styles.btnPrimary}
             onClick={(e) => handleScroll(e, '#projects')}
@@ -79,7 +85,7 @@ export default function Hero({ content, stats }: HeroProps) {
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-          <a href="/contact" className={styles.btnSecondary}>
+          <a ref={secondaryRef} href="/contact" className={styles.btnSecondary}>
             Get in Touch
           </a>
         </motion.div>
