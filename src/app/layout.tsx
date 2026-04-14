@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
+import Script from 'next/script';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import './globals.scss';
 
@@ -118,6 +119,12 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        {/* Ahrefs Web Analytics — loaded after interactive so it doesn't block LCP */}
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          strategy="afterInteractive"
+          data-key="ym2+dPel4hIM1OvhQkSobw"
         />
       </head>
       <body>{children}</body>
