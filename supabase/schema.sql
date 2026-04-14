@@ -39,6 +39,28 @@ create index if not exists projects_featured_idx   on public.projects (featured)
 create index if not exists projects_sort_order_idx on public.projects (sort_order);
 
 -- ═══════════════════════════════════════════════════════════════════
+-- 1b. TESTIMONIALS
+-- ═══════════════════════════════════════════════════════════════════
+create table if not exists public.testimonials (
+    id              uuid primary key default gen_random_uuid(),
+    name            text not null,
+    role            text not null,
+    company         text not null,
+    country         text not null,
+    country_flag    text default '',
+    quote           text not null,
+    rating          int  default 5 check (rating between 1 and 5),
+    project_type    text default '',
+    featured        boolean default true,
+    sort_order      int default 0,
+    created_at      timestamptz default now(),
+    updated_at      timestamptz default now()
+);
+
+create index if not exists testimonials_featured_idx   on public.testimonials (featured);
+create index if not exists testimonials_sort_order_idx on public.testimonials (sort_order);
+
+-- ═══════════════════════════════════════════════════════════════════
 -- 2. LEADS (contact form submissions)
 -- ═══════════════════════════════════════════════════════════════════
 create table if not exists public.leads (
@@ -78,6 +100,10 @@ drop trigger if exists projects_touch on public.projects;
 create trigger projects_touch before update on public.projects
   for each row execute function public.touch_updated_at();
 
+drop trigger if exists testimonials_touch on public.testimonials;
+create trigger testimonials_touch before update on public.testimonials
+  for each row execute function public.touch_updated_at();
+
 drop trigger if exists settings_touch on public.settings;
 create trigger settings_touch before update on public.settings
   for each row execute function public.touch_updated_at();
@@ -85,14 +111,20 @@ create trigger settings_touch before update on public.settings
 -- ═══════════════════════════════════════════════════════════════════
 -- RLS  (Row Level Security)
 -- ═══════════════════════════════════════════════════════════════════
-alter table public.projects enable row level security;
-alter table public.leads    enable row level security;
-alter table public.settings enable row level security;
+alter table public.projects     enable row level security;
+alter table public.testimonials enable row level security;
+alter table public.leads        enable row level security;
+alter table public.settings     enable row level security;
 
 -- Public reads for site content
 drop policy if exists "public read projects" on public.projects;
 create policy "public read projects"
     on public.projects for select
+    using (true);
+
+drop policy if exists "public read testimonials" on public.testimonials;
+create policy "public read testimonials"
+    on public.testimonials for select
     using (true);
 
 drop policy if exists "public read settings" on public.settings;
@@ -202,6 +234,32 @@ insert into public.projects (
     false, '2023', 'Open Source', 70
 )
 on conflict (slug) do nothing;
+
+-- Seed testimonials (safe to re-run — duplicates are avoided by matching quote text)
+insert into public.testimonials (name, role, company, country, country_flag, quote, rating, project_type, featured, sort_order)
+select * from (values
+  ('Aarav Sharma', 'Founder', 'BoltShip Logistics', 'India', '🇮🇳',
+   'Sadik rebuilt our dispatch dashboard from a 6-second LCP to under 400ms and shipped a new driver mobile web app in four weeks. Most importantly, he understood the business logic — we did not have to explain it twice.',
+   5, 'SaaS Platform', true, 10),
+  ('Jessica Liu', 'Head of Engineering', 'Aperture Analytics', 'USA', '🇺🇸',
+   'We needed a Next.js 14 App Router specialist for a 12-week retainer. Sadik stepped in on day one, owned the full auth + billing slice, and wrote the cleanest code our team has shipped all year. Fully remote from India with morning EST overlap.',
+   5, 'Next.js Retainer', true, 20),
+  ('Tom Jenkins', 'DTC Founder', 'Northwear Apparel', 'Australia', '🇦🇺',
+   'Our Shopify store was averaging a 38 mobile PageSpeed score. Sadik rebuilt it as a headless Hydrogen storefront — 94 PageSpeed, 3× faster checkout, and revenue up 22% in the first month. Handled AEST mornings without complaint.',
+   5, 'Headless Shopify', true, 30),
+  ('Priya Raghavan', 'COO', 'LedgerLoop (YC S24)', 'USA', '🇺🇸',
+   'Hiring senior React talent in SF is either expensive or unavailable. Sadik delivered both speed and quality at a fraction of the cost. He architected our multi-tenant SaaS from scratch — Stripe, RBAC, admin tools, the lot.',
+   5, 'SaaS MVP', true, 40),
+  ('Rohan Mehta', 'Product Lead', 'Kiran Fintech', 'India', '🇮🇳',
+   'We went from a buggy Django admin to a clean Next.js dashboard serving 20k users in a month. Sadik wrote every line of the frontend and worked alongside our backend team. Communication was sharp — daily standups, clear PRs, no ambiguity.',
+   5, 'Frontend Rebuild', true, 50),
+  ('Ellie Park', 'Solo Founder', 'StudyBuddy', 'Australia', '🇦🇺',
+   'As a solo founder I needed a fractional tech lead, not just a coder. Sadik helped me scope the MVP, cut 40% of the feature list, and shipped a real product in 10 weeks. The pricing builder on his site gave me a fixed quote upfront — no surprises.',
+   5, 'MVP + Fractional CTO', true, 60)
+) as t(name, role, company, country, country_flag, quote, rating, project_type, featured, sort_order)
+where not exists (
+  select 1 from public.testimonials where public.testimonials.quote = t.quote
+);
 
 -- Default site content (fallback values used by admin CMS)
 insert into public.settings (key, value) values

@@ -9,14 +9,16 @@ import Contact from '@/components/Contact/Contact';
 import Footer from '@/components/Footer/Footer';
 import { getAllSettings } from '@/lib/content/settings';
 import { getFeaturedProjects } from '@/lib/content/projects';
+import { getFeaturedTestimonials } from '@/lib/content/testimonials';
 
 // 10-min revalidate; admin mutations call revalidatePath('/') for instant updates.
 export const revalidate = 600;
 
 export default async function Home() {
-  const [settings, featured] = await Promise.all([
+  const [settings, featured, testimonials] = await Promise.all([
     getAllSettings(),
     getFeaturedProjects(6),
+    getFeaturedTestimonials(12),
   ]);
 
   return (
@@ -28,7 +30,7 @@ export default async function Home() {
         <TechArsenal />
         <Services content={settings.services} />
         <Projects featured={featured} />
-        <Testimonials />
+        <Testimonials items={testimonials} />
         <Contact />
       </main>
       <Footer />

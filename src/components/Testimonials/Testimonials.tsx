@@ -1,38 +1,84 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { testimonials, aggregateRating } from '@/data/testimonials';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
+import { testimonials as STATIC_FALLBACK } from '@/data/testimonials';
+import type { Testimonial } from '@/lib/content/types';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import styles from './Testimonials.module.scss';
 
 const AUTO_ADVANCE_MS = 8000;
 
-export default function Testimonials() {
-  const rating = aggregateRating();
+interface TestimonialsProps {
+  items?: Testimonial[];
+}
+
+export default function Testimonials({ items }: TestimonialsProps = {}) {
+  // Prefer the server-fed items; fall back to the static data file if a caller
+  // renders this component without wiring up the fetch (keeps dev-time DX easy).
+  const testimonials = useMemo<Testimonial[]>(() => {
+    if (items && items.length > 0) return items;
+    return STATIC_FALLBACK.map((t, i) => ({
+      id: t.id,
+      name: t.name,
+      role: t.role,
+      company: t.company,
+      country: t.country,
+      countryFlag: t.countryFlag,
+      quote: t.quote,
+      rating: t.rating,
+      projectType: t.projectType,
+      featured: true,
+      sortOrder: (i + 1) * 10,
+    }));
+  }, [items]);
+
+  const rating = useMemo(() => {
+    if (testimonials.length === 0) return { value: 0, count: 0 };
+    const total = testimonials.reduce((s, t) => s + t.rating, 0);
+    return {
+      value: Number((total / testimonials.length).toFixed(2)),
+      count: testimonials.length,
+    };
+  }, [testimonials]);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
+  // Dependencies include testimonials.length so callbacks stay correct when
+  // the live DB list is updated via revalidation.
   const next = useCallback(() => {
-    setIndex((i) => (i + 1) % testimonials.length);
-  }, []);
+    setIndex((i) => (testimonials.length === 0 ? 0 : (i + 1) % testimonials.length));
+  }, [testimonials.length]);
 
   const prev = useCallback(() => {
-    setIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
-  }, []);
+    setIndex((i) =>
+      testimonials.length === 0
+        ? 0
+        : (i - 1 + testimonials.length) % testimonials.length,
+    );
+  }, [testimonials.length]);
 
   const goTo = useCallback((i: number) => {
     setIndex(i);
   }, []);
 
+  // Clamp the index if the list got shorter (admin deleted a testimonial).
+  useEffect(() => {
+    if (index >= testimonials.length && testimonials.length > 0) {
+      setIndex(0);
+    }
+  }, [testimonials.length, index]);
+
   // Auto-advance when not paused. Resets on manual navigation via `index` dep.
   useEffect(() => {
-    if (paused) return;
+    if (paused || testimonials.length <= 1) return;
     const id = window.setTimeout(next, AUTO_ADVANCE_MS);
     return () => window.clearTimeout(id);
-  }, [index, paused, next]);
+  }, [index, paused, next, testimonials.length]);
 
-  const t = testimonials[index];
+  if (testimonials.length === 0) return null;
+
+  const t = testimonials[Math.min(index, testimonials.length - 1)];
 
   return (
     <section
@@ -57,14 +103,19 @@ export default function Testimonials() {
           </span>
 
           <div className={styles.stageInner}>
-            <AnimatePresence mode="wait">
+            {/*
+              Key-based remount (no AnimatePresence). When `index` changes,
+              React unmounts the old figure and mounts a new one, triggering
+              the initial → animate transition. This avoids the
+              "removeChild on null" race that AnimatePresence + rapid nav
+              clicks can produce.
+            */}
               <motion.figure
                 key={t.id}
                 className={styles.figure}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -24 }}
-                transition={{ duration: 0.55, ease: [0.2, 0, 0.2, 1] as const }}
+                transition={{ duration: 0.45, ease: [0.2, 0, 0.2, 1] as const }}
               >
                 <div className={styles.rating} aria-label={`${t.rating} out of 5 stars`}>
                   {Array.from({ length: 5 }).map((_, idx) => (
@@ -101,7 +152,6 @@ export default function Testimonials() {
                   <span className={styles.badge}>{t.projectType}</span>
                 </figcaption>
               </motion.figure>
-            </AnimatePresence>
           </div>
 
           <div

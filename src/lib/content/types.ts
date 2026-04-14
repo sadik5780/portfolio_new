@@ -137,3 +137,73 @@ export function rowToProject(row: ProjectRow): Project {
     sortOrder: row.sort_order ?? 0,
   };
 }
+
+// ── Testimonials ─────────────────────────────────────
+export type TestimonialCountry =
+  | 'India'
+  | 'USA'
+  | 'Australia'
+  | 'UK'
+  | 'Singapore'
+  | 'Other';
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  country: TestimonialCountry;
+  countryFlag: string;
+  quote: string;
+  rating: number;
+  projectType: string;
+  featured: boolean;
+  sortOrder?: number;
+}
+
+export interface TestimonialRow {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  country: string;
+  country_flag: string | null;
+  quote: string;
+  rating: number | null;
+  project_type: string | null;
+  featured: boolean;
+  sort_order: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
+const VALID_COUNTRIES: TestimonialCountry[] = [
+  'India',
+  'USA',
+  'Australia',
+  'UK',
+  'Singapore',
+  'Other',
+];
+
+function coerceCountry(raw: string): TestimonialCountry {
+  return (VALID_COUNTRIES as string[]).includes(raw)
+    ? (raw as TestimonialCountry)
+    : 'Other';
+}
+
+export function rowToTestimonial(row: TestimonialRow): Testimonial {
+  return {
+    id: row.id,
+    name: row.name,
+    role: row.role,
+    company: row.company,
+    country: coerceCountry(row.country),
+    countryFlag: row.country_flag ?? '',
+    quote: row.quote,
+    rating: typeof row.rating === 'number' ? row.rating : 5,
+    projectType: row.project_type ?? '',
+    featured: Boolean(row.featured),
+    sortOrder: row.sort_order ?? 0,
+  };
+}
