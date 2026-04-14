@@ -71,6 +71,9 @@ export function buildMetadata({
       other: {
         // Bing Webmaster Tools site verification
         'msvalidate.01': '895133D1B0D1CB306691473722082FDA',
+        // Ahrefs Site Audit verification
+        'ahrefs-site-verification':
+          '8f04923d9055a7089dbbae1d407bc83ebac027d9db83103e1633a58b307252fd',
       },
     },
     robots: noIndex
