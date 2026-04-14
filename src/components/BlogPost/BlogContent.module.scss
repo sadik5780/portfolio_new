@@ -204,9 +204,15 @@
   font-style: italic;
 }
 
-// ── Inline formatting inside paragraphs / lists ──
+// ── Inline formatting inside paragraphs / lists / table cells ──
+// IMPORTANT: scoped to p / li / td only. We must NOT target every <a>
+// descendant of .body, because the CTA button (.ctaBtn) is also an anchor
+// and would lose its white-on-gradient styling to the accent-primary color,
+// making the label invisible against the gradient background.
 .body {
-  a {
+  p a,
+  li a,
+  td a {
     color: $accent-primary;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -217,12 +223,16 @@
     }
   }
 
-  strong {
+  p strong,
+  li strong,
+  td strong {
     color: $text-primary;
     font-weight: $fw-semibold;
   }
 
-  code {
+  p code,
+  li code,
+  td code {
     font-family: $font-mono;
     font-size: 0.9em;
     color: $accent-primary;

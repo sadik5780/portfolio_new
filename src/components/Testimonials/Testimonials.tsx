@@ -6,7 +6,7 @@ import { testimonials, aggregateRating } from '@/data/testimonials';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import styles from './Testimonials.module.scss';
 
-const AUTO_ADVANCE_MS = 7000;
+const AUTO_ADVANCE_MS = 8000;
 
 export default function Testimonials() {
   const rating = aggregateRating();
@@ -15,6 +15,10 @@ export default function Testimonials() {
 
   const next = useCallback(() => {
     setIndex((i) => (i + 1) % testimonials.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
   }, []);
 
   const goTo = useCallback((i: number) => {
@@ -101,24 +105,48 @@ export default function Testimonials() {
           </div>
 
           <div
-            className={styles.dots}
+            className={styles.controls}
             role="tablist"
             aria-label="Testimonial navigation"
           >
-            {testimonials.map((entry, i) => {
-              const active = i === index;
-              return (
-                <button
-                  key={entry.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  aria-label={`Show testimonial from ${entry.name}`}
-                  className={`${styles.dot} ${active ? styles.dotActive : ''}`}
-                  onClick={() => goTo(i)}
-                />
-              );
-            })}
+            <button
+              type="button"
+              className={styles.arrow}
+              onClick={prev}
+              aria-label="Previous testimonial"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            <div className={styles.dots}>
+              {testimonials.map((entry, i) => {
+                const active = i === index;
+                return (
+                  <button
+                    key={entry.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    aria-label={`Show testimonial from ${entry.name}`}
+                    className={`${styles.dot} ${active ? styles.dotActive : ''}`}
+                    onClick={() => goTo(i)}
+                  />
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              className={styles.arrow}
+              onClick={next}
+              aria-label="Next testimonial"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

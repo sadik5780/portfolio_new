@@ -162,16 +162,55 @@
   white-space: nowrap;
 }
 
-// ── Dot navigation ───────────────────────────
+// ── Controls (arrows + dots) ─────────────────
+.controls {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-2xl;
+  padding: 6px;
+  border-radius: $radius-full;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid $border-subtle;
+}
+
+.arrow {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: $text-secondary;
+  cursor: pointer;
+  transition:
+    color $transition-base,
+    background-color $transition-base,
+    transform $transition-base;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba(255, 255, 255, 0.06);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
 .dots {
   display: inline-flex;
   align-items: center;
   gap: $spacing-xs;
-  margin-top: $spacing-2xl;
-  padding: 6px 10px;
-  border-radius: $radius-full;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid $border-subtle;
+  padding: 0 $spacing-xs;
 }
 
 .dot {
