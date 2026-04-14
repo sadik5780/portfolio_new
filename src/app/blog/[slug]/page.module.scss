@@ -1,0 +1,273 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  padding-top: $navbar-height;
+}
+
+.container {
+  @include container;
+  max-width: 880px;
+}
+
+// ── Article head ────────────────────────────────
+.article {
+  padding-bottom: $spacing-4xl;
+}
+
+.articleHead {
+  position: relative;
+  padding-block: $spacing-3xl $spacing-xl;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 800px 400px at 30% 10%, rgba($accent-primary, 0.12), transparent 70%),
+      radial-gradient(ellipse 700px 400px at 70% 30%, rgba($accent-secondary, 0.1), transparent 70%);
+    pointer-events: none;
+  }
+
+  > div {
+    position: relative;
+  }
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  font-size: $fs-sm;
+  color: $text-tertiary;
+  margin-bottom: $spacing-lg;
+
+  a {
+    color: $text-secondary;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+}
+
+.breadcrumbActive {
+  color: $text-primary !important;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  font-size: $fs-sm;
+  color: $text-tertiary;
+  margin-bottom: $spacing-lg;
+  font-family: $font-mono;
+}
+
+.categoryBadge {
+  padding: 4px 10px;
+  background: rgba($accent-primary, 0.12);
+  color: $accent-primary;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  border-radius: $radius-full;
+  font-family: $font-mono;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dot {
+  color: $text-tertiary;
+}
+
+.title {
+  font-size: clamp($fs-3xl, 5vw, $fs-5xl);
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  margin-bottom: $spacing-lg;
+  max-width: 900px;
+}
+
+.description {
+  font-size: $fs-lg;
+  color: $text-secondary;
+  line-height: 1.65;
+  max-width: 720px;
+  margin-bottom: $spacing-xl;
+
+  @include md {
+    font-size: $fs-xl;
+  }
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-subtle;
+}
+
+.authorAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: $accent-gradient;
+  color: white;
+  font-size: $fs-lg;
+  font-weight: $fw-semibold;
+  border-radius: 50%;
+}
+
+.authorMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.authorName {
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+}
+
+.authorRole {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+}
+
+// ── Article footer ──────────────────────────────
+.articleFooter {
+  margin-top: $spacing-3xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid $border-subtle;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @include md {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.tag {
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: $text-secondary;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  border-radius: $radius-full;
+  font-family: $font-mono;
+}
+
+.shareCta {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  @include button-base;
+  padding: 10px 20px;
+  background: $accent-gradient;
+  color: white;
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+  }
+}
+
+.btnSecondary {
+  @include button-base;
+  padding: 10px 20px;
+  background: transparent;
+  color: $text-primary;
+  border: 1px solid $border-hover;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+// ── Related ─────────────────────────────────────
+.relatedSection {
+  padding-block: $spacing-3xl;
+  background: $bg-secondary;
+  border-top: 1px solid $border-subtle;
+}
+
+.relatedTitle {
+  font-size: $fs-xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+  margin-bottom: $spacing-xl;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.relatedCard {
+  @include card;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  text-decoration: none;
+  color: inherit;
+  transition: transform $transition-base, border-color $transition-base;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba($accent-primary, 0.3);
+  }
+}
+
+.relatedCardTitle {
+  font-size: $fs-base;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.relatedCardDesc {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  line-height: 1.55;
+  flex: 1;
+}
+
+.relatedReadMore {
+  font-size: $fs-xs;
+  color: $accent-primary;
+  font-weight: $fw-semibold;
+}

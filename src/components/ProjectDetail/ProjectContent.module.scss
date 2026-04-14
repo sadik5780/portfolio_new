@@ -1,0 +1,152 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  padding-block: $spacing-3xl;
+
+  @include md {
+    padding-block: $spacing-4xl;
+  }
+}
+
+.container {
+  @include container;
+  max-width: 1000px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-2xl;
+  margin-bottom: $spacing-4xl;
+
+  @include md {
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-3xl;
+  }
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.blockLabel {
+  display: inline-block;
+  font-family: $font-mono;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  @include gradient-text;
+}
+
+.blockTitle {
+  font-size: $fs-2xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+
+  @include md {
+    font-size: $fs-3xl;
+  }
+}
+
+.blockBody {
+  font-size: $fs-base;
+  color: $text-secondary;
+  line-height: 1.75;
+
+  @include md {
+    font-size: $fs-lg;
+  }
+}
+
+// ── Features ────────────────────────────────────────
+.featuresBlock {
+  margin-bottom: $spacing-4xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin-top: $spacing-lg;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+
+  @include md {
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-lg;
+  }
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  color: $text-secondary;
+  font-size: $fs-sm;
+  line-height: 1.5;
+  transition: border-color $transition-fast, background $transition-fast;
+
+  &:hover {
+    border-color: rgba($accent-primary, 0.3);
+    background: $bg-card-hover;
+  }
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: rgba($accent-primary, 0.15);
+  color: $accent-primary;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+// ── Tech ────────────────────────────────────────────
+.techBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+.tech {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid $border-subtle;
+  color: $text-secondary;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  border-radius: $radius-full;
+  cursor: default;
+  transition: all $transition-fast;
+  font-family: $font-mono;
+
+  &:hover {
+    background: rgba($accent-primary, 0.1);
+    border-color: rgba($accent-primary, 0.3);
+    color: $accent-primary;
+  }
+}

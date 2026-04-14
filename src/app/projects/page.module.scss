@@ -1,0 +1,35 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  padding-top: $navbar-height;
+}
+
+.hero {
+  position: relative;
+  padding-block: $spacing-4xl $spacing-2xl;
+  overflow: hidden;
+
+  @include md {
+    padding-block: $spacing-5xl $spacing-3xl;
+  }
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba($accent-primary, 0.15), transparent 50%),
+    radial-gradient(ellipse at 80% 60%, rgba($accent-secondary, 0.12), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container {
+  @include container;
+  position: relative;
+}
+
+.gridSection {
+  padding-bottom: $spacing-5xl;
+}

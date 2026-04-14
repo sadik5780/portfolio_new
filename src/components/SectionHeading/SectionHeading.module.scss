@@ -1,0 +1,53 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.heading {
+  margin-bottom: $spacing-3xl;
+
+  @include md {
+    margin-bottom: $spacing-4xl;
+  }
+
+  &.center {
+    text-align: center;
+
+    .description {
+      margin-inline: auto;
+    }
+  }
+
+  &.left {
+    text-align: left;
+  }
+}
+
+.label {
+  display: inline-block;
+  font-family: $font-mono;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  @include gradient-text;
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  font-size: $fs-4xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: $spacing-lg;
+
+  @include md {
+    font-size: $fs-5xl;
+  }
+}
+
+.description {
+  font-size: $fs-lg;
+  color: $text-secondary;
+  line-height: 1.7;
+  max-width: 600px;
+}

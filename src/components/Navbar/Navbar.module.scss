@@ -1,0 +1,223 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: $navbar-height;
+  display: flex;
+  align-items: center;
+  transition: all $transition-slow;
+  border-bottom: 1px solid transparent;
+
+  &.scrolled {
+    @include glass(24px, 0.75);
+    border-bottom-color: $border-subtle;
+  }
+}
+
+.inner {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+// ── Logo ────────────────────────────────────────────
+.logo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  text-decoration: none;
+  @include focus-ring;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: $accent-gradient;
+  border-radius: $radius-md;
+  font-weight: $fw-bold;
+  font-size: $fs-lg;
+  color: white;
+}
+
+.logoText {
+  font-size: $fs-lg;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+// ── Desktop links ───────────────────────────────────
+.links {
+  display: none;
+  list-style: none;
+  gap: $spacing-xs;
+  margin: 0;
+  padding: 0;
+
+  @include lg {
+    display: flex;
+  }
+}
+
+.link {
+  position: relative;
+  display: block;
+  padding: $spacing-sm $spacing-md;
+  color: $text-secondary;
+  text-decoration: none;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  border-radius: $radius-sm;
+  transition: color $transition-fast;
+  @include focus-ring;
+
+  &:hover {
+    color: $text-primary;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: $spacing-md;
+    right: $spacing-md;
+    height: 2px;
+    background: $accent-gradient;
+    border-radius: 1px;
+    transform: scaleX(0);
+    transition: transform $transition-base;
+  }
+
+  &:hover::after,
+  &.linkActive::after {
+    transform: scaleX(1);
+  }
+}
+
+.linkActive {
+  color: $text-primary;
+}
+
+// ── CTA button ──────────────────────────────────────
+.cta {
+  @include button-base;
+  display: none;
+  padding: 10px 20px;
+  background: $accent-gradient;
+  color: white;
+
+  @include lg {
+    display: inline-flex;
+  }
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+  }
+}
+
+// ── Hamburger ───────────────────────────────────────
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  @include focus-ring;
+
+  @include lg {
+    display: none;
+  }
+
+  span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: $text-primary;
+    border-radius: 1px;
+    transition: all $transition-base;
+    transform-origin: center;
+  }
+
+  &.active {
+    span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    span:nth-child(2) {
+      opacity: 0;
+    }
+    span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}
+
+// ── Mobile menu ─────────────────────────────────────
+.mobileMenu {
+  position: fixed;
+  top: $navbar-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  @include glass(30px, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2xl;
+
+  @include lg {
+    display: none;
+  }
+}
+
+.mobileLinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+}
+
+.mobileLink {
+  font-size: $fs-3xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  text-decoration: none;
+  transition: color $transition-fast;
+  @include focus-ring;
+
+  &:hover {
+    @include gradient-text;
+  }
+}
+
+.mobileCta {
+  @include button-base;
+  padding: 14px 32px;
+  font-size: $fs-base;
+  background: $accent-gradient;
+  color: white;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

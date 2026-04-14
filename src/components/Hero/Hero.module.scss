@@ -1,0 +1,258 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+// ── Animated gradient background ────────────────────
+.gradientBg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.gradient1,
+.gradient2,
+.gradient3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+}
+
+.gradient1 {
+  width: 600px;
+  height: 600px;
+  background: $accent-primary;
+  top: -10%;
+  left: -5%;
+  animation: float1 15s ease-in-out infinite;
+}
+
+.gradient2 {
+  width: 500px;
+  height: 500px;
+  background: $accent-secondary;
+  bottom: -10%;
+  right: -5%;
+  animation: float2 18s ease-in-out infinite;
+}
+
+.gradient3 {
+  width: 400px;
+  height: 400px;
+  background: #ec4899;
+  top: 40%;
+  left: 50%;
+  animation: float3 20s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(80px, 50px) scale(1.1); }
+  66% { transform: translate(-30px, 80px) scale(0.95); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-60px, -40px) scale(1.05); }
+  66% { transform: translate(40px, -70px) scale(1.1); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -60px) scale(1.1); }
+  66% { transform: translate(-70px, 30px) scale(0.9); }
+}
+
+// ── Grid overlay ────────────────────────────────────
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+// ── Noise texture ───────────────────────────────────
+.noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+// ── Content ─────────────────────────────────────────
+.content {
+  position: relative;
+  z-index: 1;
+  @include container;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-block: calc($navbar-height + $spacing-3xl) $spacing-3xl;
+}
+
+// ── Badge ───────────────────────────────────────────
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-full;
+  font-size: $fs-sm;
+  color: $text-secondary;
+  margin-bottom: $spacing-2xl;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+}
+
+// ── Title ───────────────────────────────────────────
+.title {
+  font-size: clamp($fs-4xl, 8vw, $fs-8xl);
+  font-weight: $fw-bold;
+  color: $text-primary;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: $spacing-xl;
+}
+
+.gradient {
+  @include gradient-text;
+}
+
+// ── Subtitle ────────────────────────────────────────
+.subtitle {
+  font-size: $fs-lg;
+  color: $text-secondary;
+  line-height: 1.7;
+  max-width: 540px;
+  margin-bottom: $spacing-2xl;
+
+  @include md {
+    font-size: $fs-xl;
+  }
+}
+
+// ── Buttons ─────────────────────────────────────────
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  justify-content: center;
+  margin-bottom: $spacing-4xl;
+}
+
+.btnPrimary {
+  @include button-base;
+  padding: 14px 28px;
+  font-size: $fs-base;
+  background: $accent-gradient;
+  color: white;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba($accent-primary, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btnSecondary {
+  @include button-base;
+  padding: 14px 28px;
+  font-size: $fs-base;
+  background: transparent;
+  color: $text-primary;
+  border: 1px solid $border-hover;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ── Stats ───────────────────────────────────────────
+.stats {
+  display: flex;
+  gap: $spacing-3xl;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.statValue {
+  font-size: $fs-3xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+
+  @include md {
+    font-size: $fs-4xl;
+  }
+}
+
+.statLabel {
+  font-size: $fs-sm;
+  color: $text-tertiary;
+  font-weight: $fw-medium;
+}
+
+// ── Scroll indicator ────────────────────────────────
+.scrollIndicator {
+  position: absolute;
+  bottom: $spacing-2xl;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 40px;
+  border: 2px solid $border-hover;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.scrollDot {
+  width: 4px;
+  height: 8px;
+  background: $text-tertiary;
+  border-radius: 2px;
+}

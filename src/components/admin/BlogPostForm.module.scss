@@ -1,0 +1,237 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.block {
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: $border-hover;
+  }
+
+  &:focus-within {
+    border-color: rgba($accent-primary, 0.4);
+  }
+}
+
+.blockHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid $border-subtle;
+}
+
+.blockType {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  color: $text-tertiary;
+  font-family: $font-mono;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.blockIndex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: rgba($accent-primary, 0.12);
+  color: $accent-primary;
+  border-radius: $radius-sm;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
+.blockActions {
+  display: flex;
+  gap: 4px;
+}
+
+.blockBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover:not(:disabled) {
+    color: $text-primary;
+    border-color: $border-hover;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.blockBtnDanger {
+  &:hover:not(:disabled) {
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.05);
+  }
+}
+
+.blockBody {
+  padding: $spacing-md;
+}
+
+// ── List editor (ul/ol) ─────────────────────────
+.listEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.listBullet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  font-size: $fs-sm;
+  color: $accent-primary;
+  font-weight: $fw-semibold;
+  flex-shrink: 0;
+}
+
+.listRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  color: $text-tertiary;
+  cursor: pointer;
+  transition: all $transition-fast;
+  flex-shrink: 0;
+
+  &:hover {
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+}
+
+.listAdd {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px dashed $border-hover;
+  border-radius: $radius-sm;
+  color: $text-tertiary;
+  font-family: inherit;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $accent-primary;
+    border-color: rgba($accent-primary, 0.4);
+    background: rgba($accent-primary, 0.04);
+  }
+}
+
+// ── CTA editor ──────────────────────────────────
+.ctaEditor {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+// ── Add block menu ──────────────────────────────
+.addWrap {
+  position: relative;
+  display: inline-block;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px dashed $border-hover;
+  border-radius: $radius-md;
+  color: $text-secondary;
+  font-family: inherit;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $accent-primary;
+    border-color: rgba($accent-primary, 0.5);
+    background: rgba($accent-primary, 0.04);
+  }
+}
+
+.addMenu {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: 10;
+  min-width: 200px;
+  padding: 4px;
+  background: $bg-card;
+  border: 1px solid $border-hover;
+  border-radius: $radius-md;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.addMenuItem {
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-family: inherit;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  text-align: left;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba($accent-primary, 0.08);
+  }
+}

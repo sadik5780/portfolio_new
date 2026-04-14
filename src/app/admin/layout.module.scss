@@ -1,0 +1,21 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+$sidebar-width: 260px;
+
+.shell {
+  min-height: 100vh;
+  background: $bg-primary;
+  display: flex;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding-top: 60px;
+
+  @include lg {
+    padding-left: $sidebar-width;
+    padding-top: 0;
+  }
+}

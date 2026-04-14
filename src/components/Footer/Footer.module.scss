@@ -1,0 +1,141 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.footer {
+  background: $bg-secondary;
+  border-top: 1px solid $border-subtle;
+  padding-block: $spacing-xl $spacing-lg;
+}
+
+.container {
+  @include container;
+}
+
+// ── Main row: brand · nav · socials ────────────────
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid $border-subtle;
+
+  @include md {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: $accent-gradient;
+  border-radius: $radius-sm;
+  font-weight: $fw-bold;
+  font-size: $fs-sm;
+  color: white;
+}
+
+.logoText {
+  font-size: $fs-base;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+.nav {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.navLink {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  text-decoration: none;
+  font-weight: $fw-medium;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.socials {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: $text-tertiary;
+  border-radius: $radius-sm;
+  transition: all $transition-fast;
+  @include focus-ring;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+// ── Bottom row: copyright + legal links ───────────
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  padding-top: $spacing-lg;
+
+  @include md {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: $spacing-md;
+  }
+}
+
+.copy {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  text-align: center;
+  margin: 0;
+}
+
+.legal {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.legalLink {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  text-decoration: none;
+  font-weight: $fw-medium;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.legalSep {
+  font-size: $fs-xs;
+  color: $border-hover;
+}

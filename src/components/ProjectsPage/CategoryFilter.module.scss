@@ -1,0 +1,70 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  justify-content: center;
+  margin-bottom: $spacing-3xl;
+}
+
+.chip {
+  position: relative;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-full;
+  color: $text-secondary;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color $transition-fast, border-color $transition-fast;
+  @include focus-ring;
+
+  &:hover {
+    color: $text-primary;
+    border-color: $border-hover;
+  }
+}
+
+.chipActive {
+  color: white;
+  border-color: transparent;
+}
+
+.chipBackground {
+  position: absolute;
+  inset: 0;
+  background: $accent-gradient;
+  border-radius: $radius-full;
+  z-index: 0;
+  box-shadow: 0 4px 20px rgba($accent-primary, 0.3);
+}
+
+.chipText {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.chipCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: $radius-full;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  font-family: $font-mono;
+
+  .chip:not(.chipActive) & {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
