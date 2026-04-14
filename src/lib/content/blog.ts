@@ -1,6 +1,7 @@
 import 'server-only';
 import { getSupabaseServer } from '@/lib/supabase/server';
 import { hasSupabaseEnv } from '@/lib/supabase/client';
+import { withTimeout, SUPABASE_READ_TIMEOUT_MS } from './with-timeout';
 import {
   blogPosts as staticPosts,
   type BlogPost,
@@ -53,23 +54,29 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   if (!hasSupabaseEnv()) return staticPosts;
 
   const supabase = getSupabaseServer();
-  const { data, error } = await supabase
+  const query = supabase
     .from('blog_posts')
     .select('*')
     .eq('published', true)
     .order('published_at', { ascending: false });
 
+  const result = await withTimeout(
+    query as unknown as Promise<{ data: BlogPostRow[] | null; error: { message: string } | null }>,
+    SUPABASE_READ_TIMEOUT_MS,
+    { data: null, error: { message: 'timeout' } },
+    'blog:list',
+  );
+
+  const { data, error } = result;
   if (error) {
-    // schema-cache errors happen before migration is run — fall back silently
-    if (!/schema cache|does not exist/i.test(error.message)) {
+    if (!/schema cache|does not exist|timeout/i.test(error.message)) {
       console.error('[blog] list error', error.message);
     }
     return staticPosts;
   }
 
   if (!data || data.length === 0) return staticPosts;
-
-  return (data as BlogPostRow[]).map(rowToPost);
+  return data.map(rowToPost);
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
@@ -78,22 +85,28 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   }
 
   const supabase = getSupabaseServer();
-  const { data, error } = await supabase
+  const query = supabase
     .from('blog_posts')
     .select('*')
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle();
 
+  const result = await withTimeout(
+    query as unknown as Promise<{ data: BlogPostRow | null; error: { message: string } | null }>,
+    SUPABASE_READ_TIMEOUT_MS,
+    { data: null, error: { message: 'timeout' } },
+    'blog:getBySlug',
+  );
+
+  const { data, error } = result;
   if (error) {
-    if (!/schema cache|does not exist/i.test(error.message)) {
+    if (!/schema cache|does not exist|timeout/i.test(error.message)) {
       console.error('[blog] getBySlug error', error.message);
     }
     return staticPosts.find((p) => p.slug === slug) ?? null;
   }
-
-  if (data) return rowToPost(data as BlogPostRow);
-  // Fall through to static for slugs that exist only in the bundled content
+  if (data) return rowToPost(data);
   return staticPosts.find((p) => p.slug === slug) ?? null;
 }
 
@@ -101,15 +114,23 @@ export async function getAllBlogSlugs(): Promise<string[]> {
   if (!hasSupabaseEnv()) return staticPosts.map((p) => p.slug);
 
   const supabase = getSupabaseServer();
-  const { data, error } = await supabase
+  const query = supabase
     .from('blog_posts')
     .select('slug')
     .eq('published', true);
 
+  const result = await withTimeout(
+    query as unknown as Promise<{ data: { slug: string }[] | null; error: { message: string } | null }>,
+    SUPABASE_READ_TIMEOUT_MS,
+    { data: null, error: { message: 'timeout' } },
+    'blog:slugs',
+  );
+
+  const { data, error } = result;
   if (error || !data || data.length === 0) {
     return staticPosts.map((p) => p.slug);
   }
-  return (data as { slug: string }[]).map((r) => r.slug);
+  return data.map((r) => r.slug);
 }
 
 export async function getRelatedPosts(

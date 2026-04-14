@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import ServicesPricing from './ServicesPricing';
 import AppBuilder from './AppBuilder';
@@ -13,16 +13,39 @@ import styles from './PricingShell.module.scss';
 
 interface PricingShellProps {
   pricing: PricingContent;
-  /** Defaults based on the visitor's country (INR for India, USD otherwise). */
-  initialCurrency?: Currency;
 }
 
-export default function PricingShell({
-  pricing,
-  initialCurrency = 'inr',
-}: PricingShellProps) {
-  // Currency is fixed per visit — driven by server-side geo detection.
-  const currency = initialCurrency;
+/**
+ * Detect whether the visitor is in India — from browser timezone first,
+ * locale as a backup. Runs purely client-side so the server render stays
+ * fully static (cached at the CDN edge).
+ */
+function isIndianVisitor(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz === 'Asia/Kolkata' || tz === 'Asia/Calcutta') return true;
+  } catch {
+    // Safari/old browsers — ignore
+  }
+  try {
+    const locale = navigator.language || '';
+    if (locale.toLowerCase().endsWith('-in')) return true;
+  } catch {
+    // ignore
+  }
+  return false;
+}
+
+export default function PricingShell({ pricing }: PricingShellProps) {
+  // Server always renders INR to avoid hydration mismatch. Client effect flips
+  // to USD for non-Indian visitors after hydration (typically within ~10ms).
+  const [currency, setCurrency] = useState<Currency>('inr');
+
+  useEffect(() => {
+    if (!isIndianVisitor()) setCurrency('usd');
+  }, []);
+
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [preset, setPreset] = useState<ContactFormPreset | null>(null);
   const formRef = useRef<HTMLDivElement>(null);

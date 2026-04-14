@@ -9,8 +9,8 @@ import Footer from '@/components/Footer/Footer';
 import { getAllSettings } from '@/lib/content/settings';
 import { getFeaturedProjects } from '@/lib/content/projects';
 
-// Refresh site content from Supabase every 60s (admin mutations also revalidate).
-export const revalidate = 60;
+// 10-min revalidate; admin mutations call revalidatePath('/') for instant updates.
+export const revalidate = 600;
 
 export default async function Home() {
   const [settings, featured] = await Promise.all([

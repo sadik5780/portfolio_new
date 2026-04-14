@@ -7,8 +7,8 @@ import { buildMetadata } from '@/lib/seo';
 import { getProjects } from '@/lib/content/projects';
 import styles from './page.module.scss';
 
-// Revalidate from Supabase every 60s; admin mutations also call revalidatePath.
-export const revalidate = 60;
+// 10-min revalidate; admin mutations also call revalidatePath for instant updates.
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Projects — SaaS, Shopify & Web App Case Studies by Sadik',

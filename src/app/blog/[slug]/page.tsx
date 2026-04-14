@@ -12,7 +12,7 @@ import {
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 interface PageProps {
   params: { slug: string };

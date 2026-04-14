@@ -1,6 +1,7 @@
 import 'server-only';
 import { getSupabaseServer } from '@/lib/supabase/server';
 import { hasSupabaseEnv } from '@/lib/supabase/client';
+import { withTimeout, SUPABASE_READ_TIMEOUT_MS } from './with-timeout';
 import {
   DEFAULT_HERO,
   DEFAULT_STATS,
@@ -41,14 +42,23 @@ export async function getSetting<T = unknown>(key: SettingsKey): Promise<T> {
   if (!hasSupabaseEnv()) return fallback;
 
   const supabase = getSupabaseServer();
-  const { data, error } = await supabase
+  const query = supabase
     .from('settings')
     .select('value')
     .eq('key', key)
     .maybeSingle();
 
+  const { data, error } = await withTimeout(
+    query as unknown as Promise<{ data: { value: unknown } | null; error: { message: string } | null }>,
+    SUPABASE_READ_TIMEOUT_MS,
+    { data: null, error: { message: 'timeout' } },
+    `settings:${key}`,
+  );
+
   if (error) {
-    console.error(`[settings] get(${key}) error`, error.message);
+    if (!/schema cache|does not exist|timeout/i.test(error.message)) {
+      console.error(`[settings] get(${key}) error`, error.message);
+    }
     return fallback;
   }
   if (!data) return fallback;
@@ -97,10 +107,19 @@ export async function getAllSettings(): Promise<{
   }
 
   const supabase = getSupabaseServer();
-  const { data, error } = await supabase.from('settings').select('key,value');
+  const query = supabase.from('settings').select('key,value');
+
+  const { data, error } = await withTimeout(
+    query as unknown as Promise<{ data: { key: string; value: unknown }[] | null; error: { message: string } | null }>,
+    SUPABASE_READ_TIMEOUT_MS,
+    { data: null, error: { message: 'timeout' } },
+    'settings:all',
+  );
 
   if (error || !data) {
-    if (error) console.error('[settings] getAll error', error.message);
+    if (error && !/schema cache|does not exist|timeout/i.test(error.message)) {
+      console.error('[settings] getAll error', error.message);
+    }
     return {
       hero: DEFAULT_HERO,
       stats: DEFAULT_STATS,

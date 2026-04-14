@@ -7,7 +7,7 @@ import { getBlogPosts } from '@/lib/content/blog';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
-export const revalidate = 60;
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Blog — React, Shopify, and SaaS development insights',

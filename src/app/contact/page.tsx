@@ -7,10 +7,12 @@ import FAQ from '@/components/FAQ/FAQ';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import { faqs } from '@/data/faqs';
 import { getPricing } from '@/lib/content/settings';
-import { detectCurrencyFromHeaders } from '@/lib/payments/locale';
 import styles from './page.module.scss';
 
-export const revalidate = 60;
+// Page is now fully static. Admin pricing edits call revalidatePath('/contact')
+// so changes go live immediately; otherwise the CDN serves the cached page
+// for an hour. Currency detection is client-side (see PricingShell).
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildMetadata({
   title:
@@ -43,7 +45,6 @@ const faqJsonLd = {
 
 export default async function ContactPage() {
   const pricing = await getPricing();
-  const initialCurrency = detectCurrencyFromHeaders();
 
   const serviceJsonLd = {
     '@context': 'https://schema.org',
@@ -118,7 +119,7 @@ export default async function ContactPage() {
           </div>
         </section>
 
-        <PricingShell pricing={pricing} initialCurrency={initialCurrency} />
+        <PricingShell pricing={pricing} />
 
         <FAQ />
       </main>
