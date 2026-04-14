@@ -4,31 +4,21 @@
 .footer {
   background: $bg-secondary;
   border-top: 1px solid $border-subtle;
-<<<<<<< HEAD
   padding-block: $spacing-xl $spacing-lg;
-=======
-  padding-block: $spacing-2xl;
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
 }
 
 .container {
   @include container;
 }
 
-<<<<<<< HEAD
 // ── Main row: brand · nav · socials ────────────────
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
 .inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: $spacing-lg;
-<<<<<<< HEAD
   padding-bottom: $spacing-lg;
   border-bottom: 1px solid $border-subtle;
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
 
   @include md {
     flex-direction: row;
@@ -62,7 +52,6 @@
   letter-spacing: -0.02em;
 }
 
-<<<<<<< HEAD
 .nav {
   display: flex;
   gap: $spacing-md;
@@ -80,12 +69,6 @@
   &:hover {
     color: $text-primary;
   }
-=======
-.copy {
-  font-size: $fs-sm;
-  color: $text-tertiary;
-  text-align: center;
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
 }
 
 .socials {
@@ -109,7 +92,6 @@
     background: rgba(255, 255, 255, 0.05);
   }
 }
-<<<<<<< HEAD
 
 // ── Bottom row: copyright + legal links ───────────
 .bottom {
@@ -157,5 +139,3 @@
   font-size: $fs-xs;
   color: $border-hover;
 }
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36

@@ -3,10 +3,7 @@ import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
 import Services from '@/components/Services/Services';
 import Projects from '@/components/Projects/Projects';
-<<<<<<< HEAD
 import Testimonials from '@/components/Testimonials/Testimonials';
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
 import Contact from '@/components/Contact/Contact';
 import Footer from '@/components/Footer/Footer';
 import { getAllSettings } from '@/lib/content/settings';
@@ -29,10 +26,7 @@ export default async function Home() {
         <About content={settings.about} skills={settings.skills} />
         <Services content={settings.services} />
         <Projects featured={featured} />
-<<<<<<< HEAD
         <Testimonials />
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
         <Contact />
       </main>
       <Footer />

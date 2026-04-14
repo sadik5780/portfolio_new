@@ -28,7 +28,6 @@ const NAV = [
     ),
   },
   {
-<<<<<<< HEAD
     href: '/admin/blog',
     label: 'Blog',
     icon: (
@@ -42,8 +41,6 @@ const NAV = [
     ),
   },
   {
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
     href: '/admin/leads',
     label: 'Leads',
     icon: (

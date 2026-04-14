@@ -21,12 +21,8 @@ export default function PricingShell({
   pricing,
   initialCurrency = 'inr',
 }: PricingShellProps) {
-<<<<<<< HEAD
   // Currency is fixed per visit — driven by server-side geo detection.
   const currency = initialCurrency;
-=======
-  const [currency, setCurrency] = useState<Currency>(initialCurrency);
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [preset, setPreset] = useState<ContactFormPreset | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -76,12 +72,7 @@ export default function PricingShell({
             <span className={styles.label}>Services &amp; Pricing</span>
             <h2 className={styles.title}>Clear, fixed pricing</h2>
             <p className={styles.copy}>
-<<<<<<< HEAD
               Fixed quotes. Every scope is agreed in writing before
-=======
-              Fixed quotes in INR for India and USD for international clients
-              (USA, Australia, UK, EU). Every scope is agreed in writing before
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
               work starts — no surprise bills.
             </p>
           </motion.div>
@@ -89,10 +80,6 @@ export default function PricingShell({
           <ServicesPricing
             pricing={pricing}
             currency={currency}
-<<<<<<< HEAD
-=======
-            onCurrencyChange={setCurrency}
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
             onQuickSelect={handleQuickSelect}
           />
         </div>

@@ -27,19 +27,12 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-<<<<<<< HEAD
 // ─── Schema.org JSON-LD on every page ────────────
 // Person — identifies the human behind the brand
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   '@id': `${siteConfig.url}/#person`,
-=======
-// Organization / Person JSON-LD for homepage
-const personJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
   name: siteConfig.fullName,
   alternateName: siteConfig.name,
   url: siteConfig.url,
@@ -55,7 +48,6 @@ const personJsonLd = {
     'Next.js',
     'TypeScript',
     'Shopify',
-<<<<<<< HEAD
     'Hydrogen',
     'Node.js',
     'PostgreSQL',
@@ -63,10 +55,6 @@ const personJsonLd = {
     'Razorpay',
     'SaaS Development',
     'E-commerce',
-=======
-    'Node.js',
-    'SaaS Development',
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
   ],
   areaServed: [
     { '@type': 'Country', name: 'India' },
@@ -75,7 +63,6 @@ const personJsonLd = {
   ],
 };
 
-<<<<<<< HEAD
 // Organization — gives Google a business entity to link reviews, offers,
 // and contact info to (distinct from the individual Person).
 const organizationJsonLd = {
@@ -112,8 +99,6 @@ const websiteJsonLd = {
   inLanguage: 'en',
 };
 
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
 export default function RootLayout({
   children,
 }: {
@@ -126,7 +111,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-<<<<<<< HEAD
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -135,8 +119,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-=======
->>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
       </head>
       <body>{children}</body>
     </html>
