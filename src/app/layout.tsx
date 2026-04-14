@@ -40,7 +40,6 @@ const personJsonLd = {
   jobTitle: 'Full-Stack Developer',
   description: siteConfig.description,
   sameAs: [
-    'https://github.com/sadik',
     'https://linkedin.com/in/sadik',
     'https://twitter.com/sadikdev',
   ],
@@ -77,7 +76,6 @@ const organizationJsonLd = {
   founder: { '@id': `${siteConfig.url}/#person` },
   email: 'hello@sadik.dev',
   sameAs: [
-    'https://github.com/sadik',
     'https://linkedin.com/in/sadik',
     'https://twitter.com/sadikdev',
   ],

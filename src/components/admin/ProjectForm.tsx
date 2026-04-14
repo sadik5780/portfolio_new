@@ -321,27 +321,15 @@ export default function ProjectForm({ mode, project }: ProjectFormProps) {
           aspectRatio="16 / 10"
         />
 
-        <div className={styles.formRow}>
-          <div className={styles.field}>
-            <label className={styles.label}>Live URL</label>
-            <input
-              type="url"
-              className={styles.input}
-              value={state.liveUrl}
-              onChange={(e) => update('liveUrl', e.target.value)}
-              placeholder="https://example.com"
-            />
-          </div>
-          <div className={styles.field}>
-            <label className={styles.label}>GitHub URL</label>
-            <input
-              type="url"
-              className={styles.input}
-              value={state.githubUrl}
-              onChange={(e) => update('githubUrl', e.target.value)}
-              placeholder="https://github.com/..."
-            />
-          </div>
+        <div className={styles.field}>
+          <label className={styles.label}>Live URL</label>
+          <input
+            type="url"
+            className={styles.input}
+            value={state.liveUrl}
+            onChange={(e) => update('liveUrl', e.target.value)}
+            placeholder="https://example.com"
+          />
         </div>
       </div>
 

@@ -126,7 +126,7 @@ insert into public.projects (
     '["Multi-tenant architecture with workspace isolation","Real-time analytics dashboards with sub-100ms query times","Role-based access control (RBAC) for teams","Automated PDF report generation and email delivery","Stripe-powered usage metering and subscription billing","Audit logs and SOC-2 compliant activity tracking","REST + webhook API for customer integrations"]',
     '["/projects/aurora-dashboard.jpg","/projects/aurora-reports.jpg","/projects/aurora-billing.jpg","/projects/aurora-team.jpg"]',
     '["Next.js","TypeScript","PostgreSQL","Redis","Stripe"]',
-    '/projects/aurora.jpg', 'https://aurora-demo.dev', 'https://github.com/username/aurora',
+    '/projects/aurora.jpg', 'https://aurora-demo.dev', null,
     true, '2024', 'Aurora Labs Inc.', 10
 ),
 (
@@ -138,7 +138,7 @@ insert into public.projects (
     '["50+ fully accessible (WCAG AA) React components","Token-based theming with dark/light + brand color support","Figma plugin for two-way design token sync","Comprehensive Storybook documentation site","Automated accessibility testing with axe-core","Zero-runtime CSS via vanilla-extract","Semantic versioning with automated changelogs"]',
     '["/projects/neural-components.jpg","/projects/neural-theming.jpg","/projects/neural-storybook.jpg"]',
     '["React","Storybook","Figma API","Radix UI","SCSS"]',
-    '/projects/neural.jpg', 'https://neural-ui.dev', 'https://github.com/username/neural-ui',
+    '/projects/neural.jpg', 'https://neural-ui.dev', null,
     true, '2024', 'Internal Platform Team', 20
 ),
 (
@@ -150,7 +150,7 @@ insert into public.projects (
     '["Real-time WebSocket market data from 3+ exchanges","TradingView-style interactive candlestick charts (D3.js)","Unified order ticket across exchanges","Custom trading bot API with backtesting UI","Portfolio P&L tracking with cost-basis accounting","Price alerts via SMS, email, and desktop push"]',
     '["/projects/crypto-dashboard.jpg","/projects/crypto-chart.jpg","/projects/crypto-portfolio.jpg"]',
     '["React","Node.js","WebSocket","D3.js","MongoDB"]',
-    '/projects/cryptoflow.jpg', null, 'https://github.com/username/cryptoflow',
+    '/projects/cryptoflow.jpg', null, null,
     true, '2023', 'FinTech Studio', 30
 ),
 (
@@ -186,7 +186,7 @@ insert into public.projects (
     '["Self-hosted Kubernetes build runners","Visual drag-and-drop pipeline editor","GitHub webhook integration","Parallel test execution with auto-sharding","Build analytics + flaky test detection","Slack / Discord notifications"]',
     '["/projects/cloudpipe-builds.jpg","/projects/cloudpipe-editor.jpg","/projects/cloudpipe-analytics.jpg"]',
     '["Go","Docker","GitHub API","React","gRPC"]',
-    '/projects/cloudpipe.jpg', 'https://cloudpipe.dev', 'https://github.com/username/cloudpipe',
+    '/projects/cloudpipe.jpg', 'https://cloudpipe.dev', null,
     false, '2023', 'Internal DevEx Team', 60
 ),
 (
