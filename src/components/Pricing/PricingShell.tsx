@@ -77,6 +77,7 @@ export default function PricingShell({
             </p>
           </motion.div>
 
+
           <ServicesPricing
             pricing={pricing}
             currency={currency}
