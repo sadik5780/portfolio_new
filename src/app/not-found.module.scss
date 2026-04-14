@@ -1,0 +1,91 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl $spacing-lg;
+  padding-top: calc($navbar-height + $spacing-2xl);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba($accent-primary, 0.15), transparent 50%),
+      radial-gradient(ellipse at 70% 70%, rgba($accent-secondary, 0.12), transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $spacing-md;
+  max-width: 480px;
+}
+
+.code {
+  font-family: $font-mono;
+  font-size: $fs-sm;
+  letter-spacing: 0.12em;
+  color: $accent-primary;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: $fs-4xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.03em;
+
+  @include md {
+    font-size: $fs-5xl;
+  }
+}
+
+.copy {
+  font-size: $fs-lg;
+  color: $text-secondary;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+}
+
+.btnPrimary {
+  @include button-base;
+  padding: 12px 24px;
+  background: $accent-gradient;
+  color: white;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+}
+
+.btnSecondary {
+  @include button-base;
+  padding: 12px 24px;
+  background: transparent;
+  color: $text-primary;
+  border: 1px solid $border-hover;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}

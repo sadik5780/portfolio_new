@@ -1,0 +1,373 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+}
+
+// ── Currency toggle ─────────────────────────────────
+.currencyToggle {
+  display: inline-flex;
+  padding: 4px;
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-full;
+  align-self: center;
+  gap: 2px;
+}
+
+.currencyBtn {
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  color: $text-secondary;
+  font-family: inherit;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: all $transition-fast;
+  @include focus-ring;
+
+  &:hover:not(.currencyActive) {
+    color: $text-primary;
+  }
+}
+
+.currencyActive {
+  background: $accent-gradient;
+  color: white;
+  box-shadow: 0 4px 15px rgba($accent-primary, 0.3);
+}
+
+// ── Shopify card ────────────────────────────────────
+.card {
+  @include card;
+  padding: $spacing-xl;
+  overflow: hidden;
+  position: relative;
+
+  @include md {
+    padding: $spacing-2xl;
+  }
+}
+
+.shopifyCard {
+  background: linear-gradient(135deg, $bg-card 0%, rgba($accent-primary, 0.04) 100%);
+}
+
+.cardInner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-xl;
+  align-items: center;
+
+  @include md {
+    grid-template-columns: 1.3fr 1fr;
+    gap: $spacing-2xl;
+  }
+}
+
+.cardLeft {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.cardLabel {
+  font-family: $font-mono;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  @include gradient-text;
+}
+
+.cardTitle {
+  font-size: $fs-2xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+
+  @include md {
+    font-size: $fs-3xl;
+  }
+}
+
+.cardCopy {
+  font-size: $fs-base;
+  color: $text-secondary;
+  line-height: 1.7;
+}
+
+.cardList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  li {
+    position: relative;
+    padding-left: $spacing-lg;
+    font-size: $fs-sm;
+    color: $text-secondary;
+    line-height: 1.5;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 6px;
+      height: 6px;
+      background: $accent-primary;
+      border-radius: 50%;
+    }
+  }
+}
+
+.cardRight {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  padding: $spacing-xl;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  align-items: flex-start;
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.priceLabel {
+  font-size: $fs-sm;
+  color: $text-tertiary;
+}
+
+.priceValue {
+  font-size: $fs-4xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  @include gradient-text;
+}
+
+.cardCta {
+  @include button-base;
+  padding: 12px 24px;
+  background: $accent-gradient;
+  color: white;
+  width: 100%;
+  border: none;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+  }
+}
+
+.cardQuoteBtn {
+  align-self: center;
+  background: none;
+  border: none;
+  color: $text-tertiary;
+  font-family: inherit;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  padding: 4px 8px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.tierQuoteBtn {
+  align-self: center;
+  background: none;
+  border: none;
+  color: $text-tertiary;
+  font-family: inherit;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-top: -$spacing-sm;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+// ── Static website section ──────────────────────────
+.staticHeader {
+  text-align: center;
+  max-width: 600px;
+  margin: $spacing-xl auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.staticTitle {
+  font-size: $fs-2xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+.staticCopy {
+  font-size: $fs-base;
+  color: $text-secondary;
+  line-height: 1.6;
+}
+
+// ── Tiers grid ──────────────────────────────────────
+.tiersGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tier {
+  position: relative;
+  @include card;
+  padding: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.tierHighlight {
+  border-color: rgba($accent-primary, 0.4);
+  background: linear-gradient(180deg, rgba($accent-primary, 0.06), $bg-card);
+  box-shadow: 0 0 40px rgba($accent-primary, 0.1);
+
+  &:hover {
+    border-color: rgba($accent-primary, 0.5);
+  }
+}
+
+.tierBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 12px;
+  background: $accent-gradient;
+  color: white;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  border-radius: $radius-full;
+  letter-spacing: 0.04em;
+  font-family: $font-mono;
+}
+
+.tierHead {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.tierName {
+  font-size: $fs-xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+.tierDesc {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.5;
+}
+
+.tierPrice {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-sm;
+  font-size: $fs-3xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.025em;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-subtle;
+}
+
+.tierPriceLabel {
+  font-size: $fs-sm;
+  font-weight: $fw-normal;
+  color: $text-tertiary;
+}
+
+.tierList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  flex: 1;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    font-size: $fs-sm;
+    color: $text-secondary;
+    line-height: 1.5;
+
+    svg {
+      color: $accent-primary;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+  }
+}
+
+.tierCta {
+  @include button-base;
+  padding: 12px 20px;
+  background: transparent;
+  color: $text-primary;
+  border: 1px solid $border-hover;
+  width: 100%;
+
+  &:hover {
+    background: $accent-gradient;
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.3);
+  }
+
+  .tierHighlight & {
+    background: $accent-gradient;
+    color: white;
+    border-color: transparent;
+
+    &:hover {
+      opacity: 0.9;
+      box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+    }
+  }
+}

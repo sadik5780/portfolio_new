@@ -1,0 +1,201 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  padding-block: $spacing-3xl;
+  background: $bg-secondary;
+  border-top: 1px solid $border-subtle;
+  border-bottom: 1px solid $border-subtle;
+
+  @include md {
+    padding-block: $spacing-4xl;
+  }
+}
+
+.container {
+  @include container;
+}
+
+.header {
+  margin-bottom: $spacing-2xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  @include gradient-text;
+}
+
+.title {
+  font-size: $fs-3xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.025em;
+
+  @include md {
+    font-size: $fs-4xl;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.item {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+  @include focus-ring;
+
+  &:hover .itemOverlay {
+    opacity: 1;
+  }
+}
+
+.itemImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  width: 100%;
+  height: 100%;
+  color: $text-tertiary;
+  background: linear-gradient(135deg, $bg-secondary 0%, $bg-tertiary 100%);
+
+  span {
+    font-size: $fs-sm;
+    color: $text-secondary;
+    font-weight: $fw-medium;
+  }
+}
+
+.itemOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($bg-primary, 0.65);
+  color: $text-primary;
+  opacity: 0;
+  transition: opacity $transition-base;
+  backdrop-filter: blur(2px);
+}
+
+// ── Lightbox ────────────────────────────────────────
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  padding: $spacing-lg;
+}
+
+.lightboxContent {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  aspect-ratio: 16 / 10;
+  background: $bg-secondary;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.6);
+}
+
+.lightboxImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+  width: 100%;
+  height: 100%;
+  color: $text-tertiary;
+
+  span {
+    font-size: $fs-base;
+    color: $text-secondary;
+    font-weight: $fw-medium;
+  }
+}
+
+.closeBtn,
+.navPrev,
+.navNext {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid $border-subtle;
+  color: $text-primary;
+  cursor: pointer;
+  transition: all $transition-fast;
+  z-index: 10;
+  @include focus-ring;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.closeBtn {
+  top: $spacing-md;
+  right: $spacing-md;
+}
+
+.navPrev {
+  top: 50%;
+  left: $spacing-md;
+  transform: translateY(-50%);
+}
+
+.navNext {
+  top: 50%;
+  right: $spacing-md;
+  transform: translateY(-50%);
+}
+
+.counter {
+  position: absolute;
+  bottom: $spacing-md;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-full;
+  color: $text-primary;
+  font-size: $fs-xs;
+  font-family: $font-mono;
+  font-weight: $fw-medium;
+}

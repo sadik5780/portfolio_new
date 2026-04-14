@@ -1,0 +1,100 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  @include section-padding;
+  background: $bg-secondary;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $border-subtle, transparent);
+  }
+}
+
+.container {
+  @include container;
+  max-width: 840px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.item {
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: $border-hover;
+  }
+}
+
+.itemOpen {
+  border-color: rgba($accent-primary, 0.3);
+  background: $bg-card-hover;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  width: 100%;
+  padding: $spacing-lg;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: $fs-base;
+  font-weight: $fw-medium;
+  color: $text-primary;
+  text-align: left;
+  cursor: pointer;
+  @include focus-ring;
+
+  @include md {
+    padding: $spacing-lg $spacing-xl;
+    font-size: $fs-lg;
+  }
+}
+
+.questionText {
+  flex: 1;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: $accent-primary;
+  flex-shrink: 0;
+}
+
+.answer {
+  overflow: hidden;
+
+  p {
+    padding: 0 $spacing-lg $spacing-lg;
+    font-size: $fs-base;
+    color: $text-secondary;
+    line-height: 1.75;
+
+    @include md {
+      padding: 0 $spacing-xl $spacing-lg;
+    }
+  }
+}

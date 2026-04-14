@@ -1,0 +1,55 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.block {
+  padding-block: $spacing-3xl;
+
+  @include md {
+    padding-block: $spacing-4xl;
+  }
+}
+
+.blockBuilder {
+  background: $bg-secondary;
+  border-top: 1px solid $border-subtle;
+  border-bottom: 1px solid $border-subtle;
+}
+
+.container {
+  @include container;
+}
+
+.blockHead {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto $spacing-3xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  @include gradient-text;
+}
+
+.title {
+  font-size: $fs-3xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.025em;
+
+  @include md {
+    font-size: $fs-4xl;
+  }
+}
+
+.copy {
+  font-size: $fs-base;
+  color: $text-secondary;
+  line-height: 1.7;
+}
