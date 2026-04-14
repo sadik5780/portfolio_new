@@ -67,12 +67,15 @@ export function buildMetadata({
     creator: siteConfig.author,
     metadataBase: new URL(siteConfig.url),
     alternates: { canonical: url },
+<<<<<<< HEAD
     verification: {
       other: {
         // Bing Webmaster Tools site verification
         'msvalidate.01': '895133D1B0D1CB306691473722082FDA',
       },
     },
+=======
+>>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
     robots: noIndex
       ? { index: false, follow: false }
       : {

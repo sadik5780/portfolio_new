@@ -9,6 +9,10 @@ import styles from './ServicesPricing.module.scss';
 interface ServicesPricingProps {
   pricing: PricingContent;
   currency: Currency;
+<<<<<<< HEAD
+=======
+  onCurrencyChange: (c: Currency) => void;
+>>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
   onQuickSelect: (projectType: string, amount: number) => void;
 }
 
@@ -28,12 +32,37 @@ const cardVariants = {
 export default function ServicesPricing({
   pricing,
   currency,
+<<<<<<< HEAD
+=======
+  onCurrencyChange,
+>>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
   onQuickSelect,
 }: ServicesPricingProps) {
   const shopifyAmount = pricing.shopify[currency];
 
   return (
     <div className={styles.wrapper}>
+<<<<<<< HEAD
+=======
+      <div className={styles.currencyToggle} role="tablist" aria-label="Switch currency">
+        <button
+          className={`${styles.currencyBtn} ${currency === 'inr' ? styles.currencyActive : ''}`}
+          onClick={() => onCurrencyChange('inr')}
+          role="tab"
+          aria-selected={currency === 'inr'}
+        >
+          India — INR
+        </button>
+        <button
+          className={`${styles.currencyBtn} ${currency === 'usd' ? styles.currencyActive : ''}`}
+          onClick={() => onCurrencyChange('usd')}
+          role="tab"
+          aria-selected={currency === 'usd'}
+        >
+          International — USD
+        </button>
+      </div>
+>>>>>>> fc616681f6243c7bc016172f2407bc8c1b30af36
 
       {/* ── Shopify card ────────────────────── */}
       <motion.div
