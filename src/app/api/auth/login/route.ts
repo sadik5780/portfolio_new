@@ -103,7 +103,18 @@ export async function POST(request: Request) {
 
   if (!(userOk && passOk)) {
     await sleep(BASE_DELAY_MS);
-    logSecurityEvent('auth.login.failed', { ip, user: username });
+    // Server-only diagnostic: which check failed + env-var presence/shape.
+    // Never returned to client. Inspect host logs to debug prod-only failures.
+    logSecurityEvent('auth.login.failed', {
+      ip,
+      user: username,
+      userOk,
+      passOk,
+      expectedUserLen: process.env.ADMIN_USER?.length ?? 0,
+      hasHash: Boolean(process.env.ADMIN_PASSWORD_HASH),
+      hashPrefix: process.env.ADMIN_PASSWORD_HASH?.slice(0, 4) || null,
+      hasPlain: Boolean(process.env.ADMIN_PASSWORD),
+    });
     return NextResponse.json(
       { error: 'Invalid username or password.' },
       { status: 401 },
