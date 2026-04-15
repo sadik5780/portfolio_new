@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return buildMetadata({
     title: `${project.title} — Case Study`,
-    description: `${project.description} Built by Sadik using ${project.tags
+    description: `${project.description} Built by Sadik Studio using ${project.tags
       .slice(0, 4)
       .join(', ')}.`,
     path: `/projects/${project.slug}`,
@@ -46,7 +46,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       'portfolio',
       `hire ${project.category.toLowerCase()} developer`,
     ],
-    images: project.image ? [`${siteConfig.url}${project.image}`] : undefined,
+    // Images intentionally omitted — Next.js auto-wires the dynamic
+    // opengraph-image.tsx at /opengraph-image as the fallback. Per-project
+    // images can be added later via app/projects/[slug]/opengraph-image.tsx.
   });
 }
 
@@ -59,14 +61,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     '@type': 'CreativeWork',
     name: project.title,
     description: project.longDescription || project.description,
-    author: {
-      '@type': 'Person',
-      name: siteConfig.fullName,
-      url: siteConfig.url,
-    },
+    author: { '@id': `${siteConfig.url}/#person` },
+    publisher: { '@id': `${siteConfig.url}/#organization` },
     datePublished: project.year,
     keywords: project.tags.join(', '),
-    image: project.image ? `${siteConfig.url}${project.image}` : undefined,
+    image: `${siteConfig.url}/opengraph-image`,
     url: `${siteConfig.url}/projects/${project.slug}`,
   };
 

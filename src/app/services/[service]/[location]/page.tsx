@@ -66,8 +66,12 @@ export function generateMetadata({ params }: PageProps): Metadata {
   }
 
   const priceFromLabel = startingPriceFor(service, location);
-  const title = `Hire a ${service.name} in ${location.country} | From ${priceFromLabel}`;
-  const description = `Hire a senior ${service.shortName} developer for your ${location.country} startup or scale-up. ${location.timezoneOffsetLabel} overlap, fixed ${priceCurrencyCode(location.currency)} pricing from ${priceFromLabel}, 24-hour reply. Founder-led — direct with the engineer building your product.`;
+  // "a" vs "an" based on the short name's first sound — avoids grammatical
+  // errors like "a AI Integration Developer" and keeps titles ≤60 chars.
+  const article = /^[aeiouAEIOU]/.test(service.shortName) ? 'an' : 'a';
+  const tzShort = location.timezoneOffsetLabel.replace(/\s*\(.+\)/, '');
+  const title = `Hire ${article} ${service.shortName} Developer in ${location.country} | From ${priceFromLabel}`;
+  const description = `Founder-led ${service.shortName} development for ${location.country} startups. From ${priceFromLabel}, ${tzShort} overlap, 24h reply. Direct with the engineer shipping your code.`;
 
   const sn = service.shortName.toLowerCase();
   const ln = location.name.toLowerCase();
