@@ -10,18 +10,18 @@ const container: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.3,
+      staggerChildren: 0.08,
+      delayChildren: 0,
     },
   },
 };
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] as const },
+    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const },
   },
 };
 
@@ -57,13 +57,13 @@ export default function Hero({ content, stats }: HeroProps) {
           {content.badge}
         </motion.div>
 
-        <motion.h1 className={styles.title} variants={fadeUp}>
+        <h1 className={styles.title}>
           {content.heading_line1}
           <br />
           <span className={styles.gradient}>{content.heading_highlight}</span>
           {' '}
           {content.heading_line2}
-        </motion.h1>
+        </h1>
 
         <motion.p className={styles.subtitle} variants={fadeUp}>
           {content.subtitle}
@@ -96,18 +96,9 @@ export default function Hero({ content, stats }: HeroProps) {
         )}
       </motion.div>
 
-      <motion.div
-        className={styles.scrollIndicator}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-      >
-        <motion.div
-          className={styles.scrollDot}
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </motion.div>
+      <div className={styles.scrollIndicator} aria-hidden>
+        <span className={styles.scrollDot} />
+      </div>
     </section>
   );
 }

@@ -138,6 +138,10 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
+        {/* Cut handshake latency to third-party origins loaded lazily below. */}
+        <link rel="preconnect" href="https://analytics.ahrefs.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -150,18 +154,18 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        {/* Ahrefs Web Analytics — loaded after interactive so it doesn't block LCP */}
+        {/* Ahrefs Web Analytics — lazyOnload keeps TBT low and protects LCP */}
         <Script
           src="https://analytics.ahrefs.com/analytics.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           data-key="ym2+dPel4hIM1OvhQkSobw"
         />
-        {/* Google Analytics (gtag.js) */}
+        {/* Google Analytics (gtag.js) — lazyOnload so it fires after main thread is idle */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-EHEQ1207ME"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
