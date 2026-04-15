@@ -229,3 +229,26 @@
     text-decoration: underline;
   }
 }
+
+.forgotLink {
+  align-self: center;
+  font-size: $fs-sm;
+  color: $text-tertiary;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $accent-primary;
+    text-decoration: underline;
+  }
+}
+
+.success {
+  padding: 10px 14px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: $radius-md;
+  color: #86efac;
+  font-size: $fs-sm;
+  line-height: 1.5;
+}

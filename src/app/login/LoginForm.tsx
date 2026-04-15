@@ -1,42 +1,55 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { getSupabaseAuthBrowser } from '@/lib/supabase/browser';
 import styles from './page.module.scss';
 
 export default function LoginForm() {
   const router = useRouter();
   const search = useSearchParams();
   const next = search.get('next') || '/admin';
+  const initialError = search.get('error');
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Surface middleware-produced errors (e.g. signed in but not on allow-list).
+  useEffect(() => {
+    if (initialError === 'not_admin') {
+      setError(
+        'This account is not authorized for admin access. Sign in with an admin email or contact the site owner.',
+      );
+    }
+  }, [initialError]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
 
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      if (!res.ok) {
-        const body = (await res.json().catch(() => ({}))) as { error?: string };
-        throw new Error(body.error ?? 'Login failed');
-      }
-      router.push(next);
-      router.refresh();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+    const supabase = getSupabaseAuthBrowser();
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    if (signInError) {
+      setError(signInError.message || 'Invalid email or password.');
       setSubmitting(false);
+      return;
     }
+
+    // Server components need to re-read cookies, so a hard navigation is
+    // safer than router.push here (the new session cookie may not be visible
+    // to the next server render otherwise).
+    router.push(next);
+    router.refresh();
   };
 
   return (
@@ -48,18 +61,18 @@ export default function LoginForm() {
       transition={{ duration: 0.4 }}
     >
       <div className={styles.field}>
-        <label htmlFor="username" className={styles.label}>
-          Username
+        <label htmlFor="email" className={styles.label}>
+          Email
         </label>
         <input
-          id="username"
-          type="text"
+          id="email"
+          type="email"
           autoComplete="username"
           required
           className={styles.input}
-          placeholder="admin@example.com"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
@@ -120,6 +133,10 @@ export default function LoginForm() {
           'Sign In'
         )}
       </button>
+
+      <Link href="/forgot-password" className={styles.forgotLink}>
+        Forgot your password?
+      </Link>
     </motion.form>
   );
 }

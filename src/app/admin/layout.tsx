@@ -16,11 +16,11 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await requireAdmin();
+  const admin = await requireAdmin();
 
   return (
     <div className={styles.shell}>
-      <AdminSidebar user={session.sub} />
+      <AdminSidebar user={admin.email} />
       <div className={styles.main}>{children}</div>
     </div>
   );
