@@ -5,8 +5,10 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import Testimonials from '@/components/Testimonials/Testimonials';
 import { services, getService } from '@/data/services';
-import { locations, getLocation } from '@/data/locations';
+import { locations, getLocation, type LocationMeta } from '@/data/locations';
 import { faqs as globalFaqs } from '@/data/faqs';
+import { getBlogPost } from '@/data/blog-posts';
+import { getProjectBySlug } from '@/lib/content/projects';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
@@ -14,11 +16,42 @@ interface PageProps {
   params: { service: string; location: string };
 }
 
-// Generate all 6 services × 3 locations = 18 programmatic pages at build.
+// Generate all 7 services × 4 locations = 28 programmatic pages at build.
 export function generateStaticParams() {
   return services.flatMap((s) =>
     locations.map((l) => ({ service: s.slug, location: l.slug })),
   );
+}
+
+// ─── Currency helpers ──────────────────────────────────
+function startingPriceFor(
+  service: ReturnType<typeof getService>,
+  location: LocationMeta,
+): string {
+  if (!service) return '';
+  switch (location.currency) {
+    case 'inr': return `₹${service.startingInr.toLocaleString('en-IN')}`;
+    case 'gbp': return `£${service.startingGbp.toLocaleString('en-GB')}`;
+    case 'usd':
+    default:    return `$${service.startingUsd.toLocaleString('en-US')}`;
+  }
+}
+
+function priceCurrencyCode(currency: LocationMeta['currency']): string {
+  return currency.toUpperCase();
+}
+
+function priceForJsonLd(
+  service: ReturnType<typeof getService>,
+  currency: LocationMeta['currency'],
+): string {
+  if (!service) return '0';
+  switch (currency) {
+    case 'inr': return String(service.startingInr);
+    case 'gbp': return String(service.startingGbp);
+    case 'usd':
+    default:    return String(service.startingUsd);
+  }
 }
 
 export function generateMetadata({ params }: PageProps): Metadata {
@@ -32,44 +65,63 @@ export function generateMetadata({ params }: PageProps): Metadata {
     });
   }
 
-  const priceFromLabel =
-    location.currency === 'inr'
-      ? `₹${service.startingInr.toLocaleString('en-IN')}`
-      : `$${service.startingUsd.toLocaleString('en-US')}`;
+  const priceFromLabel = startingPriceFor(service, location);
+  const title = `Hire a ${service.name} in ${location.country} | From ${priceFromLabel}`;
+  const description = `Hire a senior ${service.shortName} developer for your ${location.country} startup or scale-up. ${location.timezoneOffsetLabel} overlap, fixed ${priceCurrencyCode(location.currency)} pricing from ${priceFromLabel}, 24-hour reply. Founder-led — direct with the engineer building your product.`;
 
-  const title = `Hire ${service.name} in ${location.country} | From ${priceFromLabel}`;
-  const description = `${service.description} Fixed ${location.currency.toUpperCase()} pricing, ${location.timezoneOffsetLabel} overlap, 24-hour reply.`;
+  const sn = service.shortName.toLowerCase();
+  const ln = location.name.toLowerCase();
+  const cn = location.country.toLowerCase();
 
   return buildMetadata({
     title,
     description,
     path: `/services/${service.slug}/${location.slug}`,
     keywords: [
-      `hire ${service.shortName.toLowerCase()} developer ${location.name.toLowerCase()}`,
-      `${service.shortName.toLowerCase()} developer ${location.country.toLowerCase()}`,
-      `${service.shortName.toLowerCase()} freelancer ${location.name.toLowerCase()}`,
-      `freelance ${service.shortName.toLowerCase()} developer`,
-      `${service.shortName.toLowerCase()} expert ${location.country.toLowerCase()}`,
+      `hire ${sn} developer ${ln}`,
+      `hire ${sn} developer ${cn}`,
+      `${sn} developer ${cn}`,
+      `${sn} development services ${cn}`,
+      `${sn} expert ${cn}`,
+      `senior ${sn} developer for hire ${cn}`,
+      `${sn} developer for startup ${cn}`,
+      `founder-led ${sn} development studio`,
     ],
   });
 }
 
-export default function ServiceLocationPage({ params }: PageProps) {
+export default async function ServiceLocationPage({ params }: PageProps) {
   const service = getService(params.service);
   const location = getLocation(params.location);
   if (!service || !location) notFound();
 
-  const startingPrice =
-    location.currency === 'inr'
-      ? `₹${service.startingInr.toLocaleString('en-IN')}`
-      : `$${service.startingUsd.toLocaleString('en-US')}`;
+  const startingPrice = startingPriceFor(service, location);
+
+  // Show all 3 currency reference points so visitors get instant transparency.
+  const allCurrencies: Array<{ label: string; value: string; primary: boolean }> = [
+    {
+      label: 'USD',
+      value: `$${service.startingUsd.toLocaleString('en-US')}`,
+      primary: location.currency === 'usd',
+    },
+    {
+      label: 'GBP',
+      value: `£${service.startingGbp.toLocaleString('en-GB')}`,
+      primary: location.currency === 'gbp',
+    },
+    {
+      label: 'INR',
+      value: `₹${service.startingInr.toLocaleString('en-IN')}`,
+      primary: location.currency === 'inr',
+    },
+  ];
 
   // Per-page FAQ: pick a few global + location-specific
   const pageFaqs = [
     ...location.faqs,
     globalFaqs[0], // "Do you work with clients in India, USA, Australia?"
     globalFaqs[3], // SaaS cost
-  ];
+  ].filter(Boolean);
 
   const related = services
     .filter((s) => service.relatedSlugs.includes(s.slug))
@@ -77,26 +129,30 @@ export default function ServiceLocationPage({ params }: PageProps) {
 
   const otherLocations = locations.filter((l) => l.slug !== location.slug);
 
+  // Related blog posts — sync lookup over static array.
+  const relatedBlogPosts = service.relatedBlogSlugs
+    .map((slug) => getBlogPost(slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .slice(0, 4);
+
+  // Related case studies — async fetch from Supabase.
+  const relatedProjects = (
+    await Promise.all(service.relatedProjectSlugs.map((slug) => getProjectBySlug(slug)))
+  ).filter((p): p is NonNullable<typeof p> => Boolean(p));
+
   // ── JSON-LD: Service + Breadcrumb + FAQ ──────────
   const serviceJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: `${service.name} for ${location.country}`,
     description: service.description,
-    provider: {
-      '@type': 'Person',
-      name: siteConfig.fullName,
-      url: siteConfig.url,
-    },
-    areaServed: {
-      '@type': 'Country',
-      name: location.country,
-    },
+    provider: { '@id': `${siteConfig.url}/#organization` },
+    areaServed: { '@type': 'Country', name: location.country },
     url: `${siteConfig.url}/services/${service.slug}/${location.slug}`,
     offers: {
       '@type': 'Offer',
-      priceCurrency: location.currency === 'inr' ? 'INR' : 'USD',
-      price: String(location.currency === 'inr' ? service.startingInr : service.startingUsd),
+      priceCurrency: priceCurrencyCode(location.currency),
+      price: priceForJsonLd(service, location.currency),
       availability: 'https://schema.org/InStock',
     },
     serviceType: service.name,
@@ -165,6 +221,7 @@ export default function ServiceLocationPage({ params }: PageProps) {
               Hire a <span className={styles.gradient}>{service.name}</span> in {location.country}
             </h1>
             <p className={styles.heroSub}>{service.intro}</p>
+            <p className={styles.heroSub}>{location.marketNote}</p>
 
             <div className={styles.heroMeta}>
               <div className={styles.heroMetaItem}>
@@ -182,14 +239,17 @@ export default function ServiceLocationPage({ params }: PageProps) {
             </div>
 
             <div className={styles.heroActions}>
-              <Link href="/contact" className={styles.btnPrimary}>
+              <Link href="/quote" className={styles.btnPrimary}>
                 Hire {service.shortName} Developer Now
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </Link>
               <Link href="/projects" className={styles.btnSecondary}>
-                View past work
+                View case studies
+              </Link>
+              <Link href="/contact" className={styles.btnSecondary}>
+                Talk to Sadik
               </Link>
             </div>
           </div>
@@ -202,7 +262,7 @@ export default function ServiceLocationPage({ params }: PageProps) {
               <div>
                 <span className={styles.label}>Benefits</span>
                 <h2 className={styles.h2}>
-                  Why founders in {location.country} hire me for {service.name.toLowerCase()} work
+                  Why founders in {location.country} hire us for {service.name.toLowerCase()} work
                 </h2>
                 <ul className={styles.checkList}>
                   {service.benefits.map((b) => (
@@ -244,18 +304,36 @@ export default function ServiceLocationPage({ params }: PageProps) {
         <section className={styles.pricingSection}>
           <div className={styles.container}>
             <span className={styles.label}>Pricing for {location.country}</span>
-            <h2 className={styles.h2}>Transparent {location.currency.toUpperCase()} pricing</h2>
+            <h2 className={styles.h2}>
+              Transparent {priceCurrencyCode(location.currency)} pricing — no scope-creep surprises
+            </h2>
             <p className={styles.sectionCopy}>{location.marketNote}</p>
 
             <div className={styles.pricingGrid}>
               <div className={styles.pricingCard}>
-                <span className={styles.pricingLabel}>Starting price</span>
+                <span className={styles.pricingLabel}>Starts at</span>
                 <div className={styles.pricingValue}>{startingPrice}</div>
+                <ul className={styles.altPrices}>
+                  {allCurrencies
+                    .filter((c) => !c.primary)
+                    .map((c) => (
+                      <li key={c.label}>
+                        <span className={styles.altPriceLabel}>{c.label}</span>
+                        <span className={styles.altPriceValue}>{c.value}</span>
+                      </li>
+                    ))}
+                </ul>
                 <p className={styles.pricingNote}>{service.pricingNote}</p>
+                <Link href="/quote" className={styles.pricingCta}>
+                  Build your fixed quote →
+                </Link>
               </div>
               <div className={styles.pricingCard}>
-                <span className={styles.pricingLabel}>How I work with {location.country} clients</span>
+                <span className={styles.pricingLabel}>How we work with {location.country} clients</span>
                 <p className={styles.pricingNote}>{location.workingNote}</p>
+                <Link href="/contact" className={styles.pricingCta}>
+                  Book a 30-min discovery call →
+                </Link>
               </div>
             </div>
 
@@ -269,6 +347,56 @@ export default function ServiceLocationPage({ params }: PageProps) {
             </div>
           </div>
         </section>
+
+        {/* ── Case studies ─────────────────────────── */}
+        {relatedProjects.length > 0 && (
+          <section className={styles.section}>
+            <div className={styles.container}>
+              <span className={styles.label}>Case studies</span>
+              <h2 className={styles.h2}>
+                {service.shortName} work we have shipped
+              </h2>
+              <p className={styles.sectionCopy}>
+                Real builds from the studio — problem, solution, and the production stack we used.
+              </p>
+              <ul className={styles.caseList}>
+                {relatedProjects.map((p) => (
+                  <li key={p.slug}>
+                    <Link href={`/projects/${p.slug}`} className={styles.caseCard}>
+                      <span className={styles.caseTag}>{p.category}</span>
+                      <span className={styles.caseTitle}>{p.title}</span>
+                      <span className={styles.caseDesc}>{p.description}</span>
+                      <span className={styles.caseLink}>Read case study →</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* ── Related reading (blog) ───────────────── */}
+        {relatedBlogPosts.length > 0 && (
+          <section className={styles.section}>
+            <div className={styles.container}>
+              <span className={styles.label}>Reading</span>
+              <h2 className={styles.h2}>
+                Guides on hiring a {service.shortName} developer
+              </h2>
+              <ul className={styles.readingList}>
+                {relatedBlogPosts.map((post) => (
+                  <li key={post.slug}>
+                    <Link href={`/blog/${post.slug}`} className={styles.readingCard}>
+                      <span className={styles.readingTag}>{post.category}</span>
+                      <span className={styles.readingTitle}>{post.title}</span>
+                      <span className={styles.readingDesc}>{post.description}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         {/* ── Testimonials ──────────────────────────── */}
         <Testimonials />
@@ -333,11 +461,14 @@ export default function ServiceLocationPage({ params }: PageProps) {
                 Ready to hire a {service.name} in {location.country}?
               </h2>
               <p className={styles.ctaCopy}>
-                Send a short brief. I reply within 24 hours with a scope, fixed {location.currency.toUpperCase()} quote, and a proposed start date.
+                Send a short brief. We reply within 24 hours with a scope, fixed {priceCurrencyCode(location.currency)} quote, and a proposed start date — no obligation.
               </p>
               <div className={styles.ctaActions}>
-                <Link href="/contact" className={styles.btnPrimary}>
+                <Link href="/quote" className={styles.btnPrimary}>
                   Hire {service.shortName} Developer Now
+                </Link>
+                <Link href="/contact" className={styles.btnSecondary}>
+                  Book a discovery call
                 </Link>
                 <Link href="/projects" className={styles.btnSecondary}>
                   See past {service.shortName} work

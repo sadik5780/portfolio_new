@@ -25,6 +25,7 @@ const baseCsp = {
     ...(isProd ? [] : ["'unsafe-eval'"]),
     'https://checkout.razorpay.com',
     'https://analytics.ahrefs.com',
+    'https://www.googletagmanager.com',
   ],
   'style-src': ["'self'", "'unsafe-inline'"],
   'img-src': [
@@ -33,6 +34,8 @@ const baseCsp = {
     'blob:',
     'https://*.supabase.co',
     'https://*.razorpay.com',
+    'https://*.google-analytics.com',
+    'https://*.googletagmanager.com',
   ],
   'font-src': ["'self'", 'data:'],
   // ws:/wss: for webpack HMR and live-reload in dev.
@@ -43,6 +46,9 @@ const baseCsp = {
     'https://api.razorpay.com',
     'https://lumberjack.razorpay.com',
     'https://analytics.ahrefs.com',
+    'https://*.google-analytics.com',
+    'https://*.analytics.google.com',
+    'https://*.googletagmanager.com',
   ],
   'frame-src': ['https://api.razorpay.com', 'https://checkout.razorpay.com'],
   'frame-ancestors': ["'none'"],
@@ -95,6 +101,39 @@ const nextConfig = {
     ],
   },
   poweredByHeader: false,
+  // Literal high-intent SEO slugs 301 to canonical service×location pages.
+  // Avoids duplicate content while preserving link-equity from external citations.
+  async redirects() {
+    return [
+      // React
+      { source: '/hire-react-developer-india',     destination: '/services/react-developer/india',     permanent: true },
+      { source: '/hire-react-developer-usa',       destination: '/services/react-developer/usa',       permanent: true },
+      { source: '/hire-react-developer-uk',        destination: '/services/react-developer/uk',        permanent: true },
+      { source: '/hire-react-developer-australia', destination: '/services/react-developer/australia', permanent: true },
+      // Next.js
+      { source: '/hire-nextjs-developer-india',     destination: '/services/nextjs-developer/india',     permanent: true },
+      { source: '/hire-nextjs-developer-usa',       destination: '/services/nextjs-developer/usa',       permanent: true },
+      { source: '/hire-nextjs-developer-uk',        destination: '/services/nextjs-developer/uk',        permanent: true },
+      { source: '/hire-nextjs-developer-australia', destination: '/services/nextjs-developer/australia', permanent: true },
+      // Shopify
+      { source: '/shopify-developer-india',     destination: '/services/shopify-developer/india',     permanent: true },
+      { source: '/shopify-developer-usa',       destination: '/services/shopify-developer/usa',       permanent: true },
+      { source: '/shopify-developer-uk',        destination: '/services/shopify-developer/uk',        permanent: true },
+      { source: '/shopify-developer-australia', destination: '/services/shopify-developer/australia', permanent: true },
+      // SaaS
+      { source: '/saas-development-india',     destination: '/services/saas-developer/india',     permanent: true },
+      { source: '/saas-development-usa',       destination: '/services/saas-developer/usa',       permanent: true },
+      { source: '/saas-development-uk',        destination: '/services/saas-developer/uk',        permanent: true },
+      { source: '/saas-development-australia', destination: '/services/saas-developer/australia', permanent: true },
+      // AI integration
+      { source: '/ai-web-app-development',         destination: '/services/ai-integration/usa',       permanent: true },
+      { source: '/ai-integration-services',        destination: '/services/ai-integration/usa',       permanent: true },
+      { source: '/hire-ai-developer-india',        destination: '/services/ai-integration/india',     permanent: true },
+      { source: '/hire-ai-developer-usa',          destination: '/services/ai-integration/usa',       permanent: true },
+      { source: '/hire-ai-developer-uk',           destination: '/services/ai-integration/uk',        permanent: true },
+      { source: '/hire-ai-developer-australia',    destination: '/services/ai-integration/australia', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

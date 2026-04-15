@@ -4,23 +4,24 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import { offerings } from '@/data/offerings';
+import { services } from '@/data/services';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Services — Static Sites, Shopify, SaaS, Web & Mobile Apps',
+  title: 'Development Services — React, SaaS, Shopify, AI for Global Startups',
   description:
-    'Sadik Studio builds static websites, custom Shopify stores, B2B SaaS platforms, bespoke web apps, and React Native mobile apps for founders in India, USA, and Australia.',
+    'Sadik Studio builds custom React & Next.js apps, Shopify stores, multi-tenant SaaS platforms, and AI-powered product features for startup founders in the USA, UK, Australia, and India.',
   path: '/services',
   keywords: [
-    'static website development',
-    'shopify developer india',
-    'saas developer india',
-    'custom web app development',
-    'react native developer india',
-    'mobile app development',
-    'ecommerce store development',
-    'hire developer india usa australia',
+    'custom web development services',
+    'react development services',
+    'next.js development services',
+    'shopify development services',
+    'saas development services',
+    'ai web app development services',
+    'hire react developer usa uk australia',
+    'founder-led development studio',
   ],
 });
 
@@ -38,11 +39,35 @@ export default function ServicesIndexPage() {
     })),
   };
 
+  // OfferCatalog JSON-LD covering the 7 hire-by-stack services
+  const offerCatalogJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'OfferCatalog',
+    name: 'Sadik Studio — engineering services',
+    url: `${siteConfig.url}/services`,
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: s.name,
+        description: s.description,
+        url: `${siteConfig.url}/services/${s.slug}/usa`,
+      },
+      priceCurrency: 'USD',
+      price: String(s.startingUsd),
+      availability: 'https://schema.org/InStock',
+    })),
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(offerCatalogJsonLd) }}
       />
 
       <Navbar />

@@ -1,0 +1,102 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  @include section-padding;
+  position: relative;
+  background: $bg-secondary;
+  border-top: 1px solid $border-subtle;
+}
+
+.container {
+  @include container;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+  margin-top: $spacing-2xl;
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-xl;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: rgba($accent-primary, 0.3);
+  }
+}
+
+.flag {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.country {
+  font-size: $fs-lg;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+.meta {
+  margin: $spacing-sm 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  dt {
+    font-family: $font-mono;
+    font-size: $fs-xs;
+    color: $text-tertiary;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    font-size: $fs-sm;
+    color: $text-primary;
+    font-weight: $fw-medium;
+  }
+}
+
+.note {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.6;
+}
+
+.cta {
+  margin-top: auto;
+  padding-top: $spacing-md;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $accent-primary;
+  text-decoration: none;
+  border-top: 1px dashed $border-subtle;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}

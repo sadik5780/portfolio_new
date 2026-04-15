@@ -12,7 +12,12 @@ export interface Service {
   pricingNote: string;       // 1 line about pricing (no numbers — those come from locations)
   startingInr: number;
   startingUsd: number;
+  startingGbp: number;
   relatedSlugs: string[];    // for cross-linking
+  /** Slugs of blog posts that support this service (for internal linking on service pages) */
+  relatedBlogSlugs: string[];
+  /** Slugs of project case studies that demonstrate this service */
+  relatedProjectSlugs: string[];
   icon: string;              // SVG path for icon
 }
 
@@ -27,7 +32,7 @@ export const services: Service[] = [
     description:
       'Hire a senior React developer to design components, refactor legacy dashboards, and ship new features without stalling your roadmap.',
     intro:
-      'Modern React is no longer just JSX — it is server components, suspense, data-layer choices (tRPC, React Query, RSC fetch), and a dozen rendering strategies. I help product teams pick the right ones and ship features that do not break under load.',
+      'Modern React is no longer just JSX — it is server components, suspense, data-layer choices (tRPC, React Query, RSC fetch), and a dozen rendering strategies. We help product teams pick the right ones and ship features that do not break under load.',
     benefits: [
       'Ship features weekly, not quarterly, with a tight PR-to-production loop.',
       'Reduce bundle size and time-to-interactive using RSC + streaming.',
@@ -52,7 +57,14 @@ export const services: Service[] = [
     pricingNote: 'Fixed-scope engagements or weekly-hours retainers, milestone-billed.',
     startingInr: 100000,
     startingUsd: 1500,
+    startingGbp: 1200,
     relatedSlugs: ['nextjs-developer', 'frontend-developer', 'saas-developer'],
+    relatedBlogSlugs: [
+      'how-to-hire-a-react-developer-2026',
+      'react-vs-nextjs-for-saas-products-2026',
+      'freelance-react-developer-india-hourly-rate-2026',
+    ],
+    relatedProjectSlugs: ['aurora-saas', 'cryptoflow', 'markdownly'],
     icon: ARROW,
   },
   {
@@ -63,7 +75,7 @@ export const services: Service[] = [
     description:
       'Hire a Next.js developer to build high-performance apps with the App Router, server components, and production-grade caching.',
     intro:
-      'Next.js 14 with the App Router fundamentally changes how you structure a web app. I build for the new model — server components by default, client components only where needed, ISR or on-demand revalidation for content, and edge middleware for auth and geo routing.',
+      'Next.js 14 with the App Router fundamentally changes how you structure a web app. We build for the new model — server components by default, client components only where needed, ISR or on-demand revalidation for content, and edge middleware for auth and geo routing.',
     benefits: [
       'Sub-second LCP and green Core Web Vitals across every page type.',
       'Proper ISR + on-demand revalidation so CMS content updates without redeploys.',
@@ -88,7 +100,14 @@ export const services: Service[] = [
     pricingNote: 'Most Next.js builds start at 4 weeks fixed-scope; retainers available.',
     startingInr: 100000,
     startingUsd: 1500,
-    relatedSlugs: ['react-developer', 'saas-developer', 'web-app-developer'],
+    startingGbp: 1200,
+    relatedSlugs: ['react-developer', 'saas-developer', 'ai-integration'],
+    relatedBlogSlugs: [
+      'react-vs-nextjs-for-saas-products-2026',
+      'how-to-hire-a-react-developer-2026',
+      'custom-web-app-development-cost-india-vs-usa',
+    ],
+    relatedProjectSlugs: ['aurora-saas', 'markdownly'],
     icon: ARROW,
   },
   {
@@ -99,7 +118,7 @@ export const services: Service[] = [
     description:
       'Hire a Shopify developer to build custom 2.0 themes, headless Hydrogen storefronts, or checkout extensions — with measurable conversion lift.',
     intro:
-      'Most "custom" Shopify work on the marketplace is a modified free theme. I build from Dawn or ship a headless Hydrogen storefront, customise checkout with extensions, and instrument analytics so you can see what moves AOV.',
+      'Most "custom" Shopify work on the marketplace is a modified free theme. We build from Dawn or ship a headless Hydrogen storefront, customise checkout with extensions, and instrument analytics so you can see what moves AOV.',
     benefits: [
       'Mobile PageSpeed scores above 90 — not the 40-50 typical of bloated themes.',
       'Section-based Shopify 2.0 themes your merchandisers can edit without devs.',
@@ -121,10 +140,19 @@ export const services: Service[] = [
       'Complex product configurators and bundle logic',
     ],
     tech: ['Shopify 2.0', 'Liquid', 'Hydrogen / Remix', 'GraphQL Storefront API', 'Klaviyo'],
-    pricingNote: 'Custom themes from ₹50,000 / $2,000. Headless builds quoted per scope.',
+    pricingNote: 'Custom themes from ₹50,000 / $2,000 / £1,600. Headless builds quoted per scope.',
     startingInr: 50000,
     startingUsd: 2000,
-    relatedSlugs: ['ecommerce-developer', 'frontend-developer', 'full-stack-developer'],
+    startingGbp: 1600,
+    relatedSlugs: ['frontend-developer', 'full-stack-developer', 'ai-integration'],
+    relatedBlogSlugs: [
+      'cost-of-shopify-development-india-vs-usa-2026',
+      'shopify-developer-india-cost-2026',
+      'why-your-startup-needs-headless-shopify',
+      'shopify-vs-shopify-plus-what-you-need',
+      'best-shopify-developer-australia-small-business',
+    ],
+    relatedProjectSlugs: ['bloom-shopify', 'northwear-shopify'],
     icon: ARROW,
   },
   {
@@ -135,7 +163,7 @@ export const services: Service[] = [
     description:
       'Hire a SaaS developer to build multi-tenant platforms with auth, billing, admin dashboards, and the boring-but-critical infrastructure buyers expect.',
     intro:
-      'Shipping a SaaS MVP fast means cutting scope, not quality. I build the 20% that drives 80% of customer value — auth, billing, workspace isolation, a great first-run experience — and defer the rest with a clear roadmap.',
+      'Shipping a SaaS MVP fast means cutting scope, not quality. We build the 20% that drives 80% of customer value — auth, billing, workspace isolation, a great first-run experience — and defer the rest with a clear roadmap.',
     benefits: [
       'Multi-tenant from day one — no painful refactor at 50 customers.',
       'Stripe usage-based or subscription billing with webhook verification.',
@@ -157,10 +185,18 @@ export const services: Service[] = [
       'Analytics / dashboard SaaS with real-time data',
     ],
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma / Drizzle', 'Stripe', 'Redis'],
-    pricingNote: 'Custom SaaS builds start at ₹1,00,000 / $10,000 base + features.',
-    startingInr: 100000,
+    pricingNote: 'Custom SaaS builds start at ₹8,30,000 / $10,000 / £8,000 base + features.',
+    startingInr: 830000,
     startingUsd: 10000,
-    relatedSlugs: ['web-app-developer', 'react-developer', 'full-stack-developer'],
+    startingGbp: 8000,
+    relatedSlugs: ['react-developer', 'full-stack-developer', 'ai-integration'],
+    relatedBlogSlugs: [
+      'saas-mvp-in-8-weeks-realistic-timeline-cost',
+      'cost-of-building-saas-app-india-2026',
+      'react-vs-nextjs-for-saas-products-2026',
+      'hire-remote-developer-india-startup-saas',
+    ],
+    relatedProjectSlugs: ['aurora-saas', 'cloudpipe'],
     icon: ARROW,
   },
   {
@@ -171,7 +207,7 @@ export const services: Service[] = [
     description:
       'Hire a full-stack developer to own features end-to-end — database schema, API, frontend, auth, and deployment — without handoffs.',
     intro:
-      'The fastest way to ship is when one engineer owns the slice from database to browser. I work across the stack with a strong preference for TypeScript end-to-end and opinionated choices that reduce cognitive load.',
+      'The fastest way to ship is when one engineer owns the slice from database to browser. We work across the stack with a strong preference for TypeScript end-to-end and opinionated choices that reduce cognitive load.',
     benefits: [
       'Ship whole features, not PRs, with fewer coordination costs.',
       'Typed contract between backend and frontend (tRPC or OpenAPI).',
@@ -196,7 +232,14 @@ export const services: Service[] = [
     pricingNote: 'Fixed-scope builds or fractional engineering retainers.',
     startingInr: 80000,
     startingUsd: 1500,
-    relatedSlugs: ['saas-developer', 'web-app-developer', 'nextjs-developer'],
+    startingGbp: 1200,
+    relatedSlugs: ['saas-developer', 'nextjs-developer', 'ai-integration'],
+    relatedBlogSlugs: [
+      'fullstack-developer-rates-india-usa-australia-2026',
+      'hiring-remote-developers-from-india-guide',
+      'freelance-vs-agency-which-is-right-for-your-project',
+    ],
+    relatedProjectSlugs: ['aurora-saas', 'cloudpipe', 'cryptoflow'],
     icon: ARROW,
   },
   {
@@ -207,7 +250,7 @@ export const services: Service[] = [
     description:
       'Hire a frontend developer to translate designs into production code that scores green on Core Web Vitals, ranks on SEO, and converts visitors.',
     intro:
-      'Frontend engineering in 2026 is equal parts design fidelity, runtime performance, and accessibility. I ship interfaces that look like the Figma file, load in under a second, and work on a screen reader.',
+      'Frontend engineering in 2026 is equal parts design fidelity, runtime performance, and accessibility. We ship interfaces that look like the Figma file, load in under a second, and work on a screen reader.',
     benefits: [
       'Pixel-perfect Figma-to-production fidelity with design tokens.',
       'WCAG AA accessibility audited with axe-core in CI.',
@@ -229,10 +272,61 @@ export const services: Service[] = [
       'Design system implementation from Figma',
     ],
     tech: ['React', 'Next.js', 'TypeScript', 'Framer Motion', 'SCSS', 'Storybook'],
-    pricingNote: 'From ₹15,000 / $200 for landing pages, scaled by scope.',
+    pricingNote: 'From ₹15,000 / $200 / £160 for landing pages, scaled by scope.',
     startingInr: 15000,
     startingUsd: 200,
+    startingGbp: 160,
     relatedSlugs: ['react-developer', 'nextjs-developer', 'shopify-developer'],
+    relatedBlogSlugs: [
+      'how-to-hire-a-react-developer-2026',
+      'custom-web-app-pricing-explained',
+    ],
+    relatedProjectSlugs: ['neural-ui'],
+    icon: ARROW,
+  },
+  {
+    slug: 'ai-integration',
+    name: 'AI Integration Developer',
+    shortName: 'AI',
+    tagline: 'AI-powered features for web apps and SaaS — only where they move the needle.',
+    description:
+      'Hire an AI integration developer to wire OpenAI, Anthropic Claude, and RAG pipelines into your existing web app or SaaS — production-grade, observable, and cost-controlled.',
+    intro:
+      'AI features only matter if they make your product measurably more useful. We add LLM chatbots, semantic search, document Q&A, and AI-assisted workflows into your existing React, Next.js, or SaaS app — with prompt caching, streaming, per-workspace quotas, and proper evals so you can ship without runaway costs or hallucinations.',
+    benefits: [
+      'OpenAI, Anthropic Claude, and self-hosted (Ollama / vLLM) integrations.',
+      'RAG pipelines on Pinecone, pgvector, or Weaviate with chunking and reranking that actually work.',
+      'Prompt caching + streaming-first architecture to keep costs and latency down.',
+      'Per-workspace quotas, rate limits, and cost dashboards so AI never bankrupts your unit economics.',
+      'Eval harness (golden sets + LLM-as-judge) so you can iterate on prompts without breaking prod.',
+    ],
+    deliverables: [
+      'Production AI feature (chatbot, search, agent, or workflow)',
+      'RAG pipeline with ingestion, chunking, retrieval, reranking',
+      'Prompt + tool-calling layer with typed inputs/outputs',
+      'Evals + observability (LangSmith / Helicone / custom)',
+      'Cost + quota dashboard for your admin panel',
+    ],
+    useCases: [
+      'Adding a context-aware chatbot to an existing SaaS',
+      'Semantic search over a knowledge base or docs site',
+      'AI-assisted form filling, summarisation, or drafting features',
+      'Document Q&A for legal, fintech, or healthcare verticals',
+      'Agentic workflows (research, outreach, internal automation)',
+    ],
+    tech: ['OpenAI', 'Anthropic Claude', 'Vercel AI SDK', 'pgvector', 'Pinecone', 'LangChain (selectively)'],
+    pricingNote: 'Most AI feature builds ship in 2–4 weeks. From ₹2,00,000 / $2,500 / £2,000 fixed scope.',
+    startingInr: 200000,
+    startingUsd: 2500,
+    startingGbp: 2000,
+    relatedSlugs: ['saas-developer', 'nextjs-developer', 'full-stack-developer'],
+    relatedBlogSlugs: [
+      'hire-ai-developer-india-2026',
+      'integrate-claude-api-web-app-tutorial',
+      'claude-ai-vs-chatgpt-for-react-developers',
+      'how-to-use-claude-ai-for-coding-2026',
+    ],
+    relatedProjectSlugs: ['aurora-saas'],
     icon: ARROW,
   },
 ];

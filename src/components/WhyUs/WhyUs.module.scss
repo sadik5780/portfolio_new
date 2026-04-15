@@ -1,0 +1,74 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  @include section-padding;
+  position: relative;
+  background: $bg-secondary;
+  border-top: 1px solid $border-subtle;
+}
+
+.container {
+  @include container;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+  margin-top: $spacing-2xl;
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  @include card;
+  position: relative;
+  padding: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: rgba($accent-primary, 0.3);
+  }
+}
+
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-md;
+  background: rgba($accent-primary, 0.1);
+  color: $accent-primary;
+}
+
+.cardTitle {
+  font-size: $fs-lg;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.cardBody {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.7;
+}
+
+.proof {
+  margin-top: auto;
+  padding-top: $spacing-md;
+  border-top: 1px dashed $border-subtle;
+  font-family: $font-mono;
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

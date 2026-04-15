@@ -84,7 +84,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           screenshots={project.screenshots}
           title={project.title}
         />
-        <HireCTA />
+        <HireCTA category={project.category} />
       </main>
       <Footer />
     </>

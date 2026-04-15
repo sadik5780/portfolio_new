@@ -3,8 +3,12 @@ import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
 import TechArsenal from '@/components/TechArsenal/TechArsenal';
 import Services from '@/components/Services/Services';
+import WhyUs from '@/components/WhyUs/WhyUs';
+import HowWeWork from '@/components/HowWeWork/HowWeWork';
 import Projects from '@/components/Projects/Projects';
 import Testimonials from '@/components/Testimonials/Testimonials';
+import GlobalPresence from '@/components/GlobalPresence/GlobalPresence';
+import HomeFAQ from '@/components/HomeFAQ/HomeFAQ';
 import Contact from '@/components/Contact/Contact';
 import Footer from '@/components/Footer/Footer';
 import { getAllSettings } from '@/lib/content/settings';
@@ -29,8 +33,12 @@ export default async function Home() {
         <About content={settings.about} skills={settings.skills} />
         <TechArsenal />
         <Services content={settings.services} />
+        <WhyUs />
+        <HowWeWork />
         <Projects featured={featured} />
         <Testimonials items={testimonials} />
+        <GlobalPresence />
+        <HomeFAQ />
         <Contact />
       </main>
       <Footer />

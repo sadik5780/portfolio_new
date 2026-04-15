@@ -11,77 +11,91 @@ import type {
 // ── Fallback content used if Supabase is unreachable / empty ──
 
 export const DEFAULT_HERO: HeroContent = {
-  badge: 'Available for new projects',
-  heading_line1: 'I craft digital',
-  heading_highlight: 'experiences',
-  heading_line2: 'that stand out.',
+  badge: 'Taking on 2 new projects this quarter',
+  heading_line1: 'We build high-performance',
+  heading_highlight: 'web apps, SaaS & Shopify',
+  heading_line2: 'for global startups.',
   subtitle:
-    'Full-stack developer specializing in building exceptional digital products with modern web technologies. Focused on performance, accessibility, and clean code.',
+    'Sadik Studio is a founder-led development practice led by Sadik Shaikh (6+ years). We ship React, Next.js, Shopify, and SaaS products — with AI-powered features built in where they move the needle. Serving startups across the USA, UK, Australia & India.',
 };
 
 export const DEFAULT_STATS: StatsContent = {
   items: [
-    { value: '5+', label: 'Years Experience' },
-    { value: '30+', label: 'Projects Delivered' },
-    { value: '15+', label: 'Happy Clients' },
+    { value: '6+', label: 'Years Shipping Production' },
+    { value: '30+', label: 'Products Delivered Globally' },
+    { value: '4', label: 'Countries Served' },
   ],
 };
 
 export const DEFAULT_ABOUT: AboutContent = {
-  label: 'About',
-  title: 'A bit about me',
+  label: 'The Studio',
+  title: 'A boutique studio led by the engineer shipping the code',
   description:
-    'I am a passionate developer who loves turning complex problems into simple, beautiful, and intuitive solutions.',
+    'Sadik Studio is a founder-led development practice based in India, serving startup founders in the USA, UK, and Australia. The studio stays deliberately small — you talk directly to the engineer writing your code, not an account manager. Faster than an agency. More accountable than a freelancer. At 40–60% less than a US/UK/AU senior hire.',
   experiences: [
     {
+      role: 'Founder & Lead Engineer',
+      company: 'Sadik Studio',
+      period: '2024 — Present',
+      description:
+        'Partnering with founders in the USA, UK, Australia, and India to ship production SaaS, Shopify, and AI-integrated products in weeks, not quarters.',
+    },
+    {
       role: 'Senior Frontend Engineer',
-      company: 'TechCorp',
-      period: '2022 — Present',
-      description: 'Leading the frontend architecture for a SaaS platform serving 50K+ users.',
+      company: 'SaaS Scale-up',
+      period: '2022 — 2024',
+      description:
+        'Led frontend architecture for a multi-tenant SaaS serving 50K+ users — App Router migration, RBAC, Stripe billing, and Core Web Vitals in the green.',
     },
     {
       role: 'Full-Stack Developer',
-      company: 'StartupXYZ',
+      company: 'Early-stage Startups',
       period: '2020 — 2022',
-      description: 'Built and shipped 3 products from concept to production in an early-stage startup.',
+      description:
+        'Shipped 3 products zero-to-production across fintech, logistics, and DTC commerce.',
     },
     {
       role: 'Frontend Developer',
-      company: 'AgencyPro',
+      company: 'Digital Agency',
       period: '2019 — 2020',
-      description: 'Developed high-performance websites and web apps for enterprise clients.',
+      description:
+        'Built high-performance marketing sites and dashboards for enterprise clients in India and the US.',
     },
   ],
 };
 
 export const DEFAULT_SKILLS: SkillsContent = {
   groups: [
-    { category: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'SCSS', 'Framer Motion'] },
-    { category: 'Backend', items: ['Node.js', 'Python', 'PostgreSQL', 'Redis', 'GraphQL'] },
-    { category: 'Tools', items: ['Git', 'Docker', 'AWS', 'Figma', 'CI/CD'] },
+    { category: 'Frontend', items: ['React', 'Next.js 14', 'TypeScript', 'SCSS', 'Framer Motion'] },
+    { category: 'Backend', items: ['Node.js', 'PostgreSQL', 'Redis', 'tRPC', 'Supabase'] },
+    { category: 'Commerce', items: ['Shopify 2.0', 'Hydrogen', 'Liquid', 'Stripe', 'Razorpay'] },
+    { category: 'AI & Infra', items: ['OpenAI', 'Anthropic', 'RAG', 'Vercel', 'AWS', 'Docker'] },
   ],
 };
 
 export const DEFAULT_SERVICES: ServicesContent = {
   label: 'Services',
-  title: 'What I build',
+  title: 'What we build',
   items: [
     {
-      title: 'Custom SaaS Platforms',
-      description: 'Multi-tenant web apps with billing, RBAC, and admin tooling. Built to scale.',
-    },
-    {
-      title: 'Shopify Stores',
+      title: 'React & Next.js Development',
       description:
-        'Custom Shopify 2.0 themes and headless Hydrogen storefronts with checkout extensions.',
+        'Senior React and Next.js 14 App Router builds — typed end-to-end, sub-second LCP, server components, production-grade auth and data. From $1,500.',
     },
     {
-      title: 'Marketing Websites',
-      description: 'High-conversion, SEO-optimized landing pages and multi-page marketing sites.',
+      title: 'Shopify & Headless Commerce',
+      description:
+        'Custom Shopify 2.0 themes and headless Hydrogen storefronts. Mobile PageSpeed 90+, checkout extensions, Klaviyo and subscription wiring. From $2,000.',
     },
     {
-      title: 'Design Systems',
-      description: 'Typed, accessible React component libraries with Figma integration.',
+      title: 'Custom SaaS Platforms',
+      description:
+        'Multi-tenant SaaS MVPs to product-market-fit in 8–16 weeks. Auth, RBAC, Stripe billing, admin tooling — built to scale from day one. From $10,000.',
+    },
+    {
+      title: 'AI-Powered Product Features',
+      description:
+        'OpenAI, Anthropic, and RAG pipelines wired into your web app or SaaS. Chatbots, semantic search, document Q&A, AI-assisted workflows — only where they move the needle. From $2,500.',
     },
   ],
 };

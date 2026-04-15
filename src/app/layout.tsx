@@ -46,8 +46,9 @@ const personJsonLd = {
   name: siteConfig.fullName,
   alternateName: siteConfig.name,
   url: siteConfig.url,
-  jobTitle: 'Full-Stack Developer',
-  description: siteConfig.description,
+  jobTitle: 'Founder & Lead Engineer',
+  worksFor: { '@id': `${siteConfig.url}/#organization` },
+  description: `${siteConfig.fullName} is the founder and lead engineer of Sadik Studio, a boutique development practice shipping React, Next.js, Shopify, and SaaS products for startups in the USA, UK, Australia, and India.`,
   sameAs: [
     'https://linkedin.com/in/sadik',
     'https://twitter.com/sadikdev',
@@ -64,11 +65,16 @@ const personJsonLd = {
     'Razorpay',
     'SaaS Development',
     'E-commerce',
+    'OpenAI',
+    'Anthropic Claude',
+    'RAG Pipelines',
+    'AI Integration',
   ],
   areaServed: [
-    { '@type': 'Country', name: 'India' },
     { '@type': 'Country', name: 'United States' },
+    { '@type': 'Country', name: 'United Kingdom' },
     { '@type': 'Country', name: 'Australia' },
+    { '@type': 'Country', name: 'India' },
   ],
 };
 
@@ -76,23 +82,37 @@ const personJsonLd = {
 // and contact info to (distinct from the individual Person).
 const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'ProfessionalService',
   '@id': `${siteConfig.url}/#organization`,
   name: siteConfig.name,
   legalName: siteConfig.fullName,
   url: siteConfig.url,
   logo: `${siteConfig.url}/og-image.jpg`,
+  image: `${siteConfig.url}/og-image.jpg`,
+  description: siteConfig.description,
   founder: { '@id': `${siteConfig.url}/#person` },
   email: 'hello@sadik.dev',
+  priceRange: '$$',
   sameAs: [
     'https://linkedin.com/in/sadik',
     'https://twitter.com/sadikdev',
   ],
   areaServed: [
-    { '@type': 'Country', name: 'India' },
     { '@type': 'Country', name: 'United States' },
+    { '@type': 'Country', name: 'United Kingdom' },
     { '@type': 'Country', name: 'Australia' },
+    { '@type': 'Country', name: 'India' },
   ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Development Services',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'React & Next.js Development' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopify & Headless Commerce' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom SaaS Platforms' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI-Powered Product Features' } },
+    ],
+  },
 };
 
 // WebSite — enables the Google sitelinks search box

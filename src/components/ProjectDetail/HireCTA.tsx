@@ -2,9 +2,22 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import type { ProjectCategory } from '@/lib/content/types';
 import styles from './HireCTA.module.scss';
 
-export default function HireCTA() {
+interface HireCTAProps {
+  category?: ProjectCategory;
+}
+
+const SERVICE_HREF: Record<ProjectCategory, { href: string; label: string }> = {
+  SaaS:       { href: '/services/saas-developer/usa',     label: 'Hire SaaS Developer' },
+  Shopify:    { href: '/services/shopify-developer/usa',  label: 'Hire Shopify Developer' },
+  'Web Apps': { href: '/services/react-developer/usa',    label: 'Hire React Developer' },
+};
+
+export default function HireCTA({ category }: HireCTAProps) {
+  const target = category ? SERVICE_HREF[category] : { href: '/quote', label: 'Start Your Project' };
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -46,8 +59,9 @@ export default function HireCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            I take on a limited number of projects each quarter. Send me a brief
-            and I&apos;ll reply within 24 hours with a scope, timeline, and fixed quote.
+            Sadik Studio takes on a limited number of projects each quarter — direct with the engineer
+            building your product. Send a brief and we&apos;ll reply within 24 hours with a scope,
+            timeline, and fixed quote.
           </motion.p>
 
           <motion.div
@@ -57,11 +71,14 @@ export default function HireCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            <Link href="/contact" className={styles.btnPrimary}>
-              Hire Me
+            <Link href={target.href} className={styles.btnPrimary}>
+              {target.label}
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
+            </Link>
+            <Link href="/quote" className={styles.btnSecondary}>
+              Get an instant quote
             </Link>
             <Link href="/projects" className={styles.btnSecondary}>
               View more work

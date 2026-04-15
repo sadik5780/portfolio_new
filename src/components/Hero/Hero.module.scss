@@ -133,7 +133,7 @@
 
 // ── Title ───────────────────────────────────────────
 .title {
-  font-size: clamp($fs-4xl, 8vw, $fs-8xl);
+  font-size: clamp($fs-4xl, 5vw, $fs-8xl);
   font-weight: $fw-bold;
   color: $text-primary;
   line-height: 1.05;
@@ -150,7 +150,7 @@
   font-size: $fs-lg;
   color: $text-secondary;
   line-height: 1.7;
-  max-width: 540px;
+  max-width: 940px;
   margin-bottom: $spacing-2xl;
 
   @include md {
@@ -195,6 +195,24 @@
   &:hover {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btnGhost {
+  @include button-base;
+  padding: 14px 18px;
+  font-size: $fs-base;
+  background: transparent;
+  color: $text-secondary;
+  border: 1px solid transparent;
+
+  &:hover {
+    color: $text-primary;
     transform: translateY(-2px);
   }
 
