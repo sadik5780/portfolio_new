@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { formatPrice, type Currency } from '@/data/pricing';
 import type { PricingContent } from '@/lib/content/types';
 import type { Offering } from '@/data/offerings';
+import PaymentSummary, { type CheckoutRequest } from '@/components/Payments/PaymentSummary';
 import styles from './QuoteBuilder.module.scss';
 
 interface QuoteBuilderProps {
@@ -75,6 +76,43 @@ export default function QuoteBuilder({ pricing, offerings }: QuoteBuilderProps) 
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState<string>('');
+
+  // ── Payment modal ──────────────────────────────
+  const [payOpen, setPayOpen] = useState(false);
+
+  /**
+   * Map the UI-facing offering to the server-side ServiceType contract.
+   * Server supports: 'shopify' | 'static:<tier-id>' | 'custom-app'.
+   * Mobile offerings fall back to the quote-request flow (too bespoke to
+   * checkout directly — they need a scoping call).
+   */
+  const checkoutRequest: CheckoutRequest | null = useMemo(() => {
+    let service: string | null = null;
+    let featureIds: string[] = [];
+
+    if (offering.pricingKey === 'shopify') {
+      service = 'shopify';
+    } else if (offering.pricingKey === 'static_tiers') {
+      service = `static:${staticTierId}`;
+    } else if (offering.pricingKey === 'app') {
+      service = 'custom-app';
+      featureIds = Array.from(appFeatures);
+    }
+
+    if (!service) return null;
+
+    return {
+      service,
+      serviceLabel: offering.name,
+      currency,
+      features: featureIds,
+      breakdown: {
+        base: breakdown.base,
+        features: breakdown.addOns,
+        total: breakdown.total,
+      },
+    };
+  }, [offering, staticTierId, appFeatures, currency, breakdown]);
 
   const toggleFeature = (
     setter: typeof setAppFeatures,
@@ -386,32 +424,55 @@ export default function QuoteBuilder({ pricing, offerings }: QuoteBuilderProps) 
             </div>
           )}
 
-          <button
-            type="submit"
-            className={styles.submitBtn}
-            disabled={status === 'submitting'}
-          >
-            {status === 'submitting' ? (
-              <>
-                <span className={styles.spinner} />
-                Sending…
-              </>
-            ) : (
-              <>
-                Request fixed quote — {formatPrice(breakdown.total, currency)}
+          <div className={styles.ctaRow}>
+            {checkoutRequest && (
+              <button
+                type="button"
+                className={styles.payBtn}
+                onClick={() => setPayOpen(true)}
+                disabled={status === 'submitting'}
+              >
+                Pay {formatPrice(breakdown.total, currency)} now
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                  <line x1="1" y1="10" x2="23" y2="10" />
                 </svg>
-              </>
+              </button>
             )}
-          </button>
+
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={status === 'submitting'}
+            >
+              {status === 'submitting' ? (
+                <>
+                  <span className={styles.spinner} />
+                  Sending…
+                </>
+              ) : (
+                <>
+                  {checkoutRequest ? 'Or request a quote' : `Request fixed quote — ${formatPrice(breakdown.total, currency)}`}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </>
+              )}
+            </button>
+          </div>
 
           <p className={styles.fineprint}>
-            Reply within 24 hours. The estimate above is non-binding until I confirm in writing.
+            Pay securely via Razorpay to lock in your slot, or request a quote and I&apos;ll reply within 24 hours.
           </p>
         </form>
       </div>
+
+      <PaymentSummary
+        open={payOpen}
+        onClose={() => setPayOpen(false)}
+        request={payOpen ? checkoutRequest : null}
+      />
     </div>
   );
 }

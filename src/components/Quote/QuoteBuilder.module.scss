@@ -519,18 +519,50 @@
   font-size: $fs-sm;
 }
 
-.submitBtn {
+.ctaRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-top: $spacing-xs;
+
+  @include sm {
+    flex-direction: row;
+  }
+}
+
+.payBtn {
   @include button-base;
   padding: 14px 24px;
   font-size: $fs-base;
   background: $accent-gradient;
   color: white;
-  margin-top: $spacing-xs;
+  flex: 1;
 
   &:hover:not(:disabled) {
     opacity: 0.92;
     transform: translateY(-1px);
     box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+}
+
+.submitBtn {
+  @include button-base;
+  padding: 14px 24px;
+  font-size: $fs-base;
+  background: transparent;
+  border: 1px solid $border-hover;
+  color: $text-primary;
+  flex: 1;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
   }
 
   &:disabled {
