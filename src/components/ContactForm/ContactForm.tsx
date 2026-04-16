@@ -220,7 +220,7 @@ const ContactForm = forwardRef<HTMLDivElement, ContactFormProps>(function Contac
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            {errorMsg || 'Something went wrong. Please email hello@sadik.dev directly.'}
+            {errorMsg || 'Something went wrong. Please email sadik5780@gmail.com directly.'}
           </motion.div>
         )}
       </motion.form>

@@ -45,8 +45,8 @@ const channels = [
   },
   {
     label: 'LinkedIn',
-    value: 'linkedin.com/in/sadik',
-    href: 'https://linkedin.com/in/sadik',
+    value: 'linkedin.com/in/sadik-shaikh',
+    href: 'https://www.linkedin.com/in/sadik-shaikh',
     note: 'Connect first; pitch in a follow-up message.',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -56,8 +56,8 @@ const channels = [
   },
   {
     label: 'Twitter / X',
-    value: '@sadikdev',
-    href: 'https://twitter.com/sadikdev',
+    value: '@sadik5780',
+    href: 'https://x.com/sadik5780',
     note: 'DMs open. Quick technical questions welcome.',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
         This Privacy Policy explains how <strong>Sadik Shaikh</strong>
         (&ldquo;Sadik&rdquo;, &ldquo;I&rdquo;, &ldquo;we&rdquo;,
         or &ldquo;my&rdquo;) collects, uses, and safeguards personal
-        information when you visit <strong>sadik.dev</strong>, contact me
+        information when you visit <strong>sadikstudio.in</strong>, contact me
         through the site, or pay for my development services.
       </p>
 
@@ -76,7 +76,7 @@ export default function PrivacyPolicyPage() {
           <strong>Payment information</strong> — name, email, and billing
           details you enter in the Razorpay or Stripe checkout flow. Card
           numbers and bank credentials are <strong>never</strong> transmitted
-          to or stored on sadik.dev; they go directly to the payment processor.
+          to or stored on sadikstudio.in; they go directly to the payment processor.
         </li>
         <li>
           <strong>Project content</strong> — anything you share during an
@@ -163,7 +163,7 @@ export default function PrivacyPolicyPage() {
 
       <h2 id="cookies">6. Cookies</h2>
       <p>
-        sadik.dev uses cookies sparingly. The only cookie set during normal
+        sadikstudio.in uses cookies sparingly. The only cookie set during normal
         browsing is a session cookie for the admin panel, which is only set
         after the administrator signs in. There are no advertising cookies,
         no cross-site tracking pixels, and no analytics cookies by default.
@@ -228,7 +228,7 @@ export default function PrivacyPolicyPage() {
 
       <h2 id="children">11. Children</h2>
       <p>
-        sadik.dev is a B2B business site. It is not directed at children
+        sadikstudio.in is a B2B business site. It is not directed at children
         under 13 (or the equivalent minimum age in your country), and I do
         not knowingly collect personal information from children. If you
         believe a child has provided information, please contact me and I

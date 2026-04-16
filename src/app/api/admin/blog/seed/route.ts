@@ -16,6 +16,7 @@ export async function POST() {
   try {
     const result = await seedBlogPosts();
     revalidatePath('/blog');
+    revalidatePath('/rss.xml');
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     return NextResponse.json(

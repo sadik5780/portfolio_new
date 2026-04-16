@@ -52,6 +52,7 @@ export async function POST(request: Request) {
 
     revalidatePath('/blog');
     revalidatePath(`/blog/${post.slug}`);
+    revalidatePath('/rss.xml');
 
     return NextResponse.json({ post });
   } catch (err) {

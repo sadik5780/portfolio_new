@@ -59,7 +59,7 @@ export const locations: LocationMeta[] = [
     timezone: 'America/New_York',
     timezoneOffsetLabel: 'EST/PST (UTC-5 / UTC-8)',
     marketNote:
-      'US-based product teams and Y-Combinator founders get senior engineering at 30–50% the cost of US-based freelancers, with morning EST / afternoon PST overlap and a single accountable engineer end-to-end.',
+      'US-based product teams and Y-Combinator founders get senior engineering at roughly half the cost of a US senior contractor (US senior React devs run $120–$150/hour). Morning EST / afternoon PST overlap and a single accountable engineer end-to-end.',
     workingNote:
       'Morning EST and early PST overlap (your morning is our evening). Stripe / Wise / wire transfer billing in USD. Async-first via Slack + Linear / Notion. You talk directly to the engineer shipping the code — never an account manager.',
     faqs: [
@@ -90,7 +90,7 @@ export const locations: LocationMeta[] = [
     timezone: 'Europe/London',
     timezoneOffsetLabel: 'GMT/BST (UTC+0 / UTC+1)',
     marketNote:
-      'UK founders and London-based scale-ups get senior React, Next.js, Shopify, and SaaS engineering at 40–60% less than London freelance rates — with full GMT afternoon overlap and a direct line to the engineer building your product.',
+      'UK founders and London-based scale-ups get senior React, Next.js, Shopify, and SaaS engineering at roughly half the rate of a London senior contractor (London senior devs average £500–£800/day). Full GMT afternoon overlap and a direct line to the engineer building your product.',
     workingNote:
       'GMT/BST afternoon overlap (your afternoon is our evening) for standups, reviews, and planning. Billed in GBP via Wise or USD via Stripe. NDAs / MSAs signed before kickoff. Async-first via Slack + Linear / Notion.',
     faqs: [
@@ -126,7 +126,7 @@ export const locations: LocationMeta[] = [
     timezone: 'Australia/Sydney',
     timezoneOffsetLabel: 'AEST/AEDT (UTC+10 / UTC+11)',
     marketNote:
-      'Australian founders get senior React, Shopify, and SaaS engineering with AEST morning overlap and USD-denominated pricing — 40–60% less than Sydney freelance rates, with one engineer accountable end-to-end.',
+      'Australian founders get senior React, Shopify, and SaaS engineering with AEST morning overlap and USD-denominated pricing — roughly half the rate of a Sydney senior contractor (Sydney senior devs average A$800–A$1,200/day). One engineer accountable end-to-end.',
     workingNote:
       'AEST morning overlap for standups and reviews. Async updates via Slack outside that window. Billed in USD via Stripe or Wise. Direct communication with the engineer building your product — no agency layer.',
     faqs: [

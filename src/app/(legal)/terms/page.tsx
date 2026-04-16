@@ -23,7 +23,7 @@ export default function TermsPage() {
       </div>
 
       <p className="legal-lede">
-        These Terms govern your use of <strong>sadik.dev</strong> and any
+        These Terms govern your use of <strong>sadikstudio.in</strong> and any
         development services you engage from <strong>Sadik Shaikh</strong>
         (&ldquo;Sadik&rdquo;, &ldquo;I&rdquo;, &ldquo;we&rdquo;,
         or &ldquo;my&rdquo;). By submitting an inquiry, making a payment,
@@ -294,7 +294,7 @@ export default function TermsPage() {
       </p>
       <ul>
         <li>Email: <a href="mailto:sadik5780@gmail.com">sadik5780@gmail.com</a></li>
-        <li>Website: <a href="/">sadik.dev</a></li>
+        <li>Website: <a href="/">sadikstudio.in</a></li>
       </ul>
       <p>
         Please reference your project name or invoice number in the subject

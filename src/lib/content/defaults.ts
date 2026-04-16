@@ -31,7 +31,7 @@ export const DEFAULT_ABOUT: AboutContent = {
   label: 'The Studio',
   title: 'A boutique studio led by the engineer shipping the code',
   description:
-    'Sadik Studio is a founder-led development practice based in India, serving startup founders in the USA, UK, and Australia. The studio stays deliberately small — you talk directly to the engineer writing your code, not an account manager. Faster than an agency. More accountable than a freelancer. At 40–60% less than a US/UK/AU senior hire.',
+    'Sadik Studio is a founder-led development practice based in India, serving startup founders in the USA, UK, and Australia. The studio stays deliberately small — you talk directly to the engineer writing your code, not an account manager. Faster than an agency. More accountable than a freelancer. At roughly half the equivalent hourly rate of a US/UK/AU senior hire (US senior React devs run $120–$150/hour or $180K+/year total comp).',
   experiences: [
     {
       role: 'Founder & Lead Engineer',

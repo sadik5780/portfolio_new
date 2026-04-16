@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const siteConfig = {
   name: 'Sadik Studio',
   fullName: 'Sadik Shaikh',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sadikstudio.in',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sadikstudio.in',
   title:
     'Sadik Studio — Founder-Led React, SaaS, Shopify & AI Development',
   description:
@@ -36,7 +36,7 @@ export const siteConfig = {
     'react development studio',
   ],
   locale: 'en_US',
-  twitterHandle: '@sadikdev',
+  twitterHandle: '@sadik5780',
   author: 'Sadik Shaikh',
 } as const;
 

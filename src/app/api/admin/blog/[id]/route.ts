@@ -60,6 +60,7 @@ export async function PATCH(request: Request, { params }: Params) {
 
     revalidatePath('/blog');
     revalidatePath(`/blog/${post.slug}`);
+    revalidatePath('/rss.xml');
 
     return NextResponse.json({ post });
   } catch (err) {
@@ -80,6 +81,7 @@ export async function DELETE(_: Request, { params }: Params) {
 
     revalidatePath('/blog');
     if (existing) revalidatePath(`/blog/${existing.slug}`);
+    revalidatePath('/rss.xml');
 
     return NextResponse.json({ ok: true });
   } catch (err) {

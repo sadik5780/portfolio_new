@@ -26,7 +26,7 @@ const PILLARS: Pillar[] = [
   },
   {
     title: 'Cost-efficient vs agencies',
-    body: '40–60% less than a US, UK, or AU senior in-house hire and a fraction of agency rates — without the agency overhead. Fixed scope and fixed price, no scope-creep surprises mid-build.',
+    body: 'US senior React engineers charge $120–$150/hour ($180K+/year total comp). We deliver the same calibre at roughly $60–$80/hour equivalent — fixed scope, fixed price, no scope-creep surprises mid-build.',
     proof: 'Public pricing + instant quote builder',
     icon: 'cost',
   },

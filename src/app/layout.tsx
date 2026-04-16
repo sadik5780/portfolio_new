@@ -50,8 +50,8 @@ const personJsonLd = {
   worksFor: { '@id': `${siteConfig.url}/#organization` },
   description: `${siteConfig.fullName} is the founder and lead engineer of Sadik Studio, a boutique development practice shipping React, Next.js, Shopify, and SaaS products for startups in the USA, UK, Australia, and India.`,
   sameAs: [
-    'https://linkedin.com/in/sadik',
-    'https://twitter.com/sadikdev',
+    'https://www.linkedin.com/in/sadik-shaikh',
+    'https://x.com/sadik5780',
   ],
   knowsAbout: [
     'React',
@@ -91,11 +91,11 @@ const organizationJsonLd = {
   image: `${siteConfig.url}/opengraph-image`,
   description: siteConfig.description,
   founder: { '@id': `${siteConfig.url}/#person` },
-  email: 'hello@sadik.dev',
+  email: 'sadik5780@gmail.com',
   priceRange: '$$',
   sameAs: [
-    'https://linkedin.com/in/sadik',
-    'https://twitter.com/sadikdev',
+    'https://www.linkedin.com/in/sadik-shaikh',
+    'https://x.com/sadik5780',
   ],
   areaServed: [
     { '@type': 'Country', name: 'United States' },
@@ -142,6 +142,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://analytics.ahrefs.com" crossOrigin="" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        {/* RSS auto-discovery — feed readers and RSS-based automations find this. */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${siteConfig.name} — Blog`}
+          href="/rss.xml"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}

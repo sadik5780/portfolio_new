@@ -57,7 +57,7 @@ async function deliverEmail(payload: Required<ContactPayload>): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return;
 
-  const to = process.env.CONTACT_TO_EMAIL ?? 'hello@sadik.dev';
+  const to = process.env.CONTACT_TO_EMAIL ?? 'sadik5780@gmail.com';
   const from = process.env.CONTACT_FROM_EMAIL ?? 'Sadik Portfolio <onboarding@resend.dev>';
 
   const subject = `New inquiry: ${payload.projectType} — ${payload.name}`;

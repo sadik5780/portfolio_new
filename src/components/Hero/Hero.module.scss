@@ -4,6 +4,9 @@
 .hero {
   position: relative;
   min-height: 100vh;
+  // dvh avoids the mobile-browser URL-bar bounce that 100vh causes (CLS fix
+  // on iOS Safari + Chrome Android).
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,6 +81,22 @@
   }
 }
 
+// Mobile: kill the blur animations (paint cost dominates), shrink orbs,
+// reduce blur. This is the biggest mobile LCP/paint win.
+@media (max-width: 640px) {
+  .gradient1,
+  .gradient2,
+  .gradient3 {
+    animation: none;
+    filter: blur(50px);
+    opacity: 0.28;
+  }
+
+  .gradient1 { width: 320px; height: 320px; }
+  .gradient2 { width: 280px; height: 280px; }
+  .gradient3 { width: 240px; height: 240px; }
+}
+
 // ── Grid overlay ────────────────────────────────────
 .gridOverlay {
   position: absolute;
@@ -91,12 +110,19 @@
 }
 
 // ── Noise texture ───────────────────────────────────
+// Hidden on mobile — the SVG turbulence filter is surprisingly expensive to
+// paint on low-end GPUs and the effect is imperceptible below 640px anyway.
 .noise {
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  pointer-events: none;
+  display: none;
+
+  @include md {
+    display: block;
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
 }
 
 // ── Content ─────────────────────────────────────────

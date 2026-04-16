@@ -5,6 +5,7 @@ import Footer from '@/components/Footer/Footer';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import { offerings } from '@/data/offerings';
 import { services } from '@/data/services';
+import { locations } from '@/data/locations';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
@@ -186,6 +187,44 @@ export default function ServicesIndexPage() {
                     Keywords: {o.seoKeywords.join(', ')}
                   </p>
                 </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Hire by stack × location matrix ───────── */}
+        <section className={styles.matrixSection} id="hire-by-stack">
+          <div className={styles.container}>
+            <SectionHeading
+              label="Hire by stack + location"
+              title="Dedicated engineering by technology and region"
+              description="Every service is available worldwide with local market context — pricing, timezone overlap, and region-specific FAQs. Pick a stack and choose your region."
+            />
+
+            <div className={styles.matrixGrid}>
+              {services.map((service) => (
+                <div key={service.slug} className={styles.matrixCard}>
+                  <div className={styles.matrixCardHead}>
+                    <h3 className={styles.matrixCardTitle}>{service.name}</h3>
+                    <p className={styles.matrixCardTagline}>{service.tagline}</p>
+                  </div>
+                  <div className={styles.matrixLinks}>
+                    {locations.map((loc) => (
+                      <Link
+                        key={loc.slug}
+                        href={`/services/${service.slug}/${loc.slug}`}
+                        className={styles.matrixLink}
+                      >
+                        <span className={styles.matrixLinkLabel}>
+                          Hire in {loc.name}
+                        </span>
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
+                          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </div>

@@ -361,6 +361,109 @@
   }
 }
 
+// ── Matrix: stack × location ────────────────────
+.matrixSection {
+  padding-block: $spacing-3xl $spacing-4xl;
+}
+
+.matrixGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-lg;
+  margin-top: $spacing-2xl;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.matrixCard {
+  @include card;
+  padding: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  min-width: 0;
+  transition: border-color $transition-base, transform $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba($accent-primary, 0.3);
+  }
+}
+
+.matrixCardHead {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.matrixCardTitle {
+  font-size: $fs-lg;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.matrixCardTagline {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.matrixLinks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-xs;
+  padding-top: $spacing-sm;
+  border-top: 1px solid $border-subtle;
+}
+
+.matrixLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-xs;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  color: $text-secondary;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  text-decoration: none;
+  transition: all $transition-fast;
+
+  svg {
+    opacity: 0.6;
+    transition: transform $transition-fast, opacity $transition-fast;
+  }
+
+  &:hover {
+    background: rgba($accent-primary, 0.08);
+    border-color: rgba($accent-primary, 0.4);
+    color: $text-primary;
+
+    svg {
+      opacity: 1;
+      transform: translateX(3px);
+    }
+  }
+}
+
+.matrixLinkLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 // ── Final CTA card ──────────────────────────────
 .ctaSection {
   padding-bottom: $spacing-5xl;
