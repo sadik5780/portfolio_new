@@ -180,6 +180,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>India (INR)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.shopify.inr}
               onChange={(e) => setShopify('inr', Number(e.target.value))}
@@ -189,6 +191,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>International (USD)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.shopify.usd}
               onChange={(e) => setShopify('usd', Number(e.target.value))}
@@ -295,6 +299,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Base price (INR)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.app.base.inr}
               onChange={(e) => setAppBase('inr', Number(e.target.value))}
@@ -304,6 +310,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Base price (USD)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.app.base.usd}
               onChange={(e) => setAppBase('usd', Number(e.target.value))}
@@ -316,6 +324,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Per-feature (INR)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.app.feature_price.inr}
               onChange={(e) => setAppFeaturePrice('inr', Number(e.target.value))}
@@ -325,6 +335,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Per-feature (USD)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.app.feature_price.usd}
               onChange={(e) => setAppFeaturePrice('usd', Number(e.target.value))}
@@ -402,6 +414,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Base price (INR)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.mobile.base.inr}
               onChange={(e) => setMobileBase('inr', Number(e.target.value))}
@@ -411,6 +425,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Base price (USD)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.mobile.base.usd}
               onChange={(e) => setMobileBase('usd', Number(e.target.value))}
@@ -423,6 +439,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Per-feature (INR)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.mobile.feature_price.inr}
               onChange={(e) => setMobileFeaturePrice('inr', Number(e.target.value))}
@@ -432,6 +450,8 @@ export default function PricingEditor({ initial }: PricingEditorProps) {
             <label className={styles.label}>Per-feature (USD)</label>
             <input
               type="number"
+              step="any"
+              min="0"
               className={styles.input}
               value={value.mobile.feature_price.usd}
               onChange={(e) => setMobileFeaturePrice('usd', Number(e.target.value))}

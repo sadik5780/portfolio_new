@@ -40,9 +40,17 @@ export async function PUT(request: Request) {
   try {
     await upsertSetting(key, body.value);
 
-    // Invalidate the public pages that consume this content
+    // Invalidate the public pages that consume this content. Pricing is
+    // consumed by a wider surface area than other keys (home + services +
+    // quote builder + pricing page + contact form), so invalidate all of
+    // them when pricing changes.
     revalidatePath('/');
-    if (key === 'pricing') revalidatePath('/contact');
+    if (key === 'pricing') {
+      revalidatePath('/pricing');
+      revalidatePath('/services');
+      revalidatePath('/quote');
+      revalidatePath('/contact');
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {

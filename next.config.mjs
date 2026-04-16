@@ -23,7 +23,9 @@ const baseCsp = {
     "'self'",
     "'unsafe-inline'",
     ...(isProd ? [] : ["'unsafe-eval'"]),
-    'https://checkout.razorpay.com',
+    // Wildcard covers checkout.razorpay.com + cdn.razorpay.com (risk-detection
+    // bundle) + any future razorpay.com subdomains they add.
+    'https://*.razorpay.com',
     'https://analytics.ahrefs.com',
     'https://www.googletagmanager.com',
   ],
@@ -43,14 +45,14 @@ const baseCsp = {
     "'self'",
     ...(isProd ? [] : ['ws:', 'wss:']),
     'https://*.supabase.co',
-    'https://api.razorpay.com',
-    'https://lumberjack.razorpay.com',
+    // Wildcard covers api + lumberjack + cdn + any other razorpay.com subs.
+    'https://*.razorpay.com',
     'https://analytics.ahrefs.com',
     'https://*.google-analytics.com',
     'https://*.analytics.google.com',
     'https://*.googletagmanager.com',
   ],
-  'frame-src': ['https://api.razorpay.com', 'https://checkout.razorpay.com'],
+  'frame-src': ['https://*.razorpay.com'],
   'frame-ancestors': ["'none'"],
   'form-action': ["'self'"],
   'base-uri': ["'self'"],

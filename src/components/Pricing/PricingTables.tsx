@@ -25,14 +25,28 @@ export default function PricingTables({ pricing, offerings }: PricingTablesProps
   // All prices shown in USD regardless of visitor country.
   const currency = 'usd' as const;
 
-  // Map offering slug → its display section
-  const sections = [
-    { offering: offerings.find((o) => o.slug === 'static-website')!, render: 'static' as const },
-    { offering: offerings.find((o) => o.slug === 'shopify-store')!, render: 'shopify' as const },
-    { offering: offerings.find((o) => o.slug === 'saas-platform')!, render: 'app' as const },
-    { offering: offerings.find((o) => o.slug === 'custom-web-app')!, render: 'app' as const },
-    { offering: offerings.find((o) => o.slug === 'mobile-app')!, render: 'mobile' as const },
+  // Map offering slug → its display section. Filter out any section whose
+  // underlying offering no longer exists in the DB (admin may have deleted
+  // it), so the page still renders the remaining sections instead of 500-ing.
+  const SECTION_MAP: Array<{ slug: string; render: 'static' | 'shopify' | 'app' | 'mobile' }> = [
+    { slug: 'static-website', render: 'static' },
+    { slug: 'shopify-store', render: 'shopify' },
+    { slug: 'saas-platform', render: 'app' },
+    { slug: 'custom-web-app', render: 'app' },
+    { slug: 'mobile-app', render: 'mobile' },
   ];
+
+  const sections = SECTION_MAP
+    .map((s) => ({
+      render: s.render,
+      offering: offerings.find((o) => o.slug === s.slug),
+    }))
+    .filter(
+      (s): s is { render: typeof s.render; offering: Offering } =>
+        s.offering !== undefined,
+    );
+
+  if (sections.length === 0) return null;
 
   return (
     <section className={styles.section}>
