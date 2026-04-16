@@ -6,12 +6,13 @@ import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import { getOfferings } from '@/lib/content/offerings';
 import { services } from '@/data/services';
 import { locations } from '@/data/locations';
+import { detectCurrencyFromHeaders } from '@/lib/payments/locale';
+import { formatPrice } from '@/data/pricing';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
-// Revalidate so admin edits to offerings appear without a redeploy; API
-// routes also call revalidatePath('/services') on mutations for instant updates.
-export const revalidate = 600;
+// Geo-aware pricing forces dynamic rendering; can't be statically cached.
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Development Services — React, SaaS, Shopify, AI for Global Startups',
@@ -31,6 +32,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function ServicesIndexPage() {
+  const currency = detectCurrencyFromHeaders();
   const offerings = await getOfferings();
   const itemListJsonLd = {
     '@context': 'https://schema.org',
@@ -166,7 +168,12 @@ export default async function ServicesIndexPage() {
                     <div className={styles.cardMeta}>
                       <span className={styles.cardMetaLabel}>Starts at</span>
                       <div className={styles.cardPrices}>
-                        <span>${o.startingUsd.toLocaleString('en-US')}</span>
+                        <span>
+                          {formatPrice(
+                            currency === 'inr' ? o.startingInr : o.startingUsd,
+                            currency,
+                          )}
+                        </span>
                       </div>
                       <span className={styles.cardTimeline}>{o.timeline}</span>
                     </div>

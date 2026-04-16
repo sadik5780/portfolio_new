@@ -12,11 +12,17 @@ import styles from './QuoteBuilder.module.scss';
 interface QuoteBuilderProps {
   pricing: PricingContent;
   offerings: Offering[];
+  /** Geo-detected currency. Defaults to 'usd' if not provided. */
+  currency?: Currency;
 }
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
-export default function QuoteBuilder({ pricing, offerings }: QuoteBuilderProps) {
+export default function QuoteBuilder({
+  pricing,
+  offerings,
+  currency = 'usd',
+}: QuoteBuilderProps) {
   const search = useSearchParams();
   const initialSlug = search.get('service') || offerings[0].slug;
   const initialTier = search.get('tier');
@@ -27,9 +33,6 @@ export default function QuoteBuilder({ pricing, offerings }: QuoteBuilderProps) 
   );
   const [appFeatures, setAppFeatures] = useState<Set<string>>(new Set());
   const [mobileFeatures, setMobileFeatures] = useState<Set<string>>(new Set());
-
-  // All quotes shown in USD regardless of visitor location.
-  const currency = 'usd' as const;
 
   // Reset feature sets when switching service
   useEffect(() => {
@@ -231,7 +234,10 @@ export default function QuoteBuilder({ pricing, offerings }: QuoteBuilderProps) 
                 </div>
                 <span className={styles.serviceCardName}>{o.name}</span>
                 <span className={styles.serviceCardPrice}>
-                  from {formatPrice(o.startingUsd, currency)}
+                  from {formatPrice(
+                    currency === 'inr' ? o.startingInr : o.startingUsd,
+                    currency,
+                  )}
                 </span>
               </button>
             );

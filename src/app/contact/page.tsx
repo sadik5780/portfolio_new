@@ -4,10 +4,12 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import ContactForm from '@/components/ContactForm/ContactForm';
+import { detectCurrencyFromHeaders } from '@/lib/payments/locale';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
-export const revalidate = 3600;
+// Geo-aware currency forces dynamic rendering.
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Contact Sadik Studio — Get in Touch in 24 Hours',
@@ -68,6 +70,7 @@ const channels = [
 ];
 
 export default function ContactPage() {
+  const currency = detectCurrencyFromHeaders();
   return (
     <>
       <script
@@ -144,7 +147,7 @@ export default function ContactPage() {
               </aside>
 
               <div className={styles.formWrap}>
-                <ContactForm currency="inr" preset={null} />
+                <ContactForm currency={currency} preset={null} />
               </div>
             </div>
           </div>

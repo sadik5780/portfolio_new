@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { formatPrice } from '@/data/pricing';
+import { formatPrice, type Currency } from '@/data/pricing';
 import type { PricingContent } from '@/lib/content/types';
 import type { Offering } from '@/data/offerings';
 import styles from './PricingTables.module.scss';
@@ -10,6 +10,8 @@ import styles from './PricingTables.module.scss';
 interface PricingTablesProps {
   pricing: PricingContent;
   offerings: Offering[];
+  /** Geo-detected currency. Defaults to 'usd' if not provided. */
+  currency?: Currency;
 }
 
 const cardAnim = {
@@ -21,9 +23,11 @@ const cardAnim = {
   }),
 };
 
-export default function PricingTables({ pricing, offerings }: PricingTablesProps) {
-  // All prices shown in USD regardless of visitor country.
-  const currency = 'usd' as const;
+export default function PricingTables({
+  pricing,
+  offerings,
+  currency = 'usd',
+}: PricingTablesProps) {
 
   // Map offering slug → its display section. Filter out any section whose
   // underlying offering no longer exists in the DB (admin may have deleted
