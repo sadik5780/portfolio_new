@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import BlogContent from '@/components/BlogPost/BlogContent';
+import BlogShareButtons from '@/components/BlogPost/BlogShareButtons';
+import BlogQuestionCta from '@/components/BlogPost/BlogQuestionCta';
 import {
   getBlogPost,
   getAllBlogSlugs,
@@ -159,7 +161,17 @@ export default async function BlogPostPage({ params }: PageProps) {
           </div>
 
           <div className={styles.container}>
+            <BlogShareButtons
+              title={post.title}
+              url={`${siteConfig.url}/blog/${post.slug}`}
+            />
+
             <BlogContent blocks={post.content} />
+
+            <BlogQuestionCta
+              postTitle={post.title}
+              postUrl={`${siteConfig.url}/blog/${post.slug}`}
+            />
 
             {post.faqs && post.faqs.length > 0 && (
               <section className={styles.faqSection} aria-labelledby="post-faq-heading">

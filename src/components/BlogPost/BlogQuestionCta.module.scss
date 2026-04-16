@@ -1,0 +1,85 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'icon body'
+    'actions actions';
+  gap: $spacing-md $spacing-lg;
+  padding: $spacing-xl;
+  margin-block: $spacing-2xl;
+  background: linear-gradient(
+    135deg,
+    rgba($accent-primary, 0.08),
+    rgba($accent-secondary, 0.05)
+  );
+  border: 1px solid rgba($accent-primary, 0.25);
+  border-radius: $radius-lg;
+
+  @include md {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'icon body actions';
+    align-items: center;
+  }
+}
+
+.icon {
+  grid-area: icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba($accent-primary, 0.15);
+  border: 1px solid rgba($accent-primary, 0.35);
+  border-radius: $radius-md;
+  color: $accent-primary;
+  flex-shrink: 0;
+}
+
+.body {
+  grid-area: body;
+  min-width: 0;
+}
+
+.title {
+  font-size: $fs-lg;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+  margin: 0 0 $spacing-xs;
+}
+
+.copy {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+
+  @include md {
+    justify-content: flex-end;
+  }
+}
+
+.btn {
+  @include button-base;
+  padding: 12px 22px;
+  background: $accent-gradient;
+  color: white;
+  font-size: $fs-sm;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
+  }
+}
