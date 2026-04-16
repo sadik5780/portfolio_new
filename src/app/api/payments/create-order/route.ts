@@ -25,6 +25,24 @@ interface CreateOrderBody {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Patterns form-tester bots commonly leave behind. Blocks "your.email+fakedata",
+// "test+123", "admin+foo" — harmless real users rarely use these prefixes.
+const BOT_EMAIL_PATTERNS = [
+  /^your\.?email\+/i,
+  /\+fakedata/i,
+  /\+test\d+@/i,
+  /^noreply@/i,
+  /^no-reply@/i,
+  /@(example|test|localhost|invalid)\.(com|org|net)$/i,
+  /mailinator\.com$/i,
+  /guerrillamail\./i,
+  /10minutemail\./i,
+];
+
+function looksLikeBotEmail(email: string): boolean {
+  return BOT_EMAIL_PATTERNS.some((re) => re.test(email));
+}
+
 function validateCustomer(c: Partial<CustomerInput> | undefined): {
   ok: true;
   customer: CustomerInput;
@@ -42,6 +60,12 @@ function validateCustomer(c: Partial<CustomerInput> | undefined): {
   if (name.length < 2) return { ok: false, error: 'Name is required.' };
   if (name.length > 120) return { ok: false, error: 'Name is too long.' };
   if (!EMAIL_RE.test(email)) return { ok: false, error: 'Valid email required.' };
+  if (looksLikeBotEmail(email)) {
+    return {
+      ok: false,
+      error: 'Please use a real email address we can reach you at.',
+    };
+  }
   if (phone && phone.length > 30) {
     return { ok: false, error: 'Phone number looks too long.' };
   }

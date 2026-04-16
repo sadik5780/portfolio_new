@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { formatPrice } from '@/data/pricing';
 import type { PaymentRow } from '@/lib/payments/types';
+import ZohoSyncButton from './ZohoSyncButton';
 import styles from './admin-shared.module.scss';
 
 interface PaymentDetailRowProps {
@@ -177,6 +178,10 @@ export default function PaymentDetailRow({ payment }: PaymentDetailRowProps) {
               >
                 <strong>Zoho sync failed:</strong> {payment.zoho_sync_error}
               </div>
+            )}
+
+            {payment.status === 'paid' && !payment.zoho_invoice_id && (
+              <ZohoSyncButton paymentId={payment.id} />
             )}
           </td>
         </tr>
