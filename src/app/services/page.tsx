@@ -3,11 +3,15 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
-import { offerings } from '@/data/offerings';
+import { getOfferings } from '@/lib/content/offerings';
 import { services } from '@/data/services';
 import { locations } from '@/data/locations';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
+
+// Revalidate so admin edits to offerings appear without a redeploy; API
+// routes also call revalidatePath('/services') on mutations for instant updates.
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Development Services — React, SaaS, Shopify, AI for Global Startups',
@@ -26,7 +30,8 @@ export const metadata: Metadata = buildMetadata({
   ],
 });
 
-export default function ServicesIndexPage() {
+export default async function ServicesIndexPage() {
+  const offerings = await getOfferings();
   const itemListJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',

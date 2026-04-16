@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import Script from 'next/script';
 import { buildMetadata, siteConfig } from '@/lib/seo';
+import WhatsAppButton from '@/components/WhatsAppButton/WhatsAppButton';
 import './globals.scss';
 
 // Body / UI text — neutral and exhaustively legible
@@ -181,7 +182,10 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <WhatsAppButton />
+      </body>
     </html>
   );
 }

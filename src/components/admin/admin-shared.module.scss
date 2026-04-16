@@ -143,6 +143,34 @@
   color: $text-tertiary;
 }
 
+.helpText {
+  font-size: $fs-xs;
+  color: $text-tertiary;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-subtle;
+}
+
+.btnGhost {
+  @extend .btn;
+  background: transparent;
+  color: $text-secondary;
+  border-color: transparent;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: $text-primary;
+  }
+}
+
 .input,
 .textarea,
 .select {

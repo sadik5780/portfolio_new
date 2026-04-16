@@ -5,7 +5,7 @@
  * `pricing` settings row (so admin can change prices without code).
  */
 
-export type OfferingCategory = 'website' | 'ecommerce' | 'saas' | 'webapp' | 'mobile';
+export type OfferingCategory = 'website' | 'ecommerce' | 'saas' | 'webapp' | 'mobile' | 'other';
 
 export interface Offering {
   slug: string;

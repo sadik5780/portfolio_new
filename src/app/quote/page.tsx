@@ -6,10 +6,12 @@ import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import QuoteBuilder from '@/components/Quote/QuoteBuilder';
 import { buildMetadata } from '@/lib/seo';
 import { getPricing } from '@/lib/content/settings';
-import { offerings } from '@/data/offerings';
+import { getOfferings } from '@/lib/content/offerings';
 import styles from './page.module.scss';
 
-export const revalidate = 3600;
+// Shorter than the previous 1h — admin edits to offerings/pricing should
+// surface quickly, and API routes also revalidatePath('/quote') on save.
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Get an Instant Project Quote — Sadik Studio',
@@ -27,7 +29,10 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function QuotePage() {
-  const pricing = await getPricing();
+  const [pricing, offerings] = await Promise.all([
+    getPricing(),
+    getOfferings(),
+  ]);
 
   return (
     <>

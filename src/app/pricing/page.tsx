@@ -7,11 +7,11 @@ import FAQ from '@/components/FAQ/FAQ';
 import PricingTables from '@/components/Pricing/PricingTables';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import { getPricing } from '@/lib/content/settings';
+import { getOfferings } from '@/lib/content/offerings';
 import { faqs } from '@/data/faqs';
-import { offerings } from '@/data/offerings';
 import styles from './page.module.scss';
 
-export const revalidate = 3600;
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Pricing — Static Sites, Shopify, SaaS, Web & Mobile Apps',
@@ -40,7 +40,10 @@ const faqJsonLd = {
 };
 
 export default async function PricingPage() {
-  const pricing = await getPricing();
+  const [pricing, offerings] = await Promise.all([
+    getPricing(),
+    getOfferings(),
+  ]);
 
   // Service catalog JSON-LD so each price shows up as a structured offer
   const serviceJsonLd = {
