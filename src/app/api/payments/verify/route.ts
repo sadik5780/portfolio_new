@@ -5,6 +5,7 @@ import {
   markPaymentFailed,
   markPaymentPaid,
 } from '@/lib/payments/store';
+import { syncPaymentToZoho } from '@/lib/payments/zoho-sync';
 import { hasServiceRoleEnv } from '@/lib/supabase/server';
 import { rateLimit, rateLimitHeaders } from '@/lib/security/rate-limit';
 import { isAllowedOrigin } from '@/lib/security/origin';
@@ -126,11 +127,17 @@ export async function POST(request: Request) {
 
   // ── Step 3: mark paid ───────────────────────────
   try {
-    await markPaymentPaid({
+    const updated = await markPaymentPaid({
       id: paymentId,
       razorpay_payment_id: razPaymentId,
       razorpay_signature: signature,
     });
+
+    // Best-effort Zoho invoice creation — errors are swallowed inside
+    // syncPaymentToZoho and written to zoho_sync_error on the row. We still
+    // return success to the client because the payment itself is good.
+    await syncPaymentToZoho(updated);
+
     return NextResponse.json({
       ok: true,
       paymentId,

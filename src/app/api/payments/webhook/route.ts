@@ -8,6 +8,7 @@ import {
   markPaymentFailed,
   markPaymentPaid,
 } from '@/lib/payments/store';
+import { syncPaymentToZoho } from '@/lib/payments/zoho-sync';
 import { hasServiceRoleEnv } from '@/lib/supabase/server';
 import { logSecurityEvent } from '@/lib/security/log';
 import { getClientIp } from '@/lib/security/ip';
@@ -135,13 +136,18 @@ export async function POST(request: Request) {
             { status: 400 },
           );
         }
-        await markPaymentPaid({
+        const updated = await markPaymentPaid({
           id: record.id,
           razorpay_payment_id: razPaymentId,
           // Webhook events don't include the client-side signature; store
           // the webhook signature instead as an audit marker.
           razorpay_signature: `webhook:${signature.slice(0, 16)}`,
         });
+
+        // Mirror into Zoho Invoice. If the client-side /verify already
+        // synced, syncPaymentToZoho is a no-op (idempotent on zoho_invoice_id).
+        await syncPaymentToZoho(updated);
+
         return NextResponse.json({ ok: true, status: 'paid' });
       }
 

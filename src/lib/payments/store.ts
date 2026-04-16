@@ -90,6 +90,33 @@ export async function markPaymentFailed(params: {
     .eq('id', params.id);
 }
 
+/**
+ * Write Zoho Invoice sync results back to the payment row. Either:
+ *   - success: all four zoho_* fields populated, zoho_sync_error cleared
+ *   - failure: zoho_sync_error populated; invoice fields left null so a
+ *              future retry can write them without a conflict.
+ */
+export async function saveZohoSync(params: {
+  id: string;
+  contactId?: string | null;
+  invoiceId?: string | null;
+  invoiceNumber?: string | null;
+  invoiceUrl?: string | null;
+  error?: string | null;
+}): Promise<void> {
+  const supabase = getSupabaseAdmin();
+  await supabase
+    .from('payments')
+    .update({
+      zoho_contact_id: params.contactId ?? null,
+      zoho_invoice_id: params.invoiceId ?? null,
+      zoho_invoice_number: params.invoiceNumber ?? null,
+      zoho_invoice_url: params.invoiceUrl ?? null,
+      zoho_sync_error: params.error ?? null,
+    })
+    .eq('id', params.id);
+}
+
 export async function listPayments(): Promise<PaymentRow[]> {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase

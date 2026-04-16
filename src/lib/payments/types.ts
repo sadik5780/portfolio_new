@@ -46,6 +46,13 @@ export interface PaymentRow {
   status: 'pending' | 'paid' | 'failed' | 'cancelled';
   failure_reason: string | null;
   notes: Record<string, unknown> | null;
+  // Zoho Invoice sync — populated after a successful payment when the
+  // Zoho integration is configured. Null if Zoho is offline / unconfigured.
+  zoho_contact_id: string | null;
+  zoho_invoice_id: string | null;
+  zoho_invoice_number: string | null;
+  zoho_invoice_url: string | null;
+  zoho_sync_error: string | null;
   created_at: string;
   updated_at: string;
 }
