@@ -50,3 +50,31 @@ export function verifyPaymentSignature(params: {
   if (a.length !== b.length) return false;
   return crypto.timingSafeEqual(a, b);
 }
+
+/**
+ * Verify a Razorpay webhook request. Razorpay signs the entire raw body
+ * with the WEBHOOK secret (not the API secret) and sends the result in the
+ * `X-Razorpay-Signature` header. The body MUST be the raw string — any
+ * JSON re-serialization will break the hash.
+ */
+export function verifyWebhookSignature(params: {
+  rawBody: string;
+  signature: string;
+}): boolean {
+  const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+  if (!secret || !params.signature) return false;
+
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(params.rawBody)
+    .digest('hex');
+
+  const a = Buffer.from(expected, 'utf8');
+  const b = Buffer.from(params.signature, 'utf8');
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
+export function hasWebhookEnv(): boolean {
+  return Boolean(process.env.RAZORPAY_WEBHOOK_SECRET);
+}
