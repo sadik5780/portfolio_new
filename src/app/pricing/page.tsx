@@ -8,13 +8,13 @@ import PricingTables from '@/components/Pricing/PricingTables';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import { getPricing } from '@/lib/content/settings';
 import { getOfferings } from '@/lib/content/offerings';
-import { detectCurrencyFromHeaders } from '@/lib/payments/locale';
 import { faqs } from '@/data/faqs';
 import styles from './page.module.scss';
 
-// Geo-aware pricing requires reading request headers, which forces dynamic
-// rendering. Edge CDN still caches responses keyed by country.
-export const dynamic = 'force-dynamic';
+// Currency is detected client-side via useCurrency() hook so this page
+// stays cacheable. Server renders USD by default; Indian visitors see the
+// INR swap after hydration.
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Pricing — Static Sites, Shopify, SaaS, Web & Mobile Apps',
@@ -43,7 +43,6 @@ const faqJsonLd = {
 };
 
 export default async function PricingPage() {
-  const currency = detectCurrencyFromHeaders();
   const [pricing, offerings] = await Promise.all([
     getPricing(),
     getOfferings(),
@@ -129,7 +128,7 @@ export default async function PricingPage() {
         </section>
 
         {/* Each service category, prices straight from Supabase settings */}
-        <PricingTables pricing={pricing} offerings={offerings} currency={currency} />
+        <PricingTables pricing={pricing} offerings={offerings} />
 
         <FAQ />
       </main>

@@ -3,6 +3,7 @@
 import { forwardRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { formatPrice, type Currency } from '@/data/pricing';
+import { useCurrency } from '@/lib/hooks/useCurrency';
 import styles from './ContactForm.module.scss';
 
 export interface ContactFormPreset {
@@ -11,7 +12,8 @@ export interface ContactFormPreset {
 }
 
 interface ContactFormProps {
-  currency: Currency;
+  /** Override the user's auto-detected currency. Optional. */
+  currency?: Currency;
   preset: ContactFormPreset | null;
 }
 
@@ -28,9 +30,11 @@ const PROJECT_TYPES = [
 ];
 
 const ContactForm = forwardRef<HTMLDivElement, ContactFormProps>(function ContactForm(
-  { currency, preset },
+  { currency: currencyProp, preset },
   ref,
 ) {
+  const [autoCurrency] = useCurrency();
+  const currency = currencyProp ?? autoCurrency;
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState<string>('');
 

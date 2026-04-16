@@ -6,13 +6,12 @@ import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import { getOfferings } from '@/lib/content/offerings';
 import { services } from '@/data/services';
 import { locations } from '@/data/locations';
-import { detectCurrencyFromHeaders } from '@/lib/payments/locale';
-import { formatPrice } from '@/data/pricing';
+import OfferingPrice from '@/components/OfferingPrice/OfferingPrice';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
 
-// Geo-aware pricing forces dynamic rendering; can't be statically cached.
-export const dynamic = 'force-dynamic';
+// Currency is swapped client-side via the OfferingPrice component.
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Development Services — React, SaaS, Shopify, AI for Global Startups',
@@ -32,7 +31,6 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function ServicesIndexPage() {
-  const currency = detectCurrencyFromHeaders();
   const offerings = await getOfferings();
   const itemListJsonLd = {
     '@context': 'https://schema.org',
@@ -168,12 +166,7 @@ export default async function ServicesIndexPage() {
                     <div className={styles.cardMeta}>
                       <span className={styles.cardMetaLabel}>Starts at</span>
                       <div className={styles.cardPrices}>
-                        <span>
-                          {formatPrice(
-                            currency === 'inr' ? o.startingInr : o.startingUsd,
-                            currency,
-                          )}
-                        </span>
+                        <OfferingPrice inr={o.startingInr} usd={o.startingUsd} />
                       </div>
                       <span className={styles.cardTimeline}>{o.timeline}</span>
                     </div>

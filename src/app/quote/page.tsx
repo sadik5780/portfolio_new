@@ -7,11 +7,10 @@ import QuoteBuilder from '@/components/Quote/QuoteBuilder';
 import { buildMetadata } from '@/lib/seo';
 import { getPricing } from '@/lib/content/settings';
 import { getOfferings } from '@/lib/content/offerings';
-import { detectCurrencyFromHeaders } from '@/lib/payments/locale';
 import styles from './page.module.scss';
 
-// Geo-aware pricing forces dynamic rendering; can't be statically cached.
-export const dynamic = 'force-dynamic';
+// Currency is detected client-side via useCurrency() hook.
+export const revalidate = 600;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Get an Instant Project Quote — Sadik Studio',
@@ -29,7 +28,6 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function QuotePage() {
-  const currency = detectCurrencyFromHeaders();
   const [pricing, offerings] = await Promise.all([
     getPricing(),
     getOfferings(),
@@ -53,7 +51,7 @@ export default async function QuotePage() {
         <section className={styles.builderSection}>
           <div className={styles.container}>
             <Suspense fallback={null}>
-              <QuoteBuilder pricing={pricing} offerings={offerings} currency={currency} />
+              <QuoteBuilder pricing={pricing} offerings={offerings} />
             </Suspense>
           </div>
         </section>

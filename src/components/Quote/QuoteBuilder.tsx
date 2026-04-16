@@ -7,13 +7,12 @@ import { formatPrice, type Currency } from '@/data/pricing';
 import type { PricingContent } from '@/lib/content/types';
 import type { Offering } from '@/data/offerings';
 import PaymentSummary, { type CheckoutRequest } from '@/components/Payments/PaymentSummary';
+import { useCurrency } from '@/lib/hooks/useCurrency';
 import styles from './QuoteBuilder.module.scss';
 
 interface QuoteBuilderProps {
   pricing: PricingContent;
   offerings: Offering[];
-  /** Geo-detected currency. Defaults to 'usd' if not provided. */
-  currency?: Currency;
 }
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
@@ -21,8 +20,8 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 export default function QuoteBuilder({
   pricing,
   offerings,
-  currency = 'usd',
 }: QuoteBuilderProps) {
+  const [currency] = useCurrency();
   const search = useSearchParams();
   const initialSlug = search.get('service') || offerings[0].slug;
   const initialTier = search.get('tier');
