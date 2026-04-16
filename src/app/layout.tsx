@@ -142,7 +142,9 @@ export default function RootLayout({
         {/* Cut handshake latency to third-party origins loaded lazily below. */}
         <link rel="preconnect" href="https://analytics.ahrefs.com" crossOrigin="" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
+        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.facebook.com" />
         {/* RSS auto-discovery — feed readers and RSS-based automations find this. */}
         <link
           rel="alternate"
@@ -181,8 +183,33 @@ export default function RootLayout({
             gtag('config', 'G-EHEQ1207ME');
           `}
         </Script>
+        {/* Meta Pixel — lazyOnload to stay off the critical path */}
+        <Script id="meta-pixel" strategy="lazyOnload">
+          {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '2061309221093641');
+            fbq('track', 'PageView');
+          `}
+        </Script>
       </head>
       <body>
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
+            src="https://www.facebook.com/tr?id=2061309221093641&ev=PageView&noscript=1"
+            alt=""
+          />
+        </noscript>
         {children}
         <WhatsAppButton />
       </body>
