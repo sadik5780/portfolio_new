@@ -5,9 +5,9 @@ export const siteConfig = {
   fullName: 'Sadik Shaikh',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sadikstudio.in',
   title:
-    'Sadik Studio — Founder-Led React, SaaS, Shopify & AI Development',
+    'Sadik Studio — React, SaaS, Shopify & AI Automation Development',
   description:
-    'Sadik Studio is a founder-led development practice led by Sadik Shaikh (6+ years). We ship React, Next.js, Shopify, and SaaS products with AI-powered features for startups in the USA, UK, Australia & India. Shopify from $2,000. SaaS MVPs from $10,000.',
+    'Sadik Studio is a founder-led development practice led by Sadik Shaikh (6+ years). We ship React, Next.js, Shopify, SaaS products, and custom AI automations (chatbots, lead agents, workflow automation) for startups in the USA, UK, Australia & India.',
   keywords: [
     'hire react developer',
     'hire next.js developer',
@@ -31,7 +31,12 @@ export const siteConfig = {
     'ai web app development services',
     'saas development with ai integration',
     'openai integration for saas',
+    'google gemini developer',
     'rag pipeline developer for hire',
+    'custom ai automation services',
+    'ai chatbot for business',
+    'ai lead generation agent',
+    'speed to lead automation',
     'founder-led development studio',
     'react development studio',
   ],

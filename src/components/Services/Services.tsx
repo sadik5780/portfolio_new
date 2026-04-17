@@ -13,6 +13,7 @@ interface ServicesProps {
 
 function titleToServiceParam(title: string): string {
   const lower = title.toLowerCase();
+  if (lower.includes('automation')) return 'ai-automation';
   if (lower.includes('shopify')) return 'shopify';
   if (lower.includes('saas')) return 'saas';
   if (lower.includes('ai')) return 'ai';

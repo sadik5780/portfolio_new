@@ -1,0 +1,287 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.trigger {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 900;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: $accent-secondary;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba($accent-secondary, 0.4);
+  transition: all $transition-base;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 32px rgba($accent-secondary, 0.5);
+  }
+}
+
+.triggerHidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+.widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 901;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 48px);
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: $accent-secondary;
+  color: white;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $fw-semibold;
+  font-size: $fs-sm;
+}
+
+.headerName {
+  font-weight: $fw-semibold;
+  font-size: $fs-sm;
+}
+
+.headerStatus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+}
+
+.closeBtn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-md;
+  min-height: 280px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm + 0.125rem;
+}
+
+.botMsg {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.botAvatar {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: $accent-secondary;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: $fw-semibold;
+}
+
+.msgBubble {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  border-top-left-radius: 2px;
+  padding: 10px 14px;
+  font-size: $fs-sm;
+  color: $text-primary;
+  line-height: 1.5;
+  max-width: 85%;
+}
+
+.userMsg {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userBubble {
+  background: $accent-secondary;
+  color: white;
+  border-radius: $radius-md;
+  border-bottom-right-radius: 2px;
+  padding: 8px 14px;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: $spacing-xs;
+  padding-left: 36px;
+}
+
+.option {
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid $border-hover;
+  border-radius: $radius-full;
+  color: $text-primary;
+  font-family: $font-sans;
+  font-size: 13px;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: rgba($accent-primary, 0.1);
+    border-color: rgba($accent-primary, 0.4);
+    color: $accent-primary;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: $spacing-xs;
+  padding-left: 36px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  color: $text-primary;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  outline: none;
+  transition: border-color $transition-fast;
+
+  &::placeholder {
+    color: $text-tertiary;
+  }
+
+  &:focus {
+    border-color: $accent-primary;
+  }
+}
+
+.submitBtn {
+  @include button-accent;
+  width: 100%;
+  padding: 10px;
+  font-size: $fs-sm;
+  justify-content: center;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.doneWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: $spacing-xl $spacing-md;
+  gap: $spacing-sm;
+}
+
+.doneIcon {
+  color: #34d399;
+  margin-bottom: $spacing-xs;
+}
+
+.doneTitle {
+  font-size: $fs-lg;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+}
+
+.doneText {
+  font-size: $fs-sm;
+  color: $text-secondary;
+  line-height: 1.6;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border-top: 1px solid $border-subtle;
+  font-size: 10px;
+  color: $text-tertiary;
+}
+
+.footerDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: $text-tertiary;
+}

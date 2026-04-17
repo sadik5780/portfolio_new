@@ -139,6 +139,14 @@ const nextConfig = {
       { source: '/hire-ai-developer-usa',          destination: '/services/ai-integration/usa',       permanent: true },
       { source: '/hire-ai-developer-uk',           destination: '/services/ai-integration/uk',        permanent: true },
       { source: '/hire-ai-developer-australia',    destination: '/services/ai-integration/australia', permanent: true },
+      // AI automations
+      { source: '/ai-automation-services',            destination: '/services/ai-automations/usa',       permanent: true },
+      { source: '/ai-automation-india',               destination: '/services/ai-automations/india',     permanent: true },
+      { source: '/ai-automation-usa',                 destination: '/services/ai-automations/usa',       permanent: true },
+      { source: '/ai-automation-uk',                  destination: '/services/ai-automations/uk',        permanent: true },
+      { source: '/ai-automation-australia',           destination: '/services/ai-automations/australia', permanent: true },
+      { source: '/ai-chatbot-development',            destination: '/services/ai-automations/usa',       permanent: true },
+      { source: '/ai-lead-generation-agent',          destination: '/services/ai-automations/usa',       permanent: true },
     ];
   },
   async headers() {

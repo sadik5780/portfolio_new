@@ -47,7 +47,7 @@ export default function HowWeWork() {
         <SectionHeading
           label="Process"
           title="How we work — built for speed"
-          description="A four-step process that gets you from idea to a live, production product without the agency drag."
+          description="From SaaS MVPs to AI automation systems — a four-step process that gets you from idea to live product without the agency drag."
         />
 
         <StaggerGrid className={styles.grid}>

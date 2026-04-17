@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import Script from 'next/script';
 import { buildMetadata, siteConfig } from '@/lib/seo';
-import WhatsAppButton from '@/components/WhatsAppButton/WhatsAppButton';
+import ChatWidget from '@/components/ChatWidget/ChatWidget';
 import './globals.scss';
 
 // Body / UI text — neutral and exhaustively legible
@@ -68,8 +68,10 @@ const personJsonLd = {
     'E-commerce',
     'OpenAI',
     'Anthropic Claude',
+    'Google Gemini',
     'RAG Pipelines',
     'AI Integration',
+    'AI Automations',
   ],
   areaServed: [
     { '@type': 'Country', name: 'United States' },
@@ -112,6 +114,7 @@ const organizationJsonLd = {
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopify & Headless Commerce' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom SaaS Platforms' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI-Powered Product Features' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom AI Automations' } },
     ],
   },
 };
@@ -211,7 +214,7 @@ export default function RootLayout({
           />
         </noscript>
         {children}
-        <WhatsAppButton />
+        <ChatWidget />
       </body>
     </html>
   );

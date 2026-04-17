@@ -11,7 +11,7 @@ export const HOME_FAQS: QA[] = [
   {
     question: 'How much does a custom web app or SaaS cost?',
     answer:
-      'React & Next.js builds from $1,500, Shopify stores from $2,000, AI-powered features from $2,500, and SaaS MVPs from $10,000. Use the quote builder for a fixed number in 60 seconds — every tier has public pricing on the site.',
+      'React & Next.js builds from $1,500, Shopify stores from $2,000, custom AI automations (chatbots, lead agents, workflow bots) from $2,000, AI-powered features from $2,500, and SaaS MVPs from $10,000. Use the quote builder for a fixed number in 60 seconds.',
   },
   {
     question: 'How fast can you start?',
@@ -34,9 +34,9 @@ export const HOME_FAQS: QA[] = [
       'Yes — most engagements are with founders in the USA, UK, and Australia. We overlap with EST mornings, GMT/BST afternoons, and AEST mornings. Billing is in USD by default (GBP for UK on request), and NDAs/MSAs are signed before kickoff.',
   },
   {
-    question: 'Can you add AI features to our existing SaaS or web app?',
+    question: 'Can you build custom AI automations for my business?',
     answer:
-      'Yes — that is one of our core services. We add OpenAI / Anthropic chatbots, semantic search, document Q&A, and RAG pipelines into existing React, Next.js, and SaaS apps. Most AI feature builds ship in 2–4 weeks with cost dashboards and evals included.',
+      'Yes — we build done-for-you AI automation systems: speed-to-lead agents that reply to inquiries in under 60 seconds, AI chatbots trained on your business data, email/SMS follow-up sequences, document processing pipelines, and AI-powered internal tools. We use OpenAI, Anthropic Claude, and Google Gemini. Most AI automation builds ship in 2–3 weeks. You own the system — no monthly SaaS fees.',
   },
 ];
 

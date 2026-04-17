@@ -21,7 +21,7 @@ const PILLARS: Pillar[] = [
   },
   {
     title: 'Faster than agencies',
-    body: 'Marketing sites ship in 2–3 weeks. Shopify builds in 3–4 weeks. SaaS MVPs in 4–6 weeks. One engineer means zero hand-off latency between design, frontend, backend, and ops.',
+    body: 'Marketing sites in 2–3 weeks. Shopify in 3–4 weeks. SaaS MVPs in 4–6 weeks. AI automations (chatbots, lead agents, workflow bots) in 2–3 weeks. One engineer = zero hand-off latency.',
     proof: 'Deploy previews on every PR',
     icon: 'speed',
   },

@@ -40,15 +40,16 @@ const builds: FeaturedBuild[] = [
     tech: ['React', 'Storybook', 'Figma API'],
   },
   {
-    name: 'CryptoFlow',
-    tag: 'Trading Dashboard',
-    description: 'Built real-time trading dashboard with WebSocket data streaming.',
-    hero: { value: '27 days', label: 'Delivery' },
+    name: 'LeadPilot',
+    tag: 'AI Lead Automation System',
+    description: 'Built a custom AI chatbot + speed-to-lead agent for a real estate firm.',
+    hero: { value: '18 days', label: 'Delivery' },
     supporting: [
-      'Live charts + trading engine',
-      'High-performance real-time system',
+      'AI chatbot capturing leads 24/7',
+      'Auto-reply in under 60 seconds',
+      '3x more qualified leads in first month',
     ],
-    tech: ['React', 'Node.js', 'WebSocket'],
+    tech: ['Next.js', 'Claude API', 'Gemini', 'Resend'],
   },
 ];
 
@@ -99,7 +100,7 @@ export default function Projects() {
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h2 className={styles.title}>
-              SaaS &amp; Web Apps Delivered in{' '}
+              SaaS, Web Apps &amp; AI Automations Delivered in{' '}
               <span className={styles.accent}>30 Days</span> — Without Maintenance Fees
             </h2>
           </ScrollReveal>

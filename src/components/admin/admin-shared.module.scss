@@ -213,6 +213,13 @@
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 36px;
+  cursor: pointer;
+
+  option {
+    background: #111;
+    color: #f5f5f7;
+    padding: 8px;
+  }
 }
 
 .checkbox {
