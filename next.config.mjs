@@ -28,6 +28,7 @@ const baseCsp = {
     'https://*.razorpay.com',
     'https://analytics.ahrefs.com',
     'https://www.googletagmanager.com',
+    'https://connect.facebook.net',
   ],
   'style-src': ["'self'", "'unsafe-inline'"],
   'img-src': [
@@ -38,6 +39,8 @@ const baseCsp = {
     'https://*.razorpay.com',
     'https://*.google-analytics.com',
     'https://*.googletagmanager.com',
+    'https://www.facebook.com',
+    'https://*.facebook.com',
   ],
   'font-src': ["'self'", 'data:'],
   // ws:/wss: for webpack HMR and live-reload in dev.
@@ -51,6 +54,8 @@ const baseCsp = {
     'https://*.google-analytics.com',
     'https://*.analytics.google.com',
     'https://*.googletagmanager.com',
+    'https://*.facebook.com',
+    'https://*.facebook.net',
   ],
   'frame-src': ['https://*.razorpay.com'],
   'frame-ancestors': ["'none'"],

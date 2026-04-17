@@ -70,3 +70,19 @@
   line-height: 1.65;
   flex: 1;
 }
+
+.cardCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $text-primary;
+  text-decoration: none;
+  transition: color $transition-base, gap $transition-base;
+
+  &:hover {
+    color: $accent-primary;
+    gap: 10px;
+  }
+}

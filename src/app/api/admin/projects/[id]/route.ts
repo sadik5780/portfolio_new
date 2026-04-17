@@ -8,6 +8,7 @@ import {
 } from '@/lib/content/admin-projects';
 import type { ProjectCategory } from '@/lib/content/types';
 import { validateProjectBody } from '@/lib/content/project-validation';
+import { submitToIndexNow } from '@/lib/indexnow';
 
 export const runtime = 'nodejs';
 
@@ -67,6 +68,7 @@ export async function PATCH(request: Request, { params }: Params) {
     revalidatePath('/');
     revalidatePath('/projects');
     revalidatePath(`/projects/${project.slug}`);
+    submitToIndexNow(['/', '/projects', `/projects/${project.slug}`]);
 
     return NextResponse.json({ project });
   } catch (err) {
@@ -89,6 +91,7 @@ export async function DELETE(_: Request, { params }: Params) {
     revalidatePath('/');
     revalidatePath('/projects');
     if (project) revalidatePath(`/projects/${project.slug}`);
+    submitToIndexNow(['/', '/projects']);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

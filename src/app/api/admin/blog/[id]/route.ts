@@ -7,6 +7,7 @@ import {
   updateBlogPost,
 } from '@/lib/content/admin-blog';
 import { validateBlogBody } from '@/lib/content/blog-validation';
+import { submitToIndexNow } from '@/lib/indexnow';
 
 export const runtime = 'nodejs';
 
@@ -61,6 +62,9 @@ export async function PATCH(request: Request, { params }: Params) {
     revalidatePath('/blog');
     revalidatePath(`/blog/${post.slug}`);
     revalidatePath('/rss.xml');
+    if (validated.data.published) {
+      submitToIndexNow(['/blog', `/blog/${post.slug}`]);
+    }
 
     return NextResponse.json({ post });
   } catch (err) {
@@ -82,6 +86,9 @@ export async function DELETE(_: Request, { params }: Params) {
     revalidatePath('/blog');
     if (existing) revalidatePath(`/blog/${existing.slug}`);
     revalidatePath('/rss.xml');
+    if (existing) {
+      submitToIndexNow(['/blog', `/blog/${existing.slug}`]);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {

@@ -6,6 +6,7 @@ import {
   listAdminBlogPosts,
 } from '@/lib/content/admin-blog';
 import { validateBlogBody } from '@/lib/content/blog-validation';
+import { submitToIndexNow } from '@/lib/indexnow';
 
 export const runtime = 'nodejs';
 
@@ -53,6 +54,9 @@ export async function POST(request: Request) {
     revalidatePath('/blog');
     revalidatePath(`/blog/${post.slug}`);
     revalidatePath('/rss.xml');
+    if (validated.data.published) {
+      submitToIndexNow(['/blog', `/blog/${post.slug}`]);
+    }
 
     return NextResponse.json({ post });
   } catch (err) {

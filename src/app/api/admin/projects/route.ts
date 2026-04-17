@@ -4,6 +4,7 @@ import { adminGuard } from '@/lib/auth/guard';
 import { createProject, listAdminProjects } from '@/lib/content/admin-projects';
 import { validateProjectBody } from '@/lib/content/project-validation';
 import type { ProjectCategory } from '@/lib/content/types';
+import { submitToIndexNow } from '@/lib/indexnow';
 
 export const runtime = 'nodejs';
 
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
     revalidatePath('/');
     revalidatePath('/projects');
     revalidatePath(`/projects/${project.slug}`);
+    submitToIndexNow(['/', '/projects', `/projects/${project.slug}`]);
 
     return NextResponse.json({ project });
   } catch (err) {

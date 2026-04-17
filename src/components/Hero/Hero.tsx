@@ -34,7 +34,6 @@ export default function Hero({ content, stats }: HeroProps) {
   // LUMINAL-style magnetic hover on the hero CTAs.
   const primaryRef = useMagnetic<HTMLAnchorElement>(0.2);
   const secondaryRef = useMagnetic<HTMLAnchorElement>(0.15);
-  const tertiaryRef = useMagnetic<HTMLAnchorElement>(0.15);
 
   return (
     <section className={styles.hero} id="hero">
@@ -77,10 +76,7 @@ export default function Hero({ content, stats }: HeroProps) {
             </svg>
           </Link>
           <Link ref={secondaryRef} href="/projects" className={styles.btnSecondary}>
-            See Case Studies
-          </Link>
-          <Link ref={tertiaryRef} href="/contact" className={styles.btnGhost}>
-            Talk to Sadik →
+            View Recent Builds
           </Link>
         </motion.div>
 
@@ -96,9 +92,6 @@ export default function Hero({ content, stats }: HeroProps) {
         )}
       </motion.div>
 
-      <div className={styles.scrollIndicator} aria-hidden>
-        <span className={styles.scrollDot} />
-      </div>
     </section>
   );
 }

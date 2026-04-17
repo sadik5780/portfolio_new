@@ -9,6 +9,21 @@ interface QA {
 
 export const HOME_FAQS: QA[] = [
   {
+    question: 'How much does a custom web app or SaaS cost?',
+    answer:
+      'React & Next.js builds from $1,500, Shopify stores from $2,000, AI-powered features from $2,500, and SaaS MVPs from $10,000. Use the quote builder for a fixed number in 60 seconds — every tier has public pricing on the site.',
+  },
+  {
+    question: 'How fast can you start?',
+    answer:
+      'Typically 1–2 weeks from signed SOW to kickoff. I take one build at a time so each client gets full attention — book a discovery call to check current availability.',
+  },
+  {
+    question: 'Who actually writes the code?',
+    answer:
+      'Sadik Shaikh. You are not handed off to a junior or an offshore team — the engineer in your Slack is the engineer shipping every PR, end-to-end. Direct communication, daily.',
+  },
+  {
     question: 'Are you an agency or a freelancer?',
     answer:
       'Neither. Sadik Studio is a founder-led boutique studio — one senior engineer (Sadik Shaikh, 6+ years) owns your build directly. You get the accountability of a freelancer with the systems and process of an agency, without the agency markup.',
@@ -17,21 +32,6 @@ export const HOME_FAQS: QA[] = [
     question: 'Do you work with US, UK, and Australian clients from India?',
     answer:
       'Yes — most engagements are with founders in the USA, UK, and Australia. We overlap with EST mornings, GMT/BST afternoons, and AEST mornings. Billing is in USD by default (GBP for UK on request), and NDAs/MSAs are signed before kickoff.',
-  },
-  {
-    question: 'How much does a custom web app or SaaS cost?',
-    answer:
-      'Landing pages from $200, Shopify stores from $2,000, AI-powered features from $2,500, and SaaS MVPs from $10,000. Use the quote builder for a fixed number in 60 seconds — every tier has public pricing on the site.',
-  },
-  {
-    question: 'How fast can you start?',
-    answer:
-      '1–2 weeks from signed SOW to kickoff. We deliberately take on only 2 new projects per quarter to stay founder-led — book a discovery call to check current availability.',
-  },
-  {
-    question: 'Who actually writes the code?',
-    answer:
-      'Sadik Shaikh. You are not handed off to a junior or an offshore team — the engineer in your Slack is the engineer shipping every PR, end-to-end. Direct communication, daily.',
   },
   {
     question: 'Can you add AI features to our existing SaaS or web app?',

@@ -4,16 +4,88 @@
 .section {
   @include section-padding;
   position: relative;
+  overflow: hidden;
+}
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1100px, 110%);
+    height: 600px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba($accent-primary, 0.12) 0%,
+      rgba($accent-secondary, 0.06) 40%,
+      transparent 70%
+    );
+    filter: blur(60px);
+  }
 }
 
 .container {
   @include container;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── Header ───────────────────────────────────────── */
+.header {
+  max-width: 820px;
+  margin-bottom: $spacing-3xl;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: 6px 14px;
+  border: 1px solid $border-hover;
+  border-radius: $radius-full;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: $text-secondary;
+}
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+}
+
+.title {
+  margin-top: $spacing-lg;
+  font-size: $fs-4xl;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+
+  @include md {
+    font-size: $fs-5xl;
+  }
+}
+
+.accent {
+  @include gradient-text;
+}
+
+/* ── Grid ─────────────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: $spacing-xl;
+  gap: $spacing-lg;
 
   @include md {
     grid-template-columns: repeat(2, 1fr);
@@ -24,22 +96,319 @@
   }
 }
 
-.viewAllWrap {
+/* ── Card ─────────────────────────────────────────── */
+.card {
+  position: relative;
   display: flex;
-  justify-content: center;
-  margin-top: $spacing-3xl;
-}
-
-.viewAllBtn {
-  @include button-base;
-  padding: 12px 24px;
-  background: transparent;
-  color: $text-primary;
-  border: 1px solid $border-hover;
+  flex-direction: column;
+  padding: $spacing-xl;
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  transition: transform $transition-base, border-color $transition-base,
+    background $transition-base, box-shadow $transition-base;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    border-color: $border-hover;
+    background: $bg-card-hover;
+    box-shadow: 0 20px 50px -20px rgba($accent-primary, 0.18);
   }
+
+  @include md {
+    padding: $spacing-2xl - 0.5rem;
+  }
+}
+
+.cardHeader {
+  margin-bottom: $spacing-md;
+}
+
+.cardTitle {
+  font-size: $fs-2xl;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+}
+
+.cardTag {
+  margin-top: 4px;
+  font-size: $fs-sm;
+  font-weight: $fw-normal;
+  color: $text-tertiary;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.cardDesc {
+  font-size: $fs-sm;
+  line-height: 1.6;
+  color: $text-secondary;
+}
+
+/* ── Hero metric per card ─────────────────────────── */
+.heroMetric {
+  margin-top: $spacing-lg;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-subtle;
+}
+
+.heroValue {
+  display: block;
+  font-family: $font-display;
+  font-size: $fs-4xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.heroLabel {
+  display: block;
+  margin-top: 6px;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: $text-tertiary;
+}
+
+/* ── Supporting metrics ───────────────────────────── */
+.supporting {
+  margin-top: $spacing-md + 0.25rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.supportItem {
+  position: relative;
+  padding-left: 14px;
+  font-size: $fs-sm;
+  line-height: 1.55;
+  color: $text-secondary;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba($accent-primary, 0.75);
+  }
+}
+
+/* ── Tech pills ───────────────────────────────────── */
+.techRow {
+  margin-top: $spacing-lg;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techPill {
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-full;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  color: $text-secondary;
+}
+
+/* ── Card CTA ─────────────────────────────────────── */
+.cardCta {
+  margin-top: auto;
+  padding-top: $spacing-lg;
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $text-primary;
+  text-decoration: none;
+  transition: color $transition-base, gap $transition-base;
+
+  &:hover {
+    color: $accent-primary;
+    gap: 10px;
+  }
+
+  svg {
+    transition: transform $transition-base;
+  }
+}
+
+.card:hover .cardLink svg {
+  transform: translateX(2px);
+}
+
+/* ── Trust bar ────────────────────────────────────── */
+.trust {
+  margin-top: $spacing-3xl;
+  padding: $spacing-lg $spacing-xl;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  @include glass(18px, 0.3);
+}
+
+.trustList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: $spacing-lg;
+  }
+}
+
+.trustItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: $fs-sm;
+  line-height: 1.5;
+  color: $text-secondary;
+
+  &:first-child {
+    font-size: $fs-base;
+    font-weight: $fw-semibold;
+    color: $text-primary;
+  }
+}
+
+.trustIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(#34d399, 0.15);
+  color: #34d399;
+  border-radius: 50%;
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* ── Testimonial ──────────────────────────────────── */
+.testimonial {
+  position: relative;
+  margin: $spacing-3xl auto 0;
+  max-width: 720px;
+  padding: $spacing-2xl;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.01)
+  );
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+
+  @include md {
+    padding: $spacing-2xl + 0.5rem;
+  }
+}
+
+.quote {
+  font-size: $fs-lg;
+  line-height: 1.6;
+  color: $text-primary;
+
+  @include md {
+    font-size: $fs-xl;
+  }
+}
+
+.author {
+  margin-top: $spacing-lg;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm + 0.125rem;
+  font-size: $fs-sm;
+  color: $text-secondary;
+
+  strong {
+    color: $text-primary;
+    font-weight: $fw-semibold;
+  }
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: $bg-tertiary;
+  border: 1px solid $border-hover;
+  color: $text-secondary;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+}
+
+/* ── Final CTA ────────────────────────────────────── */
+.finalCta {
+  margin-top: $spacing-3xl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.uspBadge {
+  margin-bottom: $spacing-lg;
+  padding: 10px 24px;
+  font-size: $fs-base;
+  font-weight: $fw-semibold;
+  color: $text-primary;
+  background: rgba($accent-primary, 0.1);
+  border: 1px solid rgba($accent-primary, 0.25);
+  border-radius: $radius-full;
+  letter-spacing: -0.01em;
+
+  @include md {
+    font-size: $fs-lg;
+  }
+}
+
+.primaryBtn {
+  @include button-base;
+  padding: 14px 28px;
+  font-size: $fs-base;
+  background: $text-primary;
+  color: $bg-primary;
+  box-shadow: 0 0 30px -5px rgba(255, 255, 255, 0.25);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px -5px rgba(255, 255, 255, 0.4);
+  }
+
+  svg {
+    transition: transform $transition-base;
+  }
+
+  &:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+.finalNote {
+  margin-top: $spacing-md;
+  font-size: $fs-sm;
+  color: $text-tertiary;
 }

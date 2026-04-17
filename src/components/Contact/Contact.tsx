@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import ScrollReveal from '@/components/ScrollReveal/ScrollReveal';
 import styles from './Contact.module.scss';
+
+type Status = 'idle' | 'submitting' | 'success' | 'error';
 
 const contactLinks = [
   {
@@ -40,20 +43,55 @@ const contactLinks = [
 ];
 
 export default function Contact() {
+  const [status, setStatus] = useState<Status>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    setStatus('submitting');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.get('name'),
+          email: data.get('email'),
+          projectType: 'Other',
+          message: data.get('message'),
+        }),
+      });
+
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(body.error ?? 'Something went wrong');
+      }
+
+      setStatus('success');
+      form.reset();
+    } catch (err) {
+      setStatus('error');
+      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong');
+    }
+  };
+
   return (
     <section className={styles.section} id="contact">
       <div className={styles.container}>
         <SectionHeading
           label="Contact"
           title="Let's work together"
-          description="Have a project in mind? I'd love to hear about it. Let's connect and discuss how we can bring your ideas to life."
+          description="Share your brief and I'll reply within 24 hours with a fixed quote, scope, and proposed timeline."
         />
 
         <div className={styles.grid}>
-          {/* Contact links */}
           <ScrollReveal delay={0.1}>
             <div className={styles.linksCard}>
-              {contactLinks.map((link, i) => (
+              {contactLinks.map((link) => (
                 <motion.a
                   key={link.label}
                   href={link.href}
@@ -76,50 +114,90 @@ export default function Contact() {
             </div>
           </ScrollReveal>
 
-          {/* Contact form */}
           <ScrollReveal delay={0.2}>
-            <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.formRow}>
                 <div className={styles.field}>
-                  <label htmlFor="name" className={styles.label}>Name</label>
+                  <label htmlFor="contact-name" className={styles.label}>Name</label>
                   <input
-                    id="name"
+                    id="contact-name"
+                    name="name"
                     type="text"
+                    required
                     className={styles.input}
-                    placeholder="John Doe"
+                    placeholder="Jane Doe"
+                    autoComplete="name"
                   />
                 </div>
                 <div className={styles.field}>
-                  <label htmlFor="email" className={styles.label}>Email</label>
+                  <label htmlFor="contact-email" className={styles.label}>Email</label>
                   <input
-                    id="email"
+                    id="contact-email"
+                    name="email"
                     type="email"
+                    required
                     className={styles.input}
-                    placeholder="john@example.com"
+                    placeholder="jane@company.com"
+                    autoComplete="email"
                   />
                 </div>
               </div>
               <div className={styles.field}>
-                <label htmlFor="message" className={styles.label}>Message</label>
+                <label htmlFor="contact-message" className={styles.label}>Message</label>
                 <textarea
-                  id="message"
+                  id="contact-message"
+                  name="message"
+                  required
                   className={styles.textarea}
-                  placeholder="Tell me about your project..."
+                  placeholder="Tell me about your project, timeline, and budget…"
                   rows={5}
                 />
               </div>
-              <motion.button
-                type="submit"
-                className={styles.submitBtn}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Send Message
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
-              </motion.button>
+
+              <div className={styles.actions}>
+                <motion.button
+                  type="submit"
+                  className={styles.submitBtn}
+                  disabled={status === 'submitting'}
+                  whileHover={status !== 'submitting' ? { scale: 1.02 } : undefined}
+                  whileTap={status !== 'submitting' ? { scale: 0.98 } : undefined}
+                >
+                  {status === 'submitting' ? (
+                    <>
+                      <span className={styles.spinner} />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                      </svg>
+                    </>
+                  )}
+                </motion.button>
+                <span className={styles.replyNote}>Reply within 24h</span>
+              </div>
+
+              {status === 'success' && (
+                <motion.div
+                  className={`${styles.alert} ${styles.alertSuccess}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  Thanks — your message is on its way. I&apos;ll reply within 24 hours.
+                </motion.div>
+              )}
+              {status === 'error' && (
+                <motion.div
+                  className={`${styles.alert} ${styles.alertError}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  {errorMsg || 'Something went wrong. Please email sadik5780@gmail.com directly.'}
+                </motion.div>
+              )}
             </form>
           </ScrollReveal>
         </div>

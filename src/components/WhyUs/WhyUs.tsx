@@ -14,13 +14,13 @@ interface Pillar {
 const PILLARS: Pillar[] = [
   {
     title: 'Direct developer communication',
-    body: 'You talk to the engineer writing your code. Every PR, every decision, every standup — direct with Sadik. No account managers, no offshore handoffs, no Chinese-whispers requirements.',
+    body: 'You talk to the engineer writing your code. Every PR, every decision, every standup — direct with Sadik. No account managers, no offshore handoffs, no communication gaps.',
     proof: 'Slack + WhatsApp + weekly call',
     icon: 'comms',
   },
   {
     title: 'Faster than agencies',
-    body: 'Marketing sites ship in 2–3 weeks. Shopify builds in 3–4 weeks. SaaS MVPs in 8–12 weeks. One engineer means zero hand-off latency between design, frontend, backend, and ops.',
+    body: 'Marketing sites ship in 2–3 weeks. Shopify builds in 3–4 weeks. SaaS MVPs in 4–6 weeks. One engineer means zero hand-off latency between design, frontend, backend, and ops.',
     proof: 'Deploy previews on every PR',
     icon: 'speed',
   },

@@ -34,8 +34,8 @@ const STEPS: Step[] = [
   {
     number: '04',
     title: 'Launch & handover',
-    body: 'Production deploy, written docs, Loom walkthrough, and 30 days of post-launch support included. Optional retainer for ongoing iteration after that.',
-    duration: 'Launch + 30 days',
+    body: 'Production deploy, written docs, Loom walkthrough, and 12 months of maintenance included — bug fixes, dependency updates, and minor tweaks at no extra cost.',
+    duration: 'Launch + 12 months',
   },
 ];
 
