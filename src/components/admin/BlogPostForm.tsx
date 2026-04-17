@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { AdminBlogPost } from '@/lib/content/admin-blog';
-import type { BlogBlock, BlogPost } from '@/data/blog-posts';
+import type { BlogPost } from '@/data/blog-posts';
+import { markdownToBlocks, blocksToMarkdown } from '@/lib/markdown-blocks';
 import ImageUpload from './ImageUpload';
 import styles from './admin-shared.module.scss';
-import blockStyles from './BlogPostForm.module.scss';
+import editorStyles from './BlogPostForm.module.scss';
 
 const CATEGORIES: BlogPost['category'][] = [
   'Pricing',
@@ -15,16 +16,7 @@ const CATEGORIES: BlogPost['category'][] = [
   'Engineering',
   'E-commerce',
   'SaaS',
-];
-
-const BLOCK_TYPES: { value: BlogBlock['type']; label: string }[] = [
-  { value: 'p', label: 'Paragraph' },
-  { value: 'h2', label: 'Heading (H2)' },
-  { value: 'h3', label: 'Sub-heading (H3)' },
-  { value: 'ul', label: 'Bulleted list' },
-  { value: 'ol', label: 'Numbered list' },
-  { value: 'quote', label: 'Quote' },
-  { value: 'cta', label: 'Call-to-action' },
+  'AI',
 ];
 
 function slugify(text: string): string {
@@ -36,23 +28,9 @@ function slugify(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-function newBlock(type: BlogBlock['type']): BlogBlock {
-  switch (type) {
-    case 'p': return { type: 'p', text: '' };
-    case 'h2': return { type: 'h2', text: '' };
-    case 'h3': return { type: 'h3', text: '' };
-    case 'ul': return { type: 'ul', items: [''] };
-    case 'ol': return { type: 'ol', items: [''] };
-    case 'quote': return { type: 'quote', text: '' };
-    case 'cta': return { type: 'cta', title: '', text: '', href: '/contact', label: 'Start a project' };
-    case 'table': return { type: 'table', headers: ['', ''], rows: [['', '']] };
-    case 'callout': return { type: 'callout', variant: 'tip', title: '', text: '' };
-  }
-}
-
-interface BlogPostFormProps {
-  mode: 'create' | 'edit';
-  post?: AdminBlogPost;
+function toDateInputValue(iso: string): string {
+  if (!iso) return new Date().toISOString().slice(0, 10);
+  return iso.slice(0, 10);
 }
 
 interface FormState {
@@ -63,17 +41,12 @@ interface FormState {
   category: BlogPost['category'];
   author: string;
   readTime: number;
-  keywords: string;  // comma-separated in UI
-  tags: string;      // comma-separated in UI
-  content: BlogBlock[];
+  keywords: string;
+  tags: string;
+  markdown: string;
   image: string;
   published: boolean;
-  publishedAt: string;  // YYYY-MM-DD
-}
-
-function toDateInputValue(iso: string): string {
-  if (!iso) return new Date().toISOString().slice(0, 10);
-  return iso.slice(0, 10);
+  publishedAt: string;
 }
 
 function initial(post?: AdminBlogPost): FormState {
@@ -88,7 +61,7 @@ function initial(post?: AdminBlogPost): FormState {
       readTime: 5,
       keywords: '',
       tags: '',
-      content: [{ type: 'p', text: '' }],
+      markdown: '',
       image: '',
       published: true,
       publishedAt: toDateInputValue(''),
@@ -104,15 +77,41 @@ function initial(post?: AdminBlogPost): FormState {
     readTime: post.readTime,
     keywords: post.keywords.join(', '),
     tags: post.tags.join(', '),
-    content: post.content.length ? post.content : [{ type: 'p', text: '' }],
+    markdown: post.content.length ? blocksToMarkdown(post.content) : '',
     image: '',
     published: post.published,
     publishedAt: toDateInputValue(post.publishedAt),
   };
 }
 
+interface ToolbarAction {
+  label: string;
+  icon: string;
+  prefix: string;
+  suffix?: string;
+  block?: boolean;
+}
+
+const TOOLBAR: ToolbarAction[] = [
+  { label: 'H2', icon: 'H2', prefix: '## ', block: true },
+  { label: 'H3', icon: 'H3', prefix: '### ', block: true },
+  { label: 'Bold', icon: 'B', prefix: '**', suffix: '**' },
+  { label: 'Italic', icon: 'I', prefix: '*', suffix: '*' },
+  { label: 'Bullet list', icon: '•', prefix: '- ', block: true },
+  { label: 'Numbered list', icon: '1.', prefix: '1. ', block: true },
+  { label: 'Quote', icon: '"', prefix: '> ', block: true },
+  { label: 'Link', icon: '🔗', prefix: '[', suffix: '](url)' },
+  { label: 'Divider', icon: '—', prefix: '\n---\n', block: true },
+];
+
+interface BlogPostFormProps {
+  mode: 'create' | 'edit';
+  post?: AdminBlogPost;
+}
+
 export default function BlogPostForm({ mode, post }: BlogPostFormProps) {
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [state, setState] = useState<FormState>(() => initial(post));
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -127,32 +126,32 @@ export default function BlogPostForm({ mode, post }: BlogPostFormProps) {
       slug: s.slugDirty ? s.slug : slugify(title),
     }));
 
-  const updateBlock = (i: number, patch: Partial<BlogBlock>) => {
-    setState((s) => {
-      const next = [...s.content];
-      next[i] = { ...next[i], ...patch } as BlogBlock;
-      return { ...s, content: next };
+  const insertAtCursor = useCallback((action: ToolbarAction) => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const text = ta.value;
+    const selected = text.slice(start, end);
+
+    let insert: string;
+    if (action.block) {
+      const needsNewline = start > 0 && text[start - 1] !== '\n' ? '\n' : '';
+      insert = `${needsNewline}${action.prefix}${selected}`;
+    } else {
+      insert = `${action.prefix}${selected || action.label}${action.suffix ?? ''}`;
+    }
+
+    const newText = text.slice(0, start) + insert + text.slice(end);
+    update('markdown', newText);
+
+    requestAnimationFrame(() => {
+      ta.focus();
+      const cursorPos = start + insert.length;
+      ta.setSelectionRange(cursorPos, cursorPos);
     });
-  };
-
-  const moveBlock = (i: number, delta: number) => {
-    const j = i + delta;
-    if (j < 0 || j >= state.content.length) return;
-    setState((s) => {
-      const next = [...s.content];
-      [next[i], next[j]] = [next[j], next[i]];
-      return { ...s, content: next };
-    });
-  };
-
-  const removeBlock = (i: number) =>
-    setState((s) => ({
-      ...s,
-      content: s.content.filter((_, idx) => idx !== i),
-    }));
-
-  const addBlock = (type: BlogBlock['type']) =>
-    setState((s) => ({ ...s, content: [...s.content, newBlock(type)] }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -160,6 +159,8 @@ export default function BlogPostForm({ mode, post }: BlogPostFormProps) {
     setError(null);
 
     try {
+      const content = markdownToBlocks(state.markdown);
+
       const payload = {
         slug: state.slug.trim() || slugify(state.title),
         title: state.title.trim(),
@@ -169,7 +170,7 @@ export default function BlogPostForm({ mode, post }: BlogPostFormProps) {
         readTime: Number.isFinite(state.readTime) ? Math.max(1, state.readTime) : 5,
         keywords: state.keywords.split(',').map((s) => s.trim()).filter(Boolean),
         tags: state.tags.split(',').map((s) => s.trim()).filter(Boolean),
-        content: state.content,
+        content,
         image: state.image.trim() || undefined,
         published: state.published,
         publishedAt: state.publishedAt
@@ -329,29 +330,41 @@ export default function BlogPostForm({ mode, post }: BlogPostFormProps) {
         />
       </div>
 
-      {/* ── Block editor ──────────────────────── */}
+      {/* ── Markdown editor ────────────────────── */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Content</h3>
         <div className={styles.sectionDesc}>
-          Build the post by adding blocks. Each block renders as its own element
-          on the public page (paragraph, heading, list, quote, or CTA).
+          Write in markdown. Use the toolbar or type directly — ## for H2, ### for H3, - for bullets, {'>'} for quotes.
         </div>
 
-        <div className={blockStyles.blocks}>
-          {state.content.map((block, i) => (
-            <BlockEditor
-              key={i}
-              index={i}
-              block={block}
-              totalBlocks={state.content.length}
-              onUpdate={(patch) => updateBlock(i, patch)}
-              onRemove={() => removeBlock(i)}
-              onMove={(delta) => moveBlock(i, delta)}
-            />
-          ))}
+        <div className={editorStyles.editor}>
+          <div className={editorStyles.toolbar}>
+            {TOOLBAR.map((action) => (
+              <button
+                key={action.label}
+                type="button"
+                className={editorStyles.toolbarBtn}
+                onClick={() => insertAtCursor(action)}
+                title={action.label}
+              >
+                {action.icon}
+              </button>
+            ))}
+          </div>
+          <textarea
+            ref={textareaRef}
+            className={editorStyles.textarea}
+            value={state.markdown}
+            onChange={(e) => update('markdown', e.target.value)}
+            placeholder={`## Your heading\n\nStart writing your blog post here...\n\n- Bullet point one\n- Bullet point two\n\n> A quote from someone`}
+            rows={24}
+            spellCheck
+          />
+          <div className={editorStyles.statusBar}>
+            <span>{state.markdown.split(/\s+/).filter(Boolean).length} words</span>
+            <span>{markdownToBlocks(state.markdown).length} blocks</span>
+          </div>
         </div>
-
-        <AddBlockMenu onAdd={addBlock} />
       </div>
 
       {error && (
@@ -373,249 +386,5 @@ export default function BlogPostForm({ mode, post }: BlogPostFormProps) {
         </button>
       </div>
     </form>
-  );
-}
-
-// ─────────────────────────────────────────────────
-// Single block editor — renders fields per block type
-// ─────────────────────────────────────────────────
-function BlockEditor({
-  block,
-  index,
-  totalBlocks,
-  onUpdate,
-  onRemove,
-  onMove,
-}: {
-  block: BlogBlock;
-  index: number;
-  totalBlocks: number;
-  onUpdate: (patch: Partial<BlogBlock>) => void;
-  onRemove: () => void;
-  onMove: (delta: number) => void;
-}) {
-  const typeLabel = BLOCK_TYPES.find((t) => t.value === block.type)?.label ?? block.type;
-
-  return (
-    <div className={blockStyles.block}>
-      <div className={blockStyles.blockHeader}>
-        <span className={blockStyles.blockType}>
-          <span className={blockStyles.blockIndex}>{index + 1}</span>
-          {typeLabel}
-        </span>
-        <div className={blockStyles.blockActions}>
-          <button
-            type="button"
-            className={blockStyles.blockBtn}
-            onClick={() => onMove(-1)}
-            disabled={index === 0}
-            aria-label="Move up"
-            title="Move up"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="18 15 12 9 6 15" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className={blockStyles.blockBtn}
-            onClick={() => onMove(1)}
-            disabled={index === totalBlocks - 1}
-            aria-label="Move down"
-            title="Move down"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className={`${blockStyles.blockBtn} ${blockStyles.blockBtnDanger}`}
-            onClick={onRemove}
-            aria-label="Remove block"
-            title="Remove block"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div className={blockStyles.blockBody}>
-        <BlockFields block={block} onUpdate={onUpdate} />
-      </div>
-    </div>
-  );
-}
-
-function BlockFields({
-  block,
-  onUpdate,
-}: {
-  block: BlogBlock;
-  onUpdate: (patch: Partial<BlogBlock>) => void;
-}) {
-  switch (block.type) {
-    case 'p':
-      return (
-        <textarea
-          className={styles.textarea}
-          value={block.text}
-          onChange={(e) => onUpdate({ text: e.target.value })}
-          rows={3}
-          placeholder="Paragraph text…"
-        />
-      );
-    case 'h2':
-    case 'h3':
-      return (
-        <input
-          className={styles.input}
-          value={block.text}
-          onChange={(e) => onUpdate({ text: e.target.value })}
-          placeholder={block.type === 'h2' ? 'Heading text' : 'Sub-heading text'}
-        />
-      );
-    case 'ul':
-    case 'ol': {
-      const updateItem = (i: number, v: string) => {
-        const items = [...block.items];
-        items[i] = v;
-        onUpdate({ items });
-      };
-      const removeItem = (i: number) =>
-        onUpdate({ items: block.items.filter((_, idx) => idx !== i) });
-      const addItem = () => onUpdate({ items: [...block.items, ''] });
-      return (
-        <div className={blockStyles.listEditor}>
-          {block.items.map((item, i) => (
-            <div key={i} className={blockStyles.listItem}>
-              <span className={blockStyles.listBullet}>
-                {block.type === 'ol' ? `${i + 1}.` : '•'}
-              </span>
-              <input
-                className={styles.input}
-                value={item}
-                onChange={(e) => updateItem(i, e.target.value)}
-                placeholder={`List item ${i + 1}`}
-              />
-              <button
-                type="button"
-                className={blockStyles.listRemove}
-                onClick={() => removeItem(i)}
-                aria-label="Remove item"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            className={blockStyles.listAdd}
-            onClick={addItem}
-          >
-            + Add item
-          </button>
-        </div>
-      );
-    }
-    case 'quote':
-      return (
-        <>
-          <textarea
-            className={styles.textarea}
-            value={block.text}
-            onChange={(e) => onUpdate({ text: e.target.value })}
-            rows={2}
-            placeholder="Quote text…"
-          />
-          <input
-            className={styles.input}
-            value={block.cite ?? ''}
-            onChange={(e) => onUpdate({ cite: e.target.value || undefined })}
-            placeholder="Attribution (optional)"
-            style={{ marginTop: '8px' }}
-          />
-        </>
-      );
-    case 'cta':
-      return (
-        <div className={blockStyles.ctaEditor}>
-          <input
-            className={styles.input}
-            value={block.title}
-            onChange={(e) => onUpdate({ title: e.target.value })}
-            placeholder="CTA title"
-          />
-          <input
-            className={styles.input}
-            value={block.text}
-            onChange={(e) => onUpdate({ text: e.target.value })}
-            placeholder="CTA description text"
-          />
-          <div className={styles.formRow}>
-            <input
-              className={styles.input}
-              value={block.href}
-              onChange={(e) => onUpdate({ href: e.target.value })}
-              placeholder="/contact or https://..."
-            />
-            <input
-              className={styles.input}
-              value={block.label}
-              onChange={(e) => onUpdate({ label: e.target.value })}
-              placeholder="Button label"
-            />
-          </div>
-        </div>
-      );
-  }
-}
-
-// ─────────────────────────────────────────────────
-// + Add block menu
-// ─────────────────────────────────────────────────
-function AddBlockMenu({ onAdd }: { onAdd: (t: BlogBlock['type']) => void }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className={blockStyles.addWrap}>
-      <button
-        type="button"
-        className={blockStyles.addBtn}
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
-        Add block
-      </button>
-
-      {open && (
-        <div className={blockStyles.addMenu} role="menu">
-          {BLOCK_TYPES.map((t) => (
-            <button
-              key={t.value}
-              type="button"
-              className={blockStyles.addMenuItem}
-              role="menuitem"
-              onClick={() => {
-                onAdd(t.value);
-                setOpen(false);
-              }}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
   );
 }
