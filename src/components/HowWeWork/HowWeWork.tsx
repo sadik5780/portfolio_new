@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
+import StaggerGrid, { staggerItem } from '@/components/StaggerGrid/StaggerGrid';
 import styles from './HowWeWork.module.scss';
 
 interface Step {
@@ -49,15 +50,12 @@ export default function HowWeWork() {
           description="A four-step process that gets you from idea to a live, production product without the agency drag."
         />
 
-        <div className={styles.grid}>
-          {STEPS.map((s, i) => (
+        <StaggerGrid className={styles.grid}>
+          {STEPS.map((s) => (
             <motion.article
               key={s.number}
               className={styles.step}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
+              variants={staggerItem}
             >
               <span className={styles.number}>{s.number}</span>
               <div className={styles.body}>
@@ -67,7 +65,7 @@ export default function HowWeWork() {
               </div>
             </motion.article>
           ))}
-        </div>
+        </StaggerGrid>
 
         <div className={styles.actions}>
           <Link href="/quote" className={styles.btnPrimary}>

@@ -2,6 +2,7 @@
 
 import styles from './SectionHeading.module.scss';
 import ScrollReveal from '@/components/ScrollReveal/ScrollReveal';
+import TextReveal from '@/components/TextReveal/TextReveal';
 
 interface SectionHeadingProps {
   label: string;
@@ -18,14 +19,12 @@ export default function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className={`${styles.heading} ${styles[align]}`}>
-      <ScrollReveal>
+      <ScrollReveal blur delay={0}>
         <span className={styles.label}>{label}</span>
       </ScrollReveal>
-      <ScrollReveal delay={0.1}>
-        <h2 className={styles.title}>{title}</h2>
-      </ScrollReveal>
+      <TextReveal text={title} as="h2" className={styles.title} delay={0.1} />
       {description && (
-        <ScrollReveal delay={0.2}>
+        <ScrollReveal delay={0.3} blur>
           <p className={styles.description}>{description}</p>
         </ScrollReveal>
       )}

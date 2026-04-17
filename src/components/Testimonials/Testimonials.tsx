@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { testimonials as STATIC_FALLBACK } from '@/data/testimonials';
 import type { Testimonial } from '@/lib/content/types';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
+import StaggerGrid, { staggerItem } from '@/components/StaggerGrid/StaggerGrid';
 import styles from './Testimonials.module.scss';
 
 interface TestimonialsProps {
@@ -51,15 +52,12 @@ export default function Testimonials({ items }: TestimonialsProps = {}) {
           description={`Average rating ${rating.value}/5 from ${rating.count} clients shipping SaaS, Shopify, and custom web app builds.`}
         />
 
-        <div className={styles.grid}>
-          {visible.map((t, i) => (
+        <StaggerGrid className={styles.grid}>
+          {visible.map((t) => (
             <motion.figure
               key={t.id}
               className={styles.card}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              variants={staggerItem}
             >
               <div className={styles.rating} aria-label={`${t.rating} out of 5 stars`}>
                 {Array.from({ length: 5 }).map((_, idx) => (
@@ -96,7 +94,7 @@ export default function Testimonials({ items }: TestimonialsProps = {}) {
               <span className={styles.badge}>{t.projectType}</span>
             </motion.figure>
           ))}
-        </div>
+        </StaggerGrid>
       </div>
     </section>
   );

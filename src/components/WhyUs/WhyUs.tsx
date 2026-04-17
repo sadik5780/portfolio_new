@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
+import StaggerGrid, { staggerItem } from '@/components/StaggerGrid/StaggerGrid';
 import styles from './WhyUs.module.scss';
 
 interface Pillar {
@@ -66,16 +67,13 @@ export default function WhyUs() {
           description="Three reasons our clients stay past the first engagement — and refer the next one."
         />
 
-        <div className={styles.grid}>
-          {PILLARS.map((p, i) => (
+        <StaggerGrid className={styles.grid}>
+          {PILLARS.map((p) => (
             <motion.article
               key={p.title}
               className={styles.card}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -4 }}
+              variants={staggerItem}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
             >
               <span className={styles.iconWrap} aria-hidden>
                 <PillarIcon name={p.icon} />
@@ -85,7 +83,7 @@ export default function WhyUs() {
               <span className={styles.proof}>{p.proof}</span>
             </motion.article>
           ))}
-        </div>
+        </StaggerGrid>
       </div>
     </section>
   );

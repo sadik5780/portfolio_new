@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import ScrollReveal from '@/components/ScrollReveal/ScrollReveal';
+import StaggerGrid, { staggerItem } from '@/components/StaggerGrid/StaggerGrid';
 import styles from './Projects.module.scss';
 
 type FeaturedBuild = {
@@ -90,7 +91,7 @@ export default function Projects() {
 
       <div className={styles.container}>
         <div className={styles.header}>
-          <ScrollReveal>
+          <ScrollReveal blur>
             <span className={styles.eyebrow}>
               <span className={styles.dot} />
               Recent builds
@@ -104,19 +105,12 @@ export default function Projects() {
           </ScrollReveal>
         </div>
 
-        <div className={styles.grid}>
-          {builds.map((b, i) => (
+        <StaggerGrid className={styles.grid}>
+          {builds.map((b) => (
             <motion.article
               key={b.name}
               className={styles.card}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{
-                duration: 0.5,
-                delay: i * 0.1,
-                ease: [0.25, 0.1, 0.25, 1] as const,
-              }}
+              variants={staggerItem}
             >
               <header className={styles.cardHeader}>
                 <h3 className={styles.cardTitle}>{b.name}</h3>
@@ -154,9 +148,9 @@ export default function Projects() {
               </div>
             </motion.article>
           ))}
-        </div>
+        </StaggerGrid>
 
-        <ScrollReveal>
+        <ScrollReveal blur>
           <div className={styles.trust}>
             <ul className={styles.trustList}>
               {trustPoints.map((tp) => (
@@ -171,7 +165,7 @@ export default function Projects() {
           </div>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1}>
+        <ScrollReveal delay={0.1} blur scale>
           <figure className={styles.testimonial}>
             <blockquote className={styles.quote}>
               &ldquo;Agency quoted us 4 months and $60K. Sadik shipped the whole platform
@@ -187,7 +181,7 @@ export default function Projects() {
           </figure>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1}>
+        <ScrollReveal delay={0.1} blur>
           <div className={styles.finalCta}>
             <p className={styles.uspBadge}>
               12 months of maintenance included — free

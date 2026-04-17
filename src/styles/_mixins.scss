@@ -18,11 +18,11 @@
   }
 }
 
-// ── Glass effect ────────────────────────────────────
-@mixin glass($blur: 20px, $opacity: 0.6) {
+// ── Glass effect (Apple: saturate + blur) ───────────
+@mixin glass($blur: 20px, $opacity: 0.8) {
   background: rgba($bg-primary, $opacity);
-  backdrop-filter: blur($blur);
-  -webkit-backdrop-filter: blur($blur);
+  backdrop-filter: saturate(180%) blur($blur);
+  -webkit-backdrop-filter: saturate(180%) blur($blur);
 }
 
 // ── Gradient text ───────────────────────────────────
@@ -33,10 +33,10 @@
   -webkit-text-fill-color: transparent;
 }
 
-// ── Focus ring ──────────────────────────────────────
+// ── Focus ring (Apple: blue outline) ────────────────
 @mixin focus-ring {
   &:focus-visible {
-    outline: 2px solid $accent-primary;
+    outline: 2px solid $accent-secondary;
     outline-offset: 2px;
   }
 }
@@ -55,11 +55,12 @@
   background: $bg-card;
   border: 1px solid $border-subtle;
   border-radius: $radius-lg;
-  transition: border-color $transition-base, background $transition-base;
+  transition: background $transition-base, box-shadow $transition-base, transform $transition-base, border-color $transition-base;
 
   &:hover {
     border-color: $border-hover;
     background: $bg-card-hover;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -71,12 +72,67 @@
   gap: $spacing-sm;
   font-family: $font-sans;
   font-size: $fs-sm;
-  font-weight: $fw-medium;
+  font-weight: $fw-semibold;
   line-height: 1;
   border: none;
   border-radius: $radius-full;
   cursor: pointer;
   transition: all $transition-base;
   text-decoration: none;
+  letter-spacing: -0.01em;
   @include focus-ring;
+}
+
+// ── Button primary (white pill) ─────────────────────
+@mixin button-primary {
+  @include button-base;
+  padding: 14px 28px;
+  background: $text-primary;
+  color: $bg-primary;
+
+  &:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    opacity: 0.75;
+  }
+}
+
+// ── Button secondary (outline pill) ─────────────────
+@mixin button-secondary {
+  @include button-base;
+  padding: 14px 28px;
+  background: transparent;
+  color: $text-primary;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ── Button accent (blue pill, forms/nav) ────────────
+@mixin button-accent {
+  @include button-base;
+  padding: 14px 28px;
+  background: $accent-secondary;
+  color: white;
+
+  &:hover {
+    background: lighten(#0071e3, 5%);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }

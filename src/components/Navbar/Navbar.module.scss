@@ -11,12 +11,8 @@
   display: flex;
   align-items: center;
   transition: all $transition-slow;
-  border-bottom: 1px solid transparent;
-
-  &.scrolled {
-    @include glass(24px, 0.75);
-    border-bottom-color: $border-subtle;
-  }
+  @include glass(20px, 0.8);
+  border-bottom: 1px solid $border-subtle;
 }
 
 .inner {
@@ -110,20 +106,13 @@
 
 // ── CTA button ──────────────────────────────────────
 .cta {
-  @include button-base;
+  @include button-accent;
   display: none;
-  padding: 10px 20px;
-  background: $accent-gradient;
-  color: white;
+  padding: 8px 16px;
+  font-size: $fs-xs;
 
   @include lg {
     display: inline-flex;
-  }
-
-  &:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba($accent-primary, 0.4);
   }
 }
 
@@ -211,13 +200,5 @@
 }
 
 .mobileCta {
-  @include button-base;
-  padding: 14px 32px;
-  font-size: $fs-base;
-  background: $accent-gradient;
-  color: white;
-
-  &:hover {
-    opacity: 0.9;
-  }
+  @include button-accent;
 }

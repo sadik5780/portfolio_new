@@ -1,38 +1,36 @@
-// ── Colors ──────────────────────────────────────────
-$bg-primary: #09090b;
-$bg-secondary: #111113;
-$bg-tertiary: #1a1a1f;
-$bg-card: #141417;
-$bg-card-hover: #1c1c21;
+// ── Colors (Apple-influenced, dark-native) ─────────
+$bg-primary: #000000;
+$bg-secondary: #0a0a0a;
+$bg-tertiary: #1d1d1f;
+$bg-card: #111111;
+$bg-card-hover: #191919;
 
-$text-primary: #fafafa;
-$text-secondary: #a1a1aa;
-$text-tertiary: #71717a;
+$text-primary: #f5f5f7;
+$text-secondary: #86868b;
+$text-tertiary: #6e6e73;
 
-$accent-primary: #6366f1;
-$accent-secondary: #8b5cf6;
+$accent-primary: #2997ff;
+$accent-secondary: #0071e3;
 $accent-gradient: linear-gradient(135deg, $accent-primary, $accent-secondary);
-$accent-glow: rgba($accent-primary, 0.15);
+$accent-glow: rgba($accent-primary, 0.1);
 
-$border-subtle: rgba(255, 255, 255, 0.06);
-$border-hover: rgba(255, 255, 255, 0.1);
+$border-subtle: rgba(255, 255, 255, 0.1);
+$border-hover: rgba(255, 255, 255, 0.18);
 
 // ── Typography ──────────────────────────────────────
-// Each stack puts the next/font CSS variable first (resolves to the actual
-// loaded font name) with a hard-coded fallback chain after it.
 $font-sans:    var(--font-sans),    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 $font-display: var(--font-display), 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 $font-mono:    var(--font-mono),    'JetBrains Mono', 'Fira Code', monospace;
 
 $fs-xs: 0.75rem;
 $fs-sm: 0.875rem;
-$fs-base: 1rem;
-$fs-lg: 1.125rem;
-$fs-xl: 1.25rem;
+$fs-base: 1.0625rem;
+$fs-lg: 1.1875rem;
+$fs-xl: 1.3125rem;
 $fs-2xl: 1.5rem;
-$fs-3xl: 1.875rem;
-$fs-4xl: 2.25rem;
-$fs-5xl: 3rem;
+$fs-3xl: 1.75rem;
+$fs-4xl: 2.5rem;
+$fs-5xl: 3.5rem;
 $fs-6xl: 3.75rem;
 $fs-7xl: 4.5rem;
 $fs-8xl: 6rem;
@@ -55,19 +53,19 @@ $spacing-5xl: 8rem;
 
 // ── Layout ──────────────────────────────────────────
 $max-width: 1200px;
-$navbar-height: 72px;
+$navbar-height: 48px;
 
 // ── Border radius ───────────────────────────────────
-$radius-sm: 6px;
-$radius-md: 10px;
-$radius-lg: 16px;
-$radius-xl: 24px;
-$radius-full: 9999px;
+$radius-sm: 5px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 18px;
+$radius-full: 980px;
 
 // ── Transitions ─────────────────────────────────────
-$transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-$transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-$transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-fast: 150ms cubic-bezier(0.25, 0.1, 0.25, 1);
+$transition-base: 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
+$transition-slow: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
 
 // ── Breakpoints ─────────────────────────────────────
 $bp-sm: 640px;

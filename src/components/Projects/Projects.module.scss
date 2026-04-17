@@ -69,8 +69,8 @@
 .title {
   margin-top: $spacing-lg;
   font-size: $fs-4xl;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.07;
+  letter-spacing: -0.03em;
 
   @include md {
     font-size: $fs-5xl;
@@ -78,7 +78,7 @@
 }
 
 .accent {
-  @include gradient-text;
+  color: $accent-primary;
 }
 
 /* ── Grid ─────────────────────────────────────────── */
@@ -386,17 +386,7 @@
 }
 
 .primaryBtn {
-  @include button-base;
-  padding: 14px 28px;
-  font-size: $fs-base;
-  background: $text-primary;
-  color: $bg-primary;
-  box-shadow: 0 0 30px -5px rgba(255, 255, 255, 0.25);
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 40px -5px rgba(255, 255, 255, 0.4);
-  }
+  @include button-primary;
 
   svg {
     transition: transform $transition-base;

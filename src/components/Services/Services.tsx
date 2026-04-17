@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import type { ServicesContent } from '@/lib/content/types';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
+import StaggerGrid, { staggerItem } from '@/components/StaggerGrid/StaggerGrid';
 import styles from './Services.module.scss';
 
 interface ServicesProps {
@@ -27,8 +28,8 @@ export default function Services({ content }: ServicesProps) {
       <div className={styles.container}>
         <SectionHeading label={content.label} title={content.title} />
 
-        <div className={styles.grid}>
-          {content.items.map((item, i) => {
+        <StaggerGrid className={styles.grid}>
+          {content.items.map((item) => {
             const param = titleToServiceParam(item.title);
             const quoteHref = param ? `/quote?service=${param}` : '/quote';
 
@@ -36,11 +37,8 @@ export default function Services({ content }: ServicesProps) {
               <motion.article
                 key={item.title}
                 className={styles.card}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                whileHover={{ y: -4 }}
+                variants={staggerItem}
+                whileHover={{ y: -6, transition: { duration: 0.3 } }}
               >
                 <div className={styles.iconWrap}>
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -58,7 +56,7 @@ export default function Services({ content }: ServicesProps) {
               </motion.article>
             );
           })}
-        </div>
+        </StaggerGrid>
       </div>
     </section>
   );

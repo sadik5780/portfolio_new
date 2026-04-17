@@ -19,19 +19,20 @@ html {
 body {
   font-family: $font-sans;
   font-size: $fs-base;
-  line-height: 1.6;
+  line-height: 1.47;
   color: $text-primary;
   background: $bg-primary;
   min-height: 100vh;
   overflow-x: hidden;
+  letter-spacing: -0.022em;
 }
 
-/* ── Typography ────────────────────────────────────── */
+/* ── Typography (Apple-tight tracking) ────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-display;
-  line-height: 1.15;
-  font-weight: $fw-bold;
-  letter-spacing: -0.025em;
+  line-height: 1.07;
+  font-weight: $fw-semibold;
+  letter-spacing: -0.03em;
 }
 
 code, pre, kbd, samp {
